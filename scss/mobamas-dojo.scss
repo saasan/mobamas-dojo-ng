@@ -1,0 +1,443 @@
+@charset "UTF-8";
+@import "normalize";
+
+$default-margin: 7px;
+
+$body-bg:           #fff;
+$text-color:        #333;
+$link-color:        #08c;
+
+$default-color:     #333;
+$default-bg:        #f5f5f5;
+$primary-color:     #fff;
+$primary-bg:        #0078e7;
+$success-color:     #fff;
+$success-bg:        #00d46b;
+$warning-color:     #fff;
+$warning-bg:        #ffc100;
+$error-color:       #fff;
+$error-bg:          #e70048;
+$info-color:        #555;
+$info-bg:           #fcf8e3;
+$info-border-color: darken($info-bg, 15%);
+$info-border-width: 1px;
+
+$small-ad-width:    320px;
+$small-ad-height:    50px;
+$small-ad-slot:     "1779793778";
+$large-ad-width:    300px;
+$large-ad-height:   250px;
+$large-ad-slot:     "3256526972";
+
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: ' ';
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: ' ';
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+
+body {
+  padding-top: $small-ad-height;
+}
+
+h3 {
+  margin: 0;
+  margin-bottom: $default-margin * 2;
+  font-size: medium;
+  font-weight: bold;
+}
+
+section {
+  margin: $default-margin;
+  margin-top: 0;
+}
+
+p {
+  margin: 0;
+  margin-top: $default-margin;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+}
+
+img {
+  vertical-align: middle;
+}
+
+.btn {
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  line-height: 30px;
+  color: $default-color;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: $default-bg;
+  border: 1px solid #ccc;
+  border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+
+  &.block {
+    display: block;
+    width: 100%;
+    margin-top: $default-margin;
+    padding-right: 0;
+    padding-left: 0;
+    box-sizing: border-box;
+  }
+
+  &.primary {
+    color: $primary-color;
+    background-color: $primary-bg;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  }
+}
+
+.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .2;
+}
+
+.info {
+  margin-top: $default-margin;
+  padding: $default-margin * 2;
+  color: $info-color;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+  background-color: $info-bg;
+  border: $info-border-width solid $info-border-color;
+  line-height: 1.3em;
+
+  &.error {
+    color: $error-color;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: $error-bg;
+    border-color: $error-bg;
+    font-weight: bold;
+
+    .close {
+      color: $error-color;
+      opacity: 1;
+    }
+  }
+
+  h4 {
+    margin: $default-margin * 2 0;
+    padding-bottom: 3px;
+    font-weight: normal;
+    border: {
+      color: $info-border-color;
+      style: solid;
+      width: 0 0 1px 0;
+    }
+  }
+
+  section {
+    margin: 0 0 0 1em;
+  }
+
+  ul {
+    margin: $default-margin 0;
+    padding-left: 2em;
+  }
+}
+
+#info,
+#birthday,
+#toast,
+#buttons,
+#mobamasMenu,
+#config,
+#dojos {
+  display: none;
+}
+
+#toast {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: $default-margin;
+  z-index: 100;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#buttons {
+  margin-bottom: 0;
+}
+
+#mobamasMenu {
+  margin-top: 0;
+  text-align: center;
+
+  .mobamas-menu-item {
+    border-radius: $default-margin;
+    margin-top: $default-margin;
+    min-width: 15%;
+  }
+}
+
+#ad {
+  position: fixed;
+  left: 50%;
+  top: 0;
+  width: $small-ad-width;
+  height: $small-ad-height;
+  margin-top: 0;
+  margin-left: -$small-ad-width / 2;
+  z-index: 5;
+
+  /* 大きい広告を非表示 */
+  ins[data-ad-slot="#{$large-ad-slot}"] {
+    display: none !important;
+  }
+}
+
+#config {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: $default-margin;
+  background-color: $body-bg;
+  overflow: auto;
+
+  h2 {
+    margin-top: 20px;
+    padding-bottom: $default-margin;
+    font-size: 21px;
+    color: $text-color;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  label {
+    display: block;
+    margin-top: $default-margin;
+    height: 1.5em;
+    line-height: 1.5em;
+  }
+
+  label,
+  select,
+  button,
+  input[type="button"],
+  input[type="reset"],
+  input[type="submit"],
+  input[type="radio"],
+  input[type="checkbox"] {
+    cursor: pointer;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    box-sizing: border-box;
+  }
+
+  .config-mobamas-menu {
+    @include clearfix;
+
+    label {
+      width: 33%;
+      float: left;
+      overflow: hidden;
+    }
+  }
+
+  .well {
+    padding: $default-margin * 2;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+  }
+}
+
+#dojos {
+  .dojo {
+    position: relative;
+    margin-top: $default-margin;
+    width: 100%;
+
+    .dojo-link {
+      position: absolute;
+      left: 0;
+      right: 40px;
+      text-align: left;
+      font-weight: bold;
+      overflow: hidden;
+      white-space: nowrap;
+
+      .detail {
+        position: relative;
+        z-index: 1;
+      }
+
+      .defense {
+        display: inline-block;
+        position: absolute;
+        bottom: -4px;
+        right: 0;
+        font-size: 200%;
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.2);
+        text-shadow: none;
+      }
+    }
+
+    .hide-dojo {
+      width: 40px;
+      padding: 4px 0px;
+      float: right;
+    }
+
+    .btn {
+      color: $primary-color;
+      background-color: $primary-bg;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    &.success .btn {
+      color: $success-color;
+      background-color: $success-bg;
+    }
+
+    &.warning .btn {
+      color: $warning-color;
+      background-color: $warning-bg;
+    }
+
+    &.error .btn {
+      color: $error-color;
+      background-color: $error-bg;
+    }
+  }
+
+  .dojo:after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+}
+
+$responsive-width1: 668px;
+$responsive-width2: 800px;
+
+/*
+ * レスポンシブ基本設定
+ * $responsive-width1以上の時全てに適用
+ */
+@media screen and (min-width : $responsive-width1 + 20px) {
+  body {
+    margin: 0 auto;
+    padding-top: 0; /* スマホ時に$small-ad-height分空けているのを消す */
+  }
+
+  #ad {
+    /* position: fixed;を解除して元の位置に戻す */
+    position: static;
+    height: $large-ad-height;
+    margin: $default-margin;
+
+    /* 大きい広告を表示 */
+    ins[data-ad-slot="#{$large-ad-slot}"] {
+      display: block !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /* 小さい広告を非表示 */
+    ins[data-ad-slot="#{$small-ad-slot}"] {
+      display: none !important;
+    }
+  }
+
+  #toast {
+    width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #config {
+    display: block;
+    position: static;
+  }
+
+  #config .close,
+  #openConfig {
+      display: none;
+  }
+
+  #dojos {
+    position: absolute;
+    top: 0;
+    left: 50%;
+  }
+}
+
+/* $responsive-width1以上の時 */
+@media screen and (min-width : $responsive-width1 + 20px) {
+  body {
+    width: $responsive-width1;
+  }
+
+  #ad,
+  #mobamasMenu,
+  #config,
+  #buttons,
+  #dojos {
+    width: ($responsive-width1 / 2) - ($default-margin * 2);
+  }
+
+  #info,
+  #versionedInfo,
+  #birthday {
+    width: ($responsive-width1 / 2) - (($default-margin * 3 + $info-border-width) * 2);
+  }
+}
+
+/* $responsive-width2以上の時 */
+@media screen and (min-width : $responsive-width2 + 20px) {
+  body {
+    width: $responsive-width2;
+  }
+
+  #ad,
+  #mobamasMenu,
+  #config,
+  #buttons,
+  #dojos {
+    width: ($responsive-width2 / 2) - ($default-margin * 2);
+  }
+
+  #info,
+  #versionedInfo,
+  #birthday {
+    width: ($responsive-width2 / 2) - (($default-margin * 3 + $info-border-width) * 2);
+  }
+}
