@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="ja" ng-app="dojoApp">
+<html lang="ja" ng-app="dojoSettings">
 <head>
   <meta charset="UTF-8">
   <title>設定 - モバマス道場リスト(スマホ用)</title>
   <link rel="apple-touch-icon" href="//saasan.github.io/mobamas-dojo/img/s2works_favicon.png">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/mobamas-dojo.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
+  <script src="js/settings.js"></script>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
 <body>
@@ -28,100 +30,139 @@
          data-ad-slot="3256526972"></ins>
   </section>
 
-  <section id="config">
-    <button type="button" class="close" data-target="#config"><i class="fa fa-close"></i></button>
-    <h2>道場リスト設定</h2>
+  <section id="settings" ng-controller="SettingsController">
+    <h2>設定</h2>
     <section>
-      <label>
-        <input type="checkbox" id="sameTab"> 道場を同じタブで開く
-      </label>
-      <label>
-        <select class="input-mini" id="visitedMax">
-          <option value="1">1</option>
-          <option value="3">3</option>
-        </select>
-        回以上訪問した時、道場を訪問済とする
-      </label>
-      <label>
-        <input type="checkbox" id="autoHide"> 訪問済の道場を表示しない
-      </label>
-      <label>
-        ┗ <input type="checkbox" id="keepLastVisited"> 最後に訪問した道場を残す
-      </label>
-      <label>
-        <input type="checkbox" id="hideBirthday"> 誕生日を表示しない
-      </label>
-      <label>
-        <input type="checkbox" id="showMobamasMenu"> モバマスのメニューを表示する
-      </label>
-      <section class="config-mobamas-menu">
-        <label><input type="checkbox" id="showMenuMyPage"> ﾏｲｽﾀｼﾞｵ</label>
-        <label><input type="checkbox" id="showMenuGacha"> ｶﾞﾁｬ</label>
-        <label><input type="checkbox" id="showMenuCardStr"> ﾚｯｽﾝ</label>
-        <label><input type="checkbox" id="showMenuAuction"> ﾌﾘｰﾄﾚｰﾄﾞ</label>
-        <label><input type="checkbox" id="showMenuQuests"> お仕事</label>
-        <label><input type="checkbox" id="showMenuBattles"> LIVEﾊﾞﾄﾙ</label>
-        <label><input type="checkbox" id="showMenuCardUnion"> 特訓</label>
-        <label><input type="checkbox" id="showMenuShop"> ｼｮｯﾌﾟ</label>
-        <label><input type="checkbox" id="showMenuItem"> ｱｲﾃﾑ</label>
-        <label><input type="checkbox" id="showMenuPresent"> 贈り物</label>
-        <label><input type="checkbox" id="showMenuCardList"> ｱｲﾄﾞﾙ一覧</label>
-        <label><input type="checkbox" id="showMenuTradeResponse"> ﾄﾚｰﾄﾞ</label>
-        <label><input type="checkbox" id="showMenuDeck"> 編成</label>
-        <label><input type="checkbox" id="showMenuExchange"> 交換</label>
-        <label><input type="checkbox" id="showMenuCardStorage"> 女子寮</label>
-        <label><input type="checkbox" id="showMenuRareParts"> 衣装</label>
-        <label><input type="checkbox" id="showMenuFriend"> お気に入り</label>
-        <label><input type="checkbox" id="showMenuWish"> ﾎｼｲﾓﾉ</label>
-        <label><input type="checkbox" id="showMenuArchive"> ｱﾙﾊﾞﾑ</label>
-        <label><input type="checkbox" id="showMenuPRankingAward"> PRA</label>
-        <label><input type="checkbox" id="showMenuResults"> ﾌﾟﾛﾌｨｰﾙ</label>
-        <label><input type="checkbox" id="showMenuGallery"> ｱｲﾄﾞﾙｷﾞｬﾗﾘｰ</label>
-        <label><input type="checkbox" id="showMenuMemory"> ｲﾍﾞﾝﾄﾒﾓﾘｰ</label>
-        <label><input type="checkbox" id="showMenuSBooth"> ｻｳﾝﾄﾞﾌﾞｰｽ</label>
-        <label><input type="checkbox" id="showMenuPersonalOption"> 設定</label>
-        <label><input type="checkbox" id="showMenuAdvise"> ﾍﾙﾌﾟ</label>
-        <label><input type="checkbox" id="showMenuTop"> ﾄｯﾌﾟ</label>
+      <section>
+        <label>
+          <input type="checkbox" ng-model="settings.otherTab"> 道場を別のタブで開く
+        </label>
       </section>
-      <button type="button" class="btn block primary" id="configOK"><i class="fa fa-check"></i> 設定を保存</button>
-      <button type="button" class="btn block" id="configResetVisited">訪問状態を初期化</button>
-      <button type="button" class="btn block" id="configResetHide">非表示にした道場を再表示</button>
-      <button type="button" class="btn block" id="configReset"><i class="fa fa-undo"></i> 全ての設定を初期化</button>
-      <button type="button" class="btn block" id="configCancel" data-target="#config"><i class="fa fa-close"></i> キャンセル</button>
+      <section>
+        <label>
+          <select ng-model="settings.visitedMax">
+            <option value="1">1</option>
+            <option value="3">3</option>
+          </select>
+          回以上訪問した時、道場を訪問済とする
+        </label>
+      </section>
+      <section>
+        <section>
+          <label>
+            <input type="checkbox" ng-model="settings.autoHide"> 訪問済の道場を表示しない
+          </label>
+        </section>
+        <section>
+          <label>
+            ┗ <input type="checkbox" ng-model="settings.keepLastVisited"> 最後に訪問した道場を残す
+          </label>
+        </section>
+      </section>
+      <section>
+        <label>
+          一度に
+          <select ng-model="settings.numberOfShownDojos">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+            <option value="60">60</option>
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="100">100</option>
+          </select>
+          個の道場を表示する
+        </label>
+      </section>
+      <section>
+        <label>
+          守発揮値が
+          <select ng-model="settings.maxDefence">
+            <option value="1353">1353</option>
+            <option value="2706">2706</option>
+            <option value="6138">6138</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+            <option value="60">60</option>
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="0">無制限</option>
+          </select>
+          以下の道場のみ表示する
+        </label>
+        <section>
+          ※ 道場主により自己申告された値を参考にしている為、かなりてきとーです。御注意下さい。
+        </section>
+      </section>
+      <section>
+        <label>
+          <input type="checkbox" ng-model="settings.showBirthday"> 誕生日を表示する
+        </label>
+      </section>
+      <section>
+        <label>
+          <input type="checkbox" ng-model="settings.showMobamasMenu"> モバマスのメニューを表示する
+        </label>
+      </section>
+      <section>
+        <section class="settings-mobamas-menu">
+          <label><input type="checkbox" ng-model="settings.showMenuMyPage"> ﾏｲｽﾀｼﾞｵ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuGacha"> ｶﾞﾁｬ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuCardStr"> ﾚｯｽﾝ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuAuction"> ﾌﾘｰﾄﾚｰﾄﾞ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuQuests"> お仕事</label>
+          <label><input type="checkbox" ng-model="settings.showMenuBattles"> LIVEﾊﾞﾄﾙ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuCardUnion"> 特訓</label>
+          <label><input type="checkbox" ng-model="settings.showMenuShop"> ｼｮｯﾌﾟ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuItem"> ｱｲﾃﾑ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuPresent"> 贈り物</label>
+          <label><input type="checkbox" ng-model="settings.showMenuCardList"> ｱｲﾄﾞﾙ一覧</label>
+          <label><input type="checkbox" ng-model="settings.showMenuTradeResponse"> ﾄﾚｰﾄﾞ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuDeck"> 編成</label>
+          <label><input type="checkbox" ng-model="settings.showMenuExchange"> 交換</label>
+          <label><input type="checkbox" ng-model="settings.showMenuCardStorage"> 女子寮</label>
+          <label><input type="checkbox" ng-model="settings.showMenuRareParts"> 衣装</label>
+          <label><input type="checkbox" ng-model="settings.showMenuFriend"> お気に入り</label>
+          <label><input type="checkbox" ng-model="settings.showMenuWish"> ﾎｼｲﾓﾉ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuArchive"> ｱﾙﾊﾞﾑ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuPRankingAward"> PRA</label>
+          <label><input type="checkbox" ng-model="settings.showMenuResults"> ﾌﾟﾛﾌｨｰﾙ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuGallery"> ｱｲﾄﾞﾙｷﾞｬﾗﾘｰ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuMemory"> ｲﾍﾞﾝﾄﾒﾓﾘｰ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuSBooth"> ｻｳﾝﾄﾞﾌﾞｰｽ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuPersonalOption"> 設定</label>
+          <label><input type="checkbox" ng-model="settings.showMenuAdvise"> ﾍﾙﾌﾟ</label>
+          <label><input type="checkbox" ng-model="settings.showMenuTop"> ﾄｯﾌﾟ</label>
+        </section>
+      </section>
+      <button type="button" class="btn block primary" ng-click="save()"><i class="fa fa-check"></i> 保存</button>
+      <button type="button" class="btn block" ng-click="cancel()"><i class="fa fa-close"></i> キャンセル</button>
+    </section>
+
+    <h2>初期化</h2>
+    <section>
+      <button type="button" class="btn block" ng-click="resetVisited()">訪問状態を初期化</button>
+      <button type="button" class="btn block" ng-click="resetHiddenDojos()">非表示にした道場を再表示</button>
+      <button type="button" class="btn block" ng-click="resetAll()"><i class="fa fa-undo"></i> 全ての設定を初期化</button>
     </section>
 
     <h2>データ入出力</h2>
     <section>
       <form id="dataInput">
-        <input type="text" id="dataOutput" onfocus="this.select();">
-        <button type="submit" class="btn block"><i class="fa fa-sign-in"></i> 入力</button>
-        <button type="button" class="btn block" onclick="$('#dataOutput').select();">テキスト全選択</button>
-        <button type="button" class="btn block" onclick="$('#dataOutput').val('');"><i class="fa fa-remove"></i> テキスト全消去</button>
+        <input type="text" id="dataOutput" ng-model="dataOutput" onfocus="this.select();">
+        <button type="submit" class="btn block" ng-click="inputData()"><i class="fa fa-sign-in"></i> 入力</button>
+        <button type="button" class="btn block" onclick="document.getElementById('dataOutput').select();">テキスト全選択</button>
+        <button type="button" class="btn block" ng-click="clearDataOutput()"><i class="fa fa-remove"></i> テキスト全消去</button>
       </form>
     </section>
   </section>
 
-{%- if debug %}
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <script src="js/toast.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/closebutton.js"></script>
-  <script src="js/versionedinfo.js"></script>
-  <script src="js/birthday.js"></script>
-  <script src="js/mobamas-dojo.js"></script>
-  <script src="js/init.js"></script>
-  <script>
-    var i = document.getElementsByClassName('adsbygoogle').length;
-    while (i-- > 0) {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    }
-  </script>
-{%- else %}
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <script src="js/mobamas-dojo-min.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -136,6 +177,5 @@
       (adsbygoogle = window.adsbygoogle || []).push({});
     }
   </script>
-{%- endif %}
 </body>
 </html>
