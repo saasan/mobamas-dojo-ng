@@ -1,62 +1,65 @@
-angular.module('dojoSettings', [])
-  .controller('SettingsController', ['$scope', function($scope) {
-    $scope.settings = {
-      otherTab: true,
-      visitedMax: 1,
-      autoHide: true,
-      keepLastVisited: true,
-      numberOfShownDojos: 20,
-      maxDefence: 0,
-      showBirthday: true,
-      showMobamasMenu: true,
-      showMenuMyPage: true,
-      showMenuGacha: false,
-      showMenuCardStr: false,
-      showMenuAuction: false,
-      showMenuQuests: false,
-      showMenuBattles: false,
-      showMenuCardUnion: false,
-      showMenuShop: false,
-      showMenuItem: false,
-      showMenuPresent: false,
-      showMenuCardList: true,
-      showMenuTradeResponse: false,
-      showMenuDeck: false,
-      showMenuExchange: false,
-      showMenuCardStorage: true,
-      showMenuRareParts: false,
-      showMenuFriend: false,
-      showMenuWish: false,
-      showMenuArchive: false,
-      showMenuPRankingAward: true,
-      showMenuResults: false,
-      showMenuGallery: false,
-      showMenuMemory: false,
-      showMenuSBooth: false,
-      showMenuPersonalOption: false,
-      showMenuAdvise: false,
-      showMenuTop: false
-    };
+var mobamasDojo = angular.module('mobamasDojo', []);
 
-    $scope.save = function() {
-    };
+mobamasDojo.controller('SettingsController', ['$scope', function($scope) {
+  'use strict';
 
-    $scope.cancel = function() {
-    };
+  $scope.settings = {
+    otherTab: true,
+    visitedMax: 1,
+    autoHide: true,
+    keepLastVisited: true,
+    numberOfShownDojos: 20,
+    maxDefence: 0,
+    showBirthday: true,
+    showMobamasMenu: true,
+    showMenuMyPage: true,
+    showMenuGacha: false,
+    showMenuCardStr: false,
+    showMenuAuction: false,
+    showMenuQuests: false,
+    showMenuBattles: false,
+    showMenuCardUnion: false,
+    showMenuShop: false,
+    showMenuItem: false,
+    showMenuPresent: false,
+    showMenuCardList: true,
+    showMenuTradeResponse: false,
+    showMenuDeck: false,
+    showMenuExchange: false,
+    showMenuCardStorage: true,
+    showMenuRareParts: false,
+    showMenuFriend: false,
+    showMenuWish: false,
+    showMenuArchive: false,
+    showMenuPRankingAward: true,
+    showMenuResults: false,
+    showMenuGallery: false,
+    showMenuMemory: false,
+    showMenuSBooth: false,
+    showMenuPersonalOption: false,
+    showMenuAdvise: false,
+    showMenuTop: false
+  };
 
-    $scope.resetVisited = function() {
-    };
+  $scope.save = function() {
+  };
 
-    $scope.resetHiddenDojos = function() {
-    };
+  $scope.cancel = function() {
+  };
 
-    $scope.resetAll = function() {
-    };
+  $scope.resetVisited = function() {
+  };
 
-    $scope.inputData = function() {
-    };
+  $scope.resetHiddenDojos = function() {
+  };
 
-    $scope.clearDataOutput = function() {
-      $scope.dataOutput = '';
-    };
-  }]);
+  $scope.resetAll = function() {
+  };
+
+  $scope.inputData = function() {
+  };
+
+  $scope.clearDataOutput = function() {
+    $scope.dataOutput = '';
+  };
+}]);

@@ -1,8 +1,13 @@
-'use strict';
-var dojoMain = angular.module('dojoMain', []);
+var mobamasDojo = angular.module('mobamasDojo', []);
 
-dojoMain.controller('MainController', ['$scope','$http', function($scope, $http) {
-  $scope.numberOfShownDojos = 100;
+mobamasDojo.config(function($httpProvider) {
+  $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+});
+
+mobamasDojo.controller('MainController', ['$scope','$http', function($scope, $http) {
+  'use strict';
+
+  $scope.numberOfShownDojos = 30;
   $scope.order = '-rank';
   $scope.rankMin = 0;
   $scope.rankMax = -1;

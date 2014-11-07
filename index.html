@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" ng-app="dojoMain" ng-controller="MainController">
+<html lang="ja" ng-app="mobamasDojo" ng-controller="MainController" ng-init="init()">
 <head>
   <meta charset="UTF-8">
   <title>モバマス道場リスト(スマホ用)</title>
@@ -52,11 +52,12 @@
         <option value="400">400</option>
         <option value="500">500</option>
       </select>
-      個
+      件
     </label>
   </section>
   <section>
     <label>
+      表示順: 
       <select ng-model="order">
         <option value="-rank">ランク順</option>
         <option value="-lv">レベル順</option>
@@ -160,7 +161,7 @@
     </select>
   </section>
 
-  <section id="dojos" ng-init="init()">
+  <section id="dojos">
     <div class="dojo" id="did{{ dojo.id }}" ng-repeat="dojo in dojos | orderBy: order | filter: rangeFilter | limitTo : numberOfShownDojos">
       <a ng-if="dojo.defense.length > 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}"><span class="detail">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
       <a ng-if="dojo.defense == null || dojo.defense.length <= 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</a>
