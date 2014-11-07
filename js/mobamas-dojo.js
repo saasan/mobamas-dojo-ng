@@ -1,1 +1,0 @@
-var Greeter=function(){function a(a){this.greeting=a}a.prototype.greet=function(){return"Hello, "+this.greeting};return a}(),greeter=new Greeter("world"),button=document.createElement("button");button.textContent="Say Hello";button.onclick=function(){alert(greeter.greet())};document.body.appendChild(button);
