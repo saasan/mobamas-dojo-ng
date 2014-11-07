@@ -30,12 +30,138 @@
          data-ad-slot="3256526972"></ins>
   </section>
 
-  <button type="button" class="btn block" ng-click="update()">update</button>
-
   <p>message: {{ message }}</p>
 
-  <section id="dojos">
-    <div class="dojo" id="did{{ dojo.id }}" ng-repeat="dojo in dojos | orderBy: '-lv' | filter: { rank: 1 } : true | limitTo : 10">
+  <section>
+    <label>
+      表示する道場数: 最大
+      <select ng-model="numberOfShownDojos">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="60">60</option>
+        <option value="70">70</option>
+        <option value="80">80</option>
+        <option value="90">90</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="300">300</option>
+        <option value="400">400</option>
+        <option value="500">500</option>
+      </select>
+      個
+    </label>
+  </section>
+  <section>
+    <label>
+      <select ng-model="order">
+        <option value="-rank">ランク順</option>
+        <option value="-lv">レベル順</option>
+      </select>
+    </label>
+  </section>
+  <section>
+    ランク:
+    <select ng-model="rankMin">
+      <option value="10">S5</option>
+      <option value="9">S4</option>
+      <option value="8">S3</option>
+      <option value="7">SS</option>
+      <option value="6">S</option>
+      <option value="5">A</option>
+      <option value="4">B</option>
+      <option value="3">C</option>
+      <option value="2">D</option>
+      <option value="1">E</option>
+      <option value="0">無制限</option>
+    </select>
+    ～
+    <select ng-model="rankMax">
+      <option value="-1">無制限</option>
+      <option value="10">S5</option>
+      <option value="9">S4</option>
+      <option value="8">S3</option>
+      <option value="7">SS</option>
+      <option value="6">S</option>
+      <option value="5">A</option>
+      <option value="4">B</option>
+      <option value="3">C</option>
+      <option value="2">D</option>
+      <option value="1">E</option>
+      <option value="0">F</option>
+    </select>
+  </section>
+  <section>
+    レベル:
+    <select ng-model="levelMin">
+      <option value="350">350</option>
+      <option value="300">300</option>
+      <option value="250">250</option>
+      <option value="200">200</option>
+      <option value="150">150</option>
+      <option value="100">100</option>
+      <option value="50">50</option>
+      <option value="0">無制限</option>
+    </select>
+    ～
+    <select ng-model="levelMax">
+      <option value="-1">無制限</option>
+      <option value="350">350</option>
+      <option value="300">300</option>
+      <option value="250">250</option>
+      <option value="200">200</option>
+      <option value="150">150</option>
+      <option value="100">100</option>
+      <option value="50">50</option>
+      <option value="0">0</option>
+    </select>
+  </section>
+  <section>
+    守発揮値:
+    <select ng-model="defenseMin">
+      <option value="15000">15000</option>
+      <option value="14000">14000</option>
+      <option value="13000">13000</option>
+      <option value="12000">12000</option>
+      <option value="11000">11000</option>
+      <option value="10000">10000</option>
+      <option value="9000">9000</option>
+      <option value="8000">8000</option>
+      <option value="7000">7000</option>
+      <option value="6000">6000</option>
+      <option value="5000">5000</option>
+      <option value="4000">4000</option>
+      <option value="3000">3000</option>
+      <option value="2000">2000</option>
+      <option value="1000">1000</option>
+      <option value="0">無制限</option>
+    </select>
+    ～
+    <select ng-model="defenseMax">
+      <option value="-1">無制限</option>
+      <option value="15000">15000</option>
+      <option value="14000">14000</option>
+      <option value="13000">13000</option>
+      <option value="12000">12000</option>
+      <option value="11000">11000</option>
+      <option value="10000">10000</option>
+      <option value="9000">9000</option>
+      <option value="8000">8000</option>
+      <option value="7000">7000</option>
+      <option value="6000">6000</option>
+      <option value="5000">5000</option>
+      <option value="4000">4000</option>
+      <option value="3000">3000</option>
+      <option value="2000">2000</option>
+      <option value="1000">1000</option>
+    </select>
+  </section>
+
+  <section id="dojos" ng-init="init()">
+    <div class="dojo" id="did{{ dojo.id }}" ng-repeat="dojo in dojos | orderBy: order | filter: rangeFilter | limitTo : numberOfShownDojos">
       <a ng-if="dojo.defense.length > 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}"><span class="detail">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
       <a ng-if="dojo.defense == null || dojo.defense.length <= 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</a>
       <button type="button" class="btn hide-dojo" id="hid{{ dojo.id }}" data-id="id{{ dojo.id }}"><i class="fa fa-remove"></i></button>
