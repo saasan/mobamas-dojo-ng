@@ -30,7 +30,7 @@
          data-ad-slot="3256526972"></ins>
   </section>
 
-  <p>message: {{ message }}</p>
+  <p>status: {{ status }}</p>
   <p>最終更新日時: {{ lastUpdate }}</p>
   <p>道場数: {{ dojos.length }}</p>
 
@@ -60,9 +60,7 @@
   <section>
     <label>
       表示順: 
-      <select ng-model="viewSettings.orderBy">
-        <option value="-rank">ランク順</option>
-        <option value="-lv">レベル順</option>
+      <select ng-model="viewSettings.orderBy" ng-options="o.name for o in ORDER_BY">
       </select>
     </label>
   </section>
@@ -164,10 +162,16 @@
   </section>
 
   <section id="dojos">
-    <div class="dojo" id="did{{ dojo.id }}" ng-repeat="dojo in dojos | orderBy: viewSettings.orderBy | filter: rangeFilter | limitTo : viewSettings.limitTo">
-      <a ng-if="dojo.defense.length > 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}"><span class="detail">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
-      <a ng-if="dojo.defense == null || dojo.defense.length <= 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</a>
-      <button type="button" class="btn hide-dojo" id="hid{{ dojo.id }}" data-id="id{{ dojo.id }}"><i class="fa fa-remove"></i></button>
+    <div class="dojo" ng-class="{ error: dojo.visited > 0 }" ng-repeat="dojo in dojos | orderBy: viewSettings.orderBy.value | filter: dojoFilter | limitTo : viewSettings.limitTo">
+      <a ng-if="dojo.defense.length > 0"
+        ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
+        href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}"
+        target="_blank" id="id{{ dojo.id }}"><span class="detail">{{$index + 1}}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
+      <a ng-if="dojo.defense == null || dojo.defense.length <= 0"
+        ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
+        href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}"
+        target="_blank" id="id{{ dojo.id }}">{{$index + 1}}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</a>
+      <button ng-click="onClickHideDojo(dojo)" type="button" class="btn hide-dojo"><i class="fa fa-remove"></i></button>
     </div>
   </section>
 

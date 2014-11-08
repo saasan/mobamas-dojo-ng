@@ -8,13 +8,18 @@ mobamasDojo.config(function($httpProvider) {
 mobamasDojo.controller('MainController', ['$scope','$http', function($scope, $http) {
   'use strict';
 
-  // 道場リストの元データ
-  $scope.dojosMaster = {};
+  // ランク表示用文字列
+  $scope.RANK = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'S3', 'S4', 'S5' ];
+  // ソート順用データ
+  $scope.ORDER_BY = [
+    { name: 'ランク順', value: ['-rank', '-lv'] },
+    { name: 'レベル順', value: ['-lv', '-rank'] }
+  ];
 
   // 表示の設定
   $scope.viewSettings = {
     limitTo: 30,
-    orderBy: '-rank',
+    orderBy: $scope.ORDER_BY[0],
     rank: {
       min: 0,
       max: -1
@@ -30,17 +35,22 @@ mobamasDojo.controller('MainController', ['$scope','$http', function($scope, $ht
   };
 
   // 道場フィルター
-  $scope.rangeFilter = function(input) {
-    var rank = ($scope.viewSettings.rank.min <= input.rank) && ($scope.viewSettings.rank.max < 0 || input.rank <= $scope.viewSettings.rank.max);
-    var level = ($scope.viewSettings.level.min <= input.lv) && ($scope.viewSettings.level.max < 0 || input.lv <= $scope.viewSettings.level.max);
+  $scope.dojoFilter = function(dojo) {
+    // 非表示設定
+    if (dojo.hidden) {
+      return false;
+    }
+
+    var rank = ($scope.viewSettings.rank.min <= dojo.rank) && ($scope.viewSettings.rank.max < 0 || dojo.rank <= $scope.viewSettings.rank.max);
+    var level = ($scope.viewSettings.level.min <= dojo.lv) && ($scope.viewSettings.level.max < 0 || dojo.lv <= $scope.viewSettings.level.max);
     var defense = true;
 
     // 最小値/最大値が無制限の場合はminDefenseがnullでも表示する
     if ($scope.viewSettings.defense.min > 0) {
-      defense = defense && input.minDefense != null && $scope.viewSettings.defense.min <= input.minDefense;
+      defense = defense && dojo.minDefense != null && $scope.viewSettings.defense.min <= dojo.minDefense;
     }
     if ($scope.viewSettings.defense.max > 0) {
-      defense = defense && input.minDefense != null && input.minDefense <= $scope.viewSettings.defense.max;
+      defense = defense && dojo.minDefense != null && dojo.minDefense <= $scope.viewSettings.defense.max;
     }
 
     return rank && level && defense;
@@ -48,15 +58,33 @@ mobamasDojo.controller('MainController', ['$scope','$http', function($scope, $ht
 
   // 初期化
   $scope.init = function() {
+    $scope.status = '道場データ読み込み中...';
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(function(data, status, headers, config) {
-        $scope.message = 'updated!';
+        // 最終更新日時
         $scope.lastUpdate = data.lastUpdate;
-        $scope.dojosMaster = angular.copy(data.dojos);
-        $scope.dojos = angular.copy(data.dojos);
+        // 道場リスト
+        $scope.dojos = data.dojos;
+
+        $scope.status = '道場データ読み込み完了！';
       }).
       error(function(data, status, headers, config) {
-        $scope.message = 'error!';
+        $scope.status = 'エラー！ ステータスコード: ' + status + ' データ: ' + (data || '(無し)');
       });
+  };
+
+  // 道場のリンククリック時の処理
+  $scope.onClickDojoLink = function(dojo) {
+    if (dojo.visited) {
+      dojo.visited++;
+    }
+    else {
+      dojo.visited = 1;
+    }
+  };
+
+  // 道場の非表示ボタンクリック時の処理
+  $scope.onClickHideDojo = function(dojo) {
+    dojo.hidden = true;
   };
 }]);
