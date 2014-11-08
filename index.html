@@ -31,11 +31,13 @@
   </section>
 
   <p>message: {{ message }}</p>
+  <p>最終更新日時: {{ lastUpdate }}</p>
+  <p>道場数: {{ dojos.length }}</p>
 
   <section>
     <label>
-      表示する道場数: 最大
-      <select ng-model="numberOfShownDojos">
+      一度に表示する道場数: 最大
+      <select ng-model="viewSettings.limitTo">
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="20">20</option>
@@ -58,7 +60,7 @@
   <section>
     <label>
       表示順: 
-      <select ng-model="order">
+      <select ng-model="viewSettings.orderBy">
         <option value="-rank">ランク順</option>
         <option value="-lv">レベル順</option>
       </select>
@@ -66,7 +68,7 @@
   </section>
   <section>
     ランク:
-    <select ng-model="rankMin">
+    <select ng-model="viewSettings.rank.min">
       <option value="10">S5</option>
       <option value="9">S4</option>
       <option value="8">S3</option>
@@ -80,7 +82,7 @@
       <option value="0">無制限</option>
     </select>
     ～
-    <select ng-model="rankMax">
+    <select ng-model="viewSettings.rank.max">
       <option value="-1">無制限</option>
       <option value="10">S5</option>
       <option value="9">S4</option>
@@ -97,7 +99,7 @@
   </section>
   <section>
     レベル:
-    <select ng-model="levelMin">
+    <select ng-model="viewSettings.level.min">
       <option value="350">350</option>
       <option value="300">300</option>
       <option value="250">250</option>
@@ -108,7 +110,7 @@
       <option value="0">無制限</option>
     </select>
     ～
-    <select ng-model="levelMax">
+    <select ng-model="viewSettings.level.max">
       <option value="-1">無制限</option>
       <option value="350">350</option>
       <option value="300">300</option>
@@ -122,7 +124,7 @@
   </section>
   <section>
     守発揮値:
-    <select ng-model="defenseMin">
+    <select ng-model="viewSettings.defense.min">
       <option value="15000">15000</option>
       <option value="14000">14000</option>
       <option value="13000">13000</option>
@@ -141,7 +143,7 @@
       <option value="0">無制限</option>
     </select>
     ～
-    <select ng-model="defenseMax">
+    <select ng-model="viewSettings.defense.max">
       <option value="-1">無制限</option>
       <option value="15000">15000</option>
       <option value="14000">14000</option>
@@ -162,7 +164,7 @@
   </section>
 
   <section id="dojos">
-    <div class="dojo" id="did{{ dojo.id }}" ng-repeat="dojo in dojos | orderBy: order | filter: rangeFilter | limitTo : numberOfShownDojos">
+    <div class="dojo" id="did{{ dojo.id }}" ng-repeat="dojo in dojos | orderBy: viewSettings.orderBy | filter: rangeFilter | limitTo : viewSettings.limitTo">
       <a ng-if="dojo.defense.length > 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}"><span class="detail">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
       <a ng-if="dojo.defense == null || dojo.defense.length <= 0" class="btn dojo-link" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}" target="_blank" id="id{{ dojo.id }}">{{$index + 1}}. {{ dojo.lv }} {{ dojo.rank }} {{ dojo.leader }}</a>
       <button type="button" class="btn hide-dojo" id="hid{{ dojo.id }}" data-id="id{{ dojo.id }}"><i class="fa fa-remove"></i></button>
