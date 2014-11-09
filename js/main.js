@@ -1,11 +1,15 @@
-var mobamasDojo = angular.module('mobamasDojo', []);
+var mobamasDojo = angular.module('mobamasDojo', ['LocalStorageModule']);
 
 // リクエストヘッダーにX-Requested-Withを付ける
 mobamasDojo.config(function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 });
 
-mobamasDojo.controller('MainController', ['$scope','$http', function($scope, $http) {
+mobamasDojo.config(function(localStorageServiceProvider) {
+  localStorageServiceProvider.setPrefix('mobamas-dojo');
+});
+
+mobamasDojo.controller('MainController', ['$scope','$http', 'localStorageService', function($scope, $http, localStorageService) {
   'use strict';
 
   // ランク表示用文字列
