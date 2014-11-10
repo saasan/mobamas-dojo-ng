@@ -1,3 +1,4 @@
+///<reference path='../typings/angularjs/angular.d.ts'/>
 var mobamasDojo = angular.module('mobamasDojo', ['LocalStorageModule']);
 
 // リクエストヘッダーにX-Requested-Withを付ける
