@@ -27,13 +27,13 @@ gulp.task('clean', del.sync.bind(null, paths.clean, { dot: true }));
 gulp.task('sass', function () {
   gulp.src(paths.scss.src)
     .pipe(sass())
-    .pipe(gulp.dest(path.scss.dest));
+    .pipe(gulp.dest(paths.scss.dest));
 });
 
 gulp.task('sass-release', function () {
   gulp.src(paths.scss.src)
     .pipe(sass({ outputStyle: 'compressed' }))
-    .pipe(gulp.dest(path.scss.dest));
+    .pipe(gulp.dest(paths.scss.dest));
 });
 
 gulp.task('tslint', function() {
@@ -45,14 +45,14 @@ gulp.task('tslint', function() {
 gulp.task('ts', function () {
   gulp.src(paths.ts.src)
     .pipe(tsc())
-    .pipe(gulp.dest(path.ts.dest));
+    .pipe(gulp.dest(paths.ts.dest));
 });
 
 gulp.task('ts-release', function () {
   gulp.src(paths.ts.src)
     .pipe(tsc())
     .pipe(uglify())
-    .pipe(gulp.dest(path.ts.dest));
+    .pipe(gulp.dest(paths.ts.dest));
 });
 
 gulp.task('watch', function() {
