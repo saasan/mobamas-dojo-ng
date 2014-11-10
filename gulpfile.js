@@ -1,38 +1,58 @@
 'use strict';
+var del = require('del');
 var gulp = require('gulp');
-var gulpif = require('gulp-if');
-var gutil = require('gulp-util');  // env
 var sass = require('gulp-sass');
 var tsc = require('gulp-tsc');
-var closureCompiler = require('gulp-closure-compiler');
+var tslint = require('gulp-tslint');
+var uglify = require('gulp-uglify');
 
-var isRelease = gutil.env.release || false;
+var paths = {
+  scss: {
+    src: 'scss/*.scss',
+    dest: 'css'
+  },
+  ts: {
+    src: 'ts/*.ts',
+    dest: 'js'
+  },
+  out: 'release/',
+  clean: [
+    'css/*',
+    'js/*'
+  ]
+};
+
+gulp.task('clean', del.sync.bind(null, paths.clean, { dot: true }));
 
 gulp.task('sass', function () {
-  gulp.src('scss/*.scss')
-    .pipe(
-      gulpif(
-        isRelease,
-        sass({ outputStyle: 'compressed' }),
-        sass()
-      )
-    )
-    .pipe(gulp.dest('css'));
+  gulp.src(paths.scss.src)
+    .pipe(sass())
+    .pipe(gulp.dest(path.scss.dest));
+});
+
+gulp.task('sass-release', function () {
+  gulp.src(paths.scss.src)
+    .pipe(sass({ outputStyle: 'compressed' }))
+    .pipe(gulp.dest(path.scss.dest));
+});
+
+gulp.task('tslint', function() {
+  gulp.src(paths.ts.src)
+    .pipe(tslint())
+    .pipe(tslint.report('verbose'));
 });
 
 gulp.task('ts', function () {
-  gulp.src('ts/*.ts')
+  gulp.src(paths.ts.src)
     .pipe(tsc())
-    .pipe(
-      gulpif(
-        isRelease,
-        closureCompiler({
-          compilerPath: 'closure-compiler/compiler.jar',
-          fileName: 'mobamas-dojo.js'
-        })
-      )
-    )
-    .pipe(gulp.dest('js'));
+    .pipe(gulp.dest(path.ts.dest));
+});
+
+gulp.task('ts-release', function () {
+  gulp.src(paths.ts.src)
+    .pipe(tsc())
+    .pipe(uglify())
+    .pipe(gulp.dest(path.ts.dest));
 });
 
 gulp.task('watch', function() {
@@ -41,4 +61,5 @@ gulp.task('watch', function() {
 });
 
 gulp.task('compile', ['sass','ts']);
+gulp.task('release', ['clean', 'sass-release', 'ts-release']);
 gulp.task('default', ['sass','ts']);
