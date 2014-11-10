@@ -6,8 +6,9 @@
   <link rel="apple-touch-icon" href="//saasan.github.io/mobamas-dojo/img/s2works_favicon.png">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/mobamas-dojo.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+  <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+  <script src="js/mobamas-dojo.js"></script>
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
@@ -37,7 +38,7 @@
   <section>
     <label>
       一度に表示する道場数: 最大
-      <select ng-model="viewSettings.limitTo">
+      <select ng-model="$storage.view.limitTo">
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="20">20</option>
@@ -60,13 +61,15 @@
   <section>
     <label>
       表示順: 
-      <select ng-model="viewSettings.orderBy" ng-options="o.name for o in ORDER_BY">
+      <select ng-model="$storage.view.orderBy">
+        <option value="0">ランク順</option>
+        <option value="1">レベル順</option>
       </select>
     </label>
   </section>
   <section>
     ランク:
-    <select ng-model="viewSettings.rank.min">
+    <select ng-model="$storage.view.rankRange.min">
       <option value="10">S5</option>
       <option value="9">S4</option>
       <option value="8">S3</option>
@@ -80,7 +83,7 @@
       <option value="0">無制限</option>
     </select>
     ～
-    <select ng-model="viewSettings.rank.max">
+    <select ng-model="$storage.view.rankRange.max">
       <option value="-1">無制限</option>
       <option value="10">S5</option>
       <option value="9">S4</option>
@@ -97,7 +100,7 @@
   </section>
   <section>
     レベル:
-    <select ng-model="viewSettings.level.min">
+    <select ng-model="$storage.view.levelRange.min">
       <option value="350">350</option>
       <option value="300">300</option>
       <option value="250">250</option>
@@ -108,7 +111,7 @@
       <option value="0">無制限</option>
     </select>
     ～
-    <select ng-model="viewSettings.level.max">
+    <select ng-model="$storage.view.levelRange.max">
       <option value="-1">無制限</option>
       <option value="350">350</option>
       <option value="300">300</option>
@@ -122,7 +125,7 @@
   </section>
   <section>
     守発揮値:
-    <select ng-model="viewSettings.defense.min">
+    <select ng-model="$storage.view.defenseRange.min">
       <option value="15000">15000</option>
       <option value="14000">14000</option>
       <option value="13000">13000</option>
@@ -141,7 +144,7 @@
       <option value="0">無制限</option>
     </select>
     ～
-    <select ng-model="viewSettings.defense.max">
+    <select ng-model="$storage.view.defenseRange.max">
       <option value="-1">無制限</option>
       <option value="15000">15000</option>
       <option value="14000">14000</option>
@@ -162,7 +165,7 @@
   </section>
 
   <section id="dojos">
-    <div class="dojo" ng-class="{ error: dojo.visited > 0 }" ng-repeat="dojo in dojos | orderBy: viewSettings.orderBy.value | filter: dojoFilter | limitTo : viewSettings.limitTo">
+    <div class="dojo" ng-class="{ error: dojo.visited > 0 }" ng-repeat="dojo in dojos | orderBy: ORDER_BY[$storage.view.orderBy] | filter: dojoFilter | limitTo : $storage.view.limitTo">
       <a ng-if="dojo.defense.length > 0"
         ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
         href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}"

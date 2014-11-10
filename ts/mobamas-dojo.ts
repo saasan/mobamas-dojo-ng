@@ -1,43 +1,94 @@
 ///<reference path='../typings/angularjs/angular.d.ts'/>
-var mobamasDojo = angular.module('mobamasDojo', ['LocalStorageModule']);
+// 道場のソート順
+var DOJOS_ORDER_BY = {
+  RANK: 0,
+  LV: 1
+};
+
+var defaultSettings = {
+  visited: {},
+  hidden: {},
+  lastVisited: null,
+  lastTime: new Date(),
+
+  otherTab: true,
+  visitedMax: 1,
+  autoHide: true,
+  keepLastVisited: true,
+  showInformation: true,
+  showBirthday: true,
+
+  showMobamasMenu: true,
+  showMobamasMenuItem: {
+    myPage: true,
+    petitCg: false,
+    gacha: false,
+    cardStr: false,
+    auction: false,
+    quests: false,
+    battles: false,
+    cardUnion: false,
+    shop: false,
+    item: false,
+    present: false,
+    cardList: true,
+    tradeResponse: false,
+    deck: false,
+    exchange: false,
+    cardStorage: true,
+    rareParts: false,
+    friend: false,
+    wish: false,
+    archive: false,
+    pRankingAward: true,
+    results: false,
+    gallery: false,
+    memory: false,
+    sBooth: false,
+    personalOption: false,
+    advise: false,
+    top: false
+  },
+
+  // 表示の設定
+  view: {
+    limitTo: 30,
+    orderBy: DOJOS_ORDER_BY.RANK,
+    rankRange: {
+      min: 0,
+      max: -1
+    },
+    levelRange: {
+      min: 0,
+      max: -1
+    },
+    defenseRange: {
+      min: 0,
+      max: -1
+    }
+  }
+};
+
+var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
 
 // リクエストヘッダーにX-Requested-Withを付ける
 mobamasDojo.config(function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 });
 
-mobamasDojo.config(function(localStorageServiceProvider) {
-  localStorageServiceProvider.setPrefix('mobamas-dojo');
-});
-
-mobamasDojo.controller('MainController', ['$scope', '$http', 'localStorageService', function($scope, $http, localStorageService) {
+mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', function($scope, $http, $localStorage) {
   'use strict';
 
   // ランク表示用文字列
   $scope.RANK = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'S3', 'S4', 'S5' ];
   // ソート順用データ
   $scope.ORDER_BY = [
-    { name: 'ランク順', value: ['-rank', '-lv'] },
-    { name: 'レベル順', value: ['-lv', '-rank'] }
+    ['-rank', '-lv'],
+    ['-lv', '-rank']
   ];
 
-  // 表示の設定
-  $scope.viewSettings = {
-    limitTo: 30,
-    orderBy: $scope.ORDER_BY[0],
-    rank: {
-      min: 0,
-      max: -1
-    },
-    level: {
-      min: 0,
-      max: -1
-    },
-    defense: {
-      min: 0,
-      max: -1
-    }
-  };
+  // ストレージにデフォルト値を設定
+  $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
   // 道場フィルター
   $scope.dojoFilter = function(dojo) {
@@ -46,18 +97,18 @@ mobamasDojo.controller('MainController', ['$scope', '$http', 'localStorageServic
       return false;
     }
 
-    var rank = ($scope.viewSettings.rank.min <= dojo.rank) &&
-               ($scope.viewSettings.rank.max < 0 || dojo.rank <= $scope.viewSettings.rank.max);
-    var level = ($scope.viewSettings.level.min <= dojo.lv) &&
-                ($scope.viewSettings.level.max < 0 || dojo.lv <= $scope.viewSettings.level.max);
+    var rank = ($localStorage.view.rankRange.min <= dojo.rank) &&
+               ($localStorage.view.rankRange.max < 0 || dojo.rank <= $localStorage.view.rankRange.max);
+    var level = ($localStorage.view.levelRange.min <= dojo.lv) &&
+                ($localStorage.view.levelRange.max < 0 || dojo.lv <= $localStorage.view.levelRange.max);
     var defense = true;
 
     // 最小値/最大値が無制限の場合はminDefenseがnullでも表示する
-    if ($scope.viewSettings.defense.min > 0) {
-      defense = defense && dojo.minDefense != null && $scope.viewSettings.defense.min <= dojo.minDefense;
+    if ($localStorage.view.defenseRange.min > 0) {
+      defense = defense && dojo.minDefense != null && $localStorage.view.defenseRange.min <= dojo.minDefense;
     }
-    if ($scope.viewSettings.defense.max > 0) {
-      defense = defense && dojo.minDefense != null && dojo.minDefense <= $scope.viewSettings.defense.max;
+    if ($localStorage.view.defenseRange.max > 0) {
+      defense = defense && dojo.minDefense != null && dojo.minDefense <= $localStorage.view.defenseRange.max;
     }
 
     return rank && level && defense;
