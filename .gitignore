@@ -1,5 +1,4 @@
 node_modules/
-mobamas-dojo.css
-mobamas-dojo-min.js
-closure-compiler/
+css/
+js/
 .sass-cache/
