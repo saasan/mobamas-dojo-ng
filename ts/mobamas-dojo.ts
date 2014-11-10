@@ -10,7 +10,7 @@ mobamasDojo.config(function(localStorageServiceProvider) {
   localStorageServiceProvider.setPrefix('mobamas-dojo');
 });
 
-mobamasDojo.controller('MainController', ['$scope','$http', 'localStorageService', function($scope, $http, localStorageService) {
+mobamasDojo.controller('MainController', ['$scope', '$http', 'localStorageService', function($scope, $http, localStorageService) {
   'use strict';
 
   // ランク表示用文字列
@@ -46,8 +46,10 @@ mobamasDojo.controller('MainController', ['$scope','$http', 'localStorageService
       return false;
     }
 
-    var rank = ($scope.viewSettings.rank.min <= dojo.rank) && ($scope.viewSettings.rank.max < 0 || dojo.rank <= $scope.viewSettings.rank.max);
-    var level = ($scope.viewSettings.level.min <= dojo.lv) && ($scope.viewSettings.level.max < 0 || dojo.lv <= $scope.viewSettings.level.max);
+    var rank = ($scope.viewSettings.rank.min <= dojo.rank) &&
+               ($scope.viewSettings.rank.max < 0 || dojo.rank <= $scope.viewSettings.rank.max);
+    var level = ($scope.viewSettings.level.min <= dojo.lv) &&
+                ($scope.viewSettings.level.max < 0 || dojo.lv <= $scope.viewSettings.level.max);
     var defense = true;
 
     // 最小値/最大値が無制限の場合はminDefenseがnullでも表示する
