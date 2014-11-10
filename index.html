@@ -31,6 +31,105 @@
          data-ad-slot="3256526972"></ins>
   </section>
 
+  <section id="info" class="info" ng-show="$storage.showWelcomeMessage">
+    <button type="button" class="close" ng-click="$storage.showWelcomeMessage = false"><i class="fa fa-close"></i></button>
+    <h3>モバマス道場リストへようこそ！</h3>
+    <p>
+      ここは
+      <a href="http://sp.pf.mbga.jp/12008305/" target="_blank">アイドルマスターシンデレラガールズ</a>
+      の道場(殴られ屋さん)一覧サイトです。
+      スマートフォン用に作ってます。
+    </p>
+    <p>
+      リストは毎朝5時ぐらいに
+      <a href="https://docs.google.com/spreadsheet/lv?key=0Aq6mv2GCHMGLdERhLURsdEZwdVFvREdiYjE4Sy1FUnc&amp;type=view" target="_blank">アイマスCG 殴られ屋さん一覧</a>
+      から取得して更新されます。
+    </p>
+    <p>
+      道場を訪問する(タッチして開く)と赤くなります。
+      赤くなった道場は、他の道場を訪問すると消えます。
+      訪問状態は毎朝5時にリセットされ、消えた道場が再表示されます。
+      「道場リスト設定」で赤くなるまでの回数を変更したり、訪問済の道場を表示したままにする事もできます。
+    </p>
+     <p>
+      道場の右にある <i class="fa fa-remove"></i> ボタンを押すと、不要な道場を非表示にできます。
+      非表示にした道場は「道場リスト設定」でリセットするまで再表示されません。
+      守発揮値が高すぎる道場等にご利用下さい。
+    </p>
+  </section>
+
+  <section id="versionedInfo" class="info" ng-show="$storage.showInformation">
+    <button type="button" class="close" ng-click="$storage.showInformation = false"><i class="fa fa-close"></i></button>
+    <h3>お知らせ</h3>
+
+    <h4>2014/10/19 変更点</h4>
+    <ul>
+      <li>
+        同じモバゲーIDで複数登録されている道場を省くように変更。
+      </li>
+    </ul>
+
+    <h4>プロダクションメンバー募集中！</h4>
+    <section>
+      <p><a href="http://sp.pf.mbga.jp/12008305/?guid=ON&url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fknights%2Fknights_top_for_other%3Fknights_id%3D474819" target="_blank">ﾍﾟﾛといっしょ【ゆきみﾌﾟﾛﾀﾞｸｼｮﾝ】</a></p>
+      <p>
+        佐城雪美ちゃんプロです！<br>
+        ゆきみん好きなら誰でもどんと来い！<br>
+        ゆきみんの輪を広げましょう？<br>
+        ノルマ等は無し！<br>
+        ゆきみん好きな方なら是非！<br>
+        直接申請どうぞ♪【代表ID：<a href="http://sp.pf.mbga.jp/12008305/?guid=ON&url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F60175954" target="_blank">60175954</a>】
+      </p>
+    </section>
+  </section>
+
+  <section id="birthday" class="info" ng-show="$storage.showBirthday">
+    <button type="button" class="close" ng-click="$storage.showBirthday = false"><i class="fa fa-close"></i></button>
+    <h3>誕生日</h3>
+    <p id="birthdayToday"></p>
+    <p id="birthdayNext"></p>
+  </section>
+
+  <section id="toast" class="info">
+    <button type="button" class="close" data-target="#toast"><i class="fa fa-close"></i></button>
+    <div id="toastMessage"></div>
+  </section>
+
+  <section id="buttons">
+    <button type="button" class="btn block" id="openConfig"><i class="fa fa-cog"></i> 道場リスト設定</button>
+  </section>
+
+  <section id="mobamasMenu" ng-show="$storage.showMobamasMenu">
+    <a ng-show="$storage.showMobamasMenuItem.myPage" id="menuMyPage" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fmypage">ﾏｲｽﾀｼﾞｵ</a>
+    <a ng-show="$storage.showMobamasMenuItem.petitCg" id="menuMyPage" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fpetit_cg">ぷちﾃﾞﾚﾗ</a>
+    <a ng-show="$storage.showMobamasMenuItem.gacha" id="menuGacha" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fgacha">ｶﾞﾁｬ</a>
+    <a ng-show="$storage.showMobamasMenuItem.cardStr" id="menuCardStr" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_str">ﾚｯｽﾝ</a>
+    <a ng-show="$storage.showMobamasMenuItem.auction" id="menuAuction" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fauction%2Fauction_top">ﾌﾘｰﾄﾚｰﾄﾞ</a>
+    <a ng-show="$storage.showMobamasMenuItem.quests" id="menuQuests" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fquests">お仕事</a>
+    <a ng-show="$storage.showMobamasMenuItem.battles" id="menuBattles" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fbattles">LIVEﾊﾞﾄﾙ</a>
+    <a ng-show="$storage.showMobamasMenuItem.cardUnion" id="menuCardUnion" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_union">特訓</a>
+    <a ng-show="$storage.showMobamasMenuItem.shop" id="menuShop" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fshop%2Findex">ｼｮｯﾌﾟ</a>
+    <a ng-show="$storage.showMobamasMenuItem.item" id="menuItem" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fitem%2Findex">ｱｲﾃﾑ</a>
+    <a ng-show="$storage.showMobamasMenuItem.present" id="menuPresent" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fpresent%2Frecieve%2F%3Fview_auth_type%3D1%26cache%3D1">贈り物</a>
+    <a ng-show="$storage.showMobamasMenuItem.cardList" id="menuCardList" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_list%2Findex">ｱｲﾄﾞﾙ一覧</a>
+    <a ng-show="$storage.showMobamasMenuItem.tradeResponse" id="menuTradeResponse" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Ftrade_response%2Ftrade_list_advance">ﾄﾚｰﾄﾞ</a>
+    <a ng-show="$storage.showMobamasMenuItem.deck" id="menuDeck" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fdeck%2Findex">編成</a>
+    <a ng-show="$storage.showMobamasMenuItem.exchange" id="menuExchange" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fexchange%2Fmedal_list%2F999999">交換</a>
+    <a ng-show="$storage.showMobamasMenuItem.cardStorage" id="menuCardStorage" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_storage%2Findex">女子寮</a>
+    <a ng-show="$storage.showMobamasMenuItem.rareParts" id="menuRareParts" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Frareparts%2Findex">衣装</a>
+    <a ng-show="$storage.showMobamasMenuItem.friend" id="menuFriend" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Ffriend%2Findex">お気に入り</a>
+    <a ng-show="$storage.showMobamasMenuItem.wish" id="menuWish" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fwish%2Findex">ﾎｼｲﾓﾉ</a>
+    <a ng-show="$storage.showMobamasMenuItem.archive" id="menuArchive" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Farchive%2Findex">ｱﾙﾊﾞﾑ</a>
+    <a ng-show="$storage.showMobamasMenuItem.pRankingAward" id="menuPRankingAward" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fp_ranking_award">PRA</a>
+    <a ng-show="$storage.showMobamasMenuItem.results" id="menuResults" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fresults">ﾌﾟﾛﾌｨｰﾙ</a>
+    <a ng-show="$storage.showMobamasMenuItem.gallery" id="menuGallery" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fgallery">ｱｲﾄﾞﾙｷﾞｬﾗﾘｰ</a>
+    <a ng-show="$storage.showMobamasMenuItem.memory" id="menuMemory" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fmemory">ｲﾍﾞﾝﾄﾒﾓﾘｰ</a>
+    <a ng-show="$storage.showMobamasMenuItem.sBooth" id="menuSBooth" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fs_booth">ｻｳﾝﾄﾞﾌﾞｰｽ</a>
+    <a ng-show="$storage.showMobamasMenuItem.personalOption" id="menuPersonalOption" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fpersonal_option">設定</a>
+    <a ng-show="$storage.showMobamasMenuItem.advise" id="menuAdvise" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fadvise%2Findex%2Ftop">ﾍﾙﾌﾟ</a>
+    <a ng-show="$storage.showMobamasMenuItem.top" id="menuTop" class="btn mobamas-menu-item" href="http://sp.pf.mbga.jp/12008305/">ﾄｯﾌﾟ</a>
+  </section>
+
   <p>status: {{ status }}</p>
   <p>最終更新日時: {{ lastUpdate }}</p>
   <p>道場数: {{ dojos.length }}</p>

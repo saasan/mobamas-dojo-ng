@@ -15,6 +15,7 @@ var defaultSettings = {
   visitedMax: 1,
   autoHide: true,
   keepLastVisited: true,
+  showWelcomeMessage: true,
   showInformation: true,
   showBirthday: true,
 
