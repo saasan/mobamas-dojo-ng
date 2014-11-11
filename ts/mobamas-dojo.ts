@@ -92,7 +92,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
     ['-lv', '-rank']
   ];
 
-  // ストレージにデフォルト値を設定
+  // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
   // 道場フィルター
@@ -126,6 +126,17 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
       success(function(data, status, headers, config) {
         // 最終更新日時
         $scope.lastUpdate = data.lastUpdate;
+
+        // 訪問回数と非表示設定を復元
+        data.dojos.forEach(function(dojo) {
+          if ($scope.$storage.visited[dojo.id]) {
+            dojo.visited = $scope.$storage.visited[dojo.id];
+          }
+          if ($scope.$storage.hidden[dojo.id]) {
+            dojo.hidden = true;
+          }
+        });
+
         // 道場リスト
         $scope.dojos = data.dojos;
 
@@ -138,17 +149,19 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
 
   // 道場のリンククリック時の処理
   $scope.onClickDojoLink = function(dojo) {
+    // 訪問回数のインクリメント
     if (dojo.visited) {
       dojo.visited++;
     }
     else {
       dojo.visited = 1;
     }
+    $scope.$storage.visited[dojo.id] = dojo.visited;
   };
 
   // 道場の非表示ボタンクリック時の処理
   $scope.onClickHideDojo = function(dojo) {
-    dojo.hidden = true;
+    $scope.$storage.hidden[dojo.id] = dojo.hidden = true;
   };
 }]);
 
@@ -159,7 +172,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
 mobamasDojo.controller('SettingsController', ['$scope', '$window', '$localStorage', function($scope, $window, $localStorage) {
   'use strict';
 
-  // ストレージにデフォルト値を設定
+  // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
   // 設定を一時変数にコピーしておく
