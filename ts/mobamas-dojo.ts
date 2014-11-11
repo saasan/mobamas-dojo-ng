@@ -72,6 +72,10 @@ var defaultSettings = {
 
 var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
 
+/*************************************************************************
+ * MainController
+ *************************************************************************/
+
 // リクエストヘッダーにX-Requested-Withを付ける
 mobamasDojo.config(function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -98,18 +102,18 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
       return false;
     }
 
-    var rank = ($localStorage.view.rankRange.min <= dojo.rank) &&
-               ($localStorage.view.rankRange.max < 0 || dojo.rank <= $localStorage.view.rankRange.max);
-    var level = ($localStorage.view.levelRange.min <= dojo.lv) &&
-                ($localStorage.view.levelRange.max < 0 || dojo.lv <= $localStorage.view.levelRange.max);
+    var rank = ($scope.$storage.view.rankRange.min <= dojo.rank) &&
+               ($scope.$storage.view.rankRange.max < 0 || dojo.rank <= $scope.$storage.view.rankRange.max);
+    var level = ($scope.$storage.view.levelRange.min <= dojo.lv) &&
+                ($scope.$storage.view.levelRange.max < 0 || dojo.lv <= $scope.$storage.view.levelRange.max);
     var defense = true;
 
     // 最小値/最大値が無制限の場合はminDefenseがnullでも表示する
-    if ($localStorage.view.defenseRange.min > 0) {
-      defense = defense && dojo.minDefense != null && $localStorage.view.defenseRange.min <= dojo.minDefense;
+    if ($scope.$storage.view.defenseRange.min > 0) {
+      defense = defense && dojo.minDefense != null && $scope.$storage.view.defenseRange.min <= dojo.minDefense;
     }
-    if ($localStorage.view.defenseRange.max > 0) {
-      defense = defense && dojo.minDefense != null && dojo.minDefense <= $localStorage.view.defenseRange.max;
+    if ($scope.$storage.view.defenseRange.max > 0) {
+      defense = defense && dojo.minDefense != null && dojo.minDefense <= $scope.$storage.view.defenseRange.max;
     }
 
     return rank && level && defense;
@@ -145,5 +149,52 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
   // 道場の非表示ボタンクリック時の処理
   $scope.onClickHideDojo = function(dojo) {
     dojo.hidden = true;
+  };
+}]);
+
+/*************************************************************************
+ * SettingsController
+ *************************************************************************/
+
+mobamasDojo.controller('SettingsController', ['$scope', '$window', '$localStorage', function($scope, $window, $localStorage) {
+  'use strict';
+
+  // ストレージにデフォルト値を設定
+  $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
+
+  // 設定を一時変数にコピーしておく
+  $scope.temporarySettings = angular.copy($scope.$storage);
+
+  $scope.dataOutput = JSON.stringify($scope.$storage);
+
+  $scope.save = function() {
+    // 一時変数に入った設定を保存
+    $scope.$storage.$reset($scope.temporarySettings);
+  };
+
+  $scope.cancel = function() {
+    $window.location.href = './';
+  };
+
+  $scope.resetVisited = function() {
+    $scope.temporarySettings.visited = {};
+    $scope.$storage.visited = {};
+  };
+
+  $scope.resetHiddenDojos = function() {
+    $scope.temporarySettings.hidden = {};
+    $scope.$storage.hidden = {};
+  };
+
+  $scope.resetAll = function() {
+    $scope.temporarySettings = angular.copy(defaultSettings);
+    $scope.$storage.$reset(defaultSettings);
+  };
+
+  $scope.inputData = function() {
+  };
+
+  $scope.clearDataOutput = function() {
+    $scope.dataOutput = '';
   };
 }]);

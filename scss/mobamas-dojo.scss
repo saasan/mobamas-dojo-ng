@@ -184,7 +184,7 @@ img {
   margin-top: 0;
   text-align: center;
 
-  .mobamas-menu-item {
+  a {
     border-radius: $default-margin;
     margin-top: $default-margin;
     min-width: 15%;
@@ -207,7 +207,7 @@ img {
   }
 }
 
-#config {
+#settings {
   position: fixed;
   z-index: 20;
   top: 0;
@@ -252,7 +252,7 @@ img {
     box-sizing: border-box;
   }
 
-  .config-mobamas-menu {
+  .settings-mobamas-menu {
     @include clearfix;
 
     label {
@@ -333,101 +333,5 @@ img {
     content: "";
     clear: both;
     display: block;
-  }
-}
-
-$responsive-width1: 668px;
-$responsive-width2: 800px;
-
-/*
- * レスポンシブ基本設定
- * $responsive-width1以上の時全てに適用
- */
-@media screen and (min-width : $responsive-width1 + 20px) {
-  body {
-    margin: 0 auto;
-    padding-top: 0; /* スマホ時に$small-ad-height分空けているのを消す */
-  }
-
-  #ad {
-    /* position: fixed;を解除して元の位置に戻す */
-    position: static;
-    height: $large-ad-height;
-    margin: $default-margin;
-
-    /* 大きい広告を表示 */
-    ins[data-ad-slot="#{$large-ad-slot}"] {
-      display: block !important;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    /* 小さい広告を非表示 */
-    ins[data-ad-slot="#{$small-ad-slot}"] {
-      display: none !important;
-    }
-  }
-
-  #toast {
-    width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  #config {
-    display: block;
-    position: static;
-  }
-
-  #config .close,
-  #openConfig {
-      display: none;
-  }
-
-  #dojos {
-    position: absolute;
-    top: 0;
-    left: 50%;
-  }
-}
-
-/* $responsive-width1以上の時 */
-@media screen and (min-width : $responsive-width1 + 20px) {
-  body {
-    width: $responsive-width1;
-  }
-
-  #ad,
-  #mobamasMenu,
-  #config,
-  #buttons,
-  #dojos {
-    width: ($responsive-width1 / 2) - ($default-margin * 2);
-  }
-
-  #info,
-  #versionedInfo,
-  #birthday {
-    width: ($responsive-width1 / 2) - (($default-margin * 3 + $info-border-width) * 2);
-  }
-}
-
-/* $responsive-width2以上の時 */
-@media screen and (min-width : $responsive-width2 + 20px) {
-  body {
-    width: $responsive-width2;
-  }
-
-  #ad,
-  #mobamasMenu,
-  #config,
-  #buttons,
-  #dojos {
-    width: ($responsive-width2 / 2) - ($default-margin * 2);
-  }
-
-  #info,
-  #versionedInfo,
-  #birthday {
-    width: ($responsive-width2 / 2) - (($default-margin * 3 + $info-border-width) * 2);
   }
 }
