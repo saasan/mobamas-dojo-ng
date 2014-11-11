@@ -267,7 +267,7 @@
   </section>
 
   <section id="dojos">
-    <div class="dojo" ng-class="{ error: dojo.visited > 0 }" ng-repeat="dojo in dojos | orderBy: ORDER_BY[$storage.view.orderBy] | filter: dojoFilter | limitTo : $storage.view.limitTo">
+    <div class="dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in dojos | orderBy: ORDER_BY[$storage.view.orderBy] | filter: dojoFilter | limitTo : $storage.view.limitTo">
       <a ng-if="dojo.defense.length > 0"
         ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
         href="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F{{ dojo.id }}"

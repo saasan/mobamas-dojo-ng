@@ -95,11 +95,42 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
+  // 道場のCSSクラス
+  $scope.dojoClass = function(dojo) {
+    var visited = 0;
+    var classes = {
+      1: ['', 'error'],
+      3: ['', 'success', 'warning', 'error']
+    };
+
+    if (dojo.visited != null) {
+       visited = dojo.visited;
+    }
+
+    if (visited > $scope.$storage.visitedMax) {
+      visited = $scope.$storage.visitedMax;
+    }
+
+    return classes[$scope.$storage.visitedMax][visited];
+  };
+
   // 道場フィルター
   $scope.dojoFilter = function(dojo) {
     // 非表示設定
     if (dojo.hidden) {
       return false;
+    }
+
+    // 訪問済の道場を表示しない
+    if ($scope.$storage.autoHide) {
+      // 訪問回数が設定値以上
+      var visited = (dojo.visited != null && dojo.visited >= $scope.$storage.visitedMax);
+      // 最後に訪問した道場を残す設定 AND 最後に訪問した道場
+      var keep = ($scope.$storage.keepLastVisited && $scope.$storage.lastVisited === dojo.id);
+
+      if (visited && !keep) {
+        return false;
+      }
     }
 
     var rank = ($scope.$storage.view.rankRange.min <= dojo.rank) &&
@@ -157,6 +188,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
       dojo.visited = 1;
     }
     $scope.$storage.visited[dojo.id] = dojo.visited;
+
+    // 最後に訪問した道場
+    $scope.$storage.lastVisited = dojo.id;
   };
 
   // 道場の非表示ボタンクリック時の処理
