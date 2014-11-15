@@ -76,9 +76,9 @@ var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
  *************************************************************************/
 
 // リクエストヘッダーにX-Requested-Withを付ける
-mobamasDojo.config(function($httpProvider) {
+mobamasDojo.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-});
+}]);
 
 mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', function($scope, $http, $localStorage) {
   'use strict';
