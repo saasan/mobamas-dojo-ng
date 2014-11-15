@@ -11,7 +11,7 @@ var paths = {
     dest: 'css/'
   },
   js: {
-    src: ['js/birthday.js', 'js/mobamas-dojo.js', 'js/toast.js'],
+    src: ['js/birthday.js', 'js/common.js', 'js/toast.js', 'js/settings.js', 'js/main.js'],
     dest: 'js/',
     filename: 'mobamas-dojo.min.js'
   },

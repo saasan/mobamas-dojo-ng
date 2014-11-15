@@ -1,3 +1,5 @@
+/* global mobamasDojo */
+
 mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope, $timeout) {
   'use strict';
 

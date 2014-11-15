@@ -1,86 +1,8 @@
-/* global Birthday */
-
-// 道場のソート順
-var DOJOS_ORDER_BY = {
-  RANK: 0,
-  LV: 1
-};
-
-var defaultSettings = {
-  visited: {},
-  hidden: {},
-  lastVisited: null,
-  lastTime: new Date(),
-
-  otherTab: true,
-  visitedMax: 1,
-  autoHide: true,
-  keepLastVisited: true,
-  showWelcomeMessage: true,
-  showInformation: true,
-  showBirthday: true,
-	showViewSettings: true,
-
-  showMobamasMenu: true,
-  showMobamasMenuItem: {
-    myPage: true,
-    petitCg: false,
-    gacha: false,
-    cardStr: false,
-    auction: false,
-    quests: false,
-    battles: false,
-    cardUnion: false,
-    shop: false,
-    item: false,
-    present: false,
-    cardList: true,
-    tradeResponse: false,
-    deck: false,
-    exchange: false,
-    cardStorage: true,
-    rareParts: false,
-    friend: false,
-    wish: false,
-    archive: false,
-    pRankingAward: true,
-    results: false,
-    gallery: false,
-    memory: false,
-    sBooth: false,
-    personalOption: false,
-    advise: false,
-    top: false
-  },
-
-  // 表示の設定
-  view: {
-    limitTo: 30,
-    orderBy: DOJOS_ORDER_BY.RANK,
-    rankRange: {
-      min: 0,
-      max: -1
-    },
-    levelRange: {
-      min: 0,
-      max: -1
-    },
-    defenseRange: {
-      min: 0,
-      max: -1
-    }
-  }
-};
-
-var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
-
-/*************************************************************************
- * MainController
- *************************************************************************/
+/* global Birthday, mobamasDojo */
 
 // リクエストヘッダーにX-Requested-Withを付ける
 mobamasDojo.config(['$httpProvider', function($httpProvider) {
-	'use strict';
+  'use strict';
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
@@ -176,9 +98,9 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
   // 初期化
   $scope.init = function() {
-		updateBirthday();
+    updateBirthday();
 
-		showToast('道場データ読み込み中...');
+    showToast('道場データ読み込み中...');
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(function(data) {
         // 最終更新日時
@@ -222,51 +144,5 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   // 道場の非表示ボタンクリック時の処理
   $scope.onClickHideDojo = function(dojo) {
     $scope.$storage.hidden[dojo.id] = dojo.hidden = true;
-  };
-}]);
-
-/*************************************************************************
- * SettingsController
- *************************************************************************/
-
-mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window', '$localStorage', function($rootScope, $scope, $window, $localStorage) {
-  'use strict';
-
-  /**
-   * トーストを表示する
-   */
-  var showToast = function(message) {
-    var data = {
-      message: message,
-      timeout: 3000
-    };
-    $rootScope.$broadcast('showToast', data);
-  };
-
-  // ストレージから設定を読み込む
-  $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
-
-  $scope.dataOutput = JSON.stringify($scope.$storage);
-
-  $scope.resetVisited = function() {
-    $scope.$storage.visited = {};
-    showToast('訪問回数を初期化しました。');
-  };
-
-  $scope.resetHiddenDojos = function() {
-    $scope.$storage.hidden = {};
-    showToast('道場の非表示設定を初期化しました。');
-  };
-
-  $scope.resetAll = function() {
-    $scope.$storage.$reset(defaultSettings);
-    showToast('全ての設定を初期化しました。');
-  };
-
-  $scope.inputData = function() {
-  };
-
-  $scope.clearDataOutput = function() {
-    $scope.dataOutput = '';
   };
 }]);
