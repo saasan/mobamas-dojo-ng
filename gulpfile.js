@@ -3,6 +3,7 @@ var del = require('del');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglifyjs');
+var concat = require('gulp-concat');
 
 var paths = {
   scss: {
@@ -10,7 +11,7 @@ var paths = {
     dest: 'css/'
   },
   js: {
-    src: 'js/*.js',
+    src: ['js/birthday.js', 'js/mobamas-dojo.js'],
     dest: 'js/',
     filename: 'mobamas-dojo.min.js'
   },
@@ -36,11 +37,7 @@ gulp.task('sass-release', function () {
 
 gulp.task('js', function () {
   gulp.src(paths.js.src)
-    .pipe(uglify(paths.js.filename, {
-      output: {
-        beautify: true
-      }
-    }))
+    .pipe(concat(paths.js.filename))
     .pipe(gulp.dest(paths.js.dest));
 });
 
