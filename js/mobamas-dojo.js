@@ -19,6 +19,7 @@ var defaultSettings = {
   showWelcomeMessage: true,
   showInformation: true,
   showBirthday: true,
+	showViewSettings: true,
 
   showMobamasMenu: true,
   showMobamasMenuItem: {

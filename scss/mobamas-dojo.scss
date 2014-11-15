@@ -176,10 +176,6 @@ img {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-#buttons {
-  margin-bottom: 0;
-}
-
 #mobamasMenu {
   margin-top: 0;
   text-align: center;
@@ -334,4 +330,21 @@ img {
     clear: both;
     display: block;
   }
+}
+
+#viewSettings {
+	border: solid 1px #DDD;
+	margin-bottom: 0;
+
+	h3 {
+		cursor: pointer;
+		color: $default-color;
+		background-color: $default-bg;
+		margin: 0;
+		padding: $default-margin;
+	}
+
+	& > section {
+		margin: $default-margin;
+	}
 }
