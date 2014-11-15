@@ -1,4 +1,3 @@
-///<reference path='../typings/angularjs/angular.d.ts'/>
 // 道場のソート順
 var DOJOS_ORDER_BY = {
   RANK: 0,

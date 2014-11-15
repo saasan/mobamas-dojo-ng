@@ -2,23 +2,21 @@
 var del = require('del');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var tsc = require('gulp-tsc');
-var tslint = require('gulp-tslint');
-var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglifyjs');
 
 var paths = {
   scss: {
     src: 'scss/*.scss',
-    dest: 'css'
+    dest: 'css/'
   },
-  ts: {
-    src: 'ts/*.ts',
-    dest: 'js'
+  js: {
+    src: 'js/*.js',
+    dest: 'js/',
+    filename: 'mobamas-dojo.min.js'
   },
-  out: 'release/',
   clean: [
     'css/*',
-    'js/*'
+    'js/mobamas-dojo.min.js'
   ]
 };
 
@@ -36,30 +34,27 @@ gulp.task('sass-release', function () {
     .pipe(gulp.dest(paths.scss.dest));
 });
 
-gulp.task('tslint', function() {
-  gulp.src(paths.ts.src)
-    .pipe(tslint())
-    .pipe(tslint.report('verbose'));
+gulp.task('js', function () {
+  gulp.src(paths.js.src)
+    .pipe(uglify(paths.js.filename, {
+      output: {
+        beautify: true
+      }
+    }))
+    .pipe(gulp.dest(paths.js.dest));
 });
 
-gulp.task('ts', function () {
-  gulp.src(paths.ts.src)
-    .pipe(tsc())
-    .pipe(gulp.dest(paths.ts.dest));
-});
-
-gulp.task('ts-release', function () {
-  gulp.src(paths.ts.src)
-    .pipe(tsc())
-    .pipe(uglify())
-    .pipe(gulp.dest(paths.ts.dest));
+gulp.task('js-release', function () {
+  gulp.src(paths.js.src)
+    .pipe(uglify(paths.js.filename))
+    .pipe(gulp.dest(paths.js.dest));
 });
 
 gulp.task('watch', function() {
   gulp.watch('scss/*.scss', ['sass']);
-  gulp.watch('ts/*.ts', ['ts']);
+  gulp.watch('js/*.js', ['js']);
 });
 
-gulp.task('compile', ['sass','ts']);
-gulp.task('release', ['clean', 'sass-release', 'ts-release']);
-gulp.task('default', ['sass','ts']);
+gulp.task('compile', ['clean', 'sass','js']);
+gulp.task('release', ['clean', 'sass-release', 'js-release']);
+gulp.task('default', ['compile']);
