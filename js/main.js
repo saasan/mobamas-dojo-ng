@@ -1,4 +1,4 @@
-/* global Birthday, mobamasDojo */
+/* global defaultSettings, Birthday, mobamasDojo */
 
 // リクエストヘッダーにX-Requested-Withを付ける
 mobamasDojo.config(['$httpProvider', function($httpProvider) {

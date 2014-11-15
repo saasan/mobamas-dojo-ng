@@ -1,4 +1,4 @@
-/* global mobamasDojo */
+/* global defaultSettings, mobamasDojo */
 
 mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window', '$localStorage', function($rootScope, $scope, $window, $localStorage) {
   'use strict';
