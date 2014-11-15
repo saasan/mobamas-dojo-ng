@@ -84,7 +84,7 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
-mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', function($scope, $http, $localStorage) {
+mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$timeout', function($scope, $http, $localStorage, $timeout) {
   'use strict';
 
   /**
@@ -95,6 +95,37 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
 
     $scope.birthdayToday = birthday.getToday();
     $scope.birthdayNext = birthday.getNext();
+  };
+
+  /**
+   * トーストのメッセージ
+   */
+	$scope.toastMessage = '';
+
+  /**
+   * トースト用タイマーID
+   */
+  var toastTimerId = null;
+
+  /**
+   * トーストを消す
+   */
+  var closeToast = function() {
+    $scope.toastMessage = '';
+    if (toastTimerId != null) {
+      $timeout.cancel(toastTimerId);
+      toastTimerId = null;
+    }
+  };
+  $scope.closeToast = closeToast;
+
+  /**
+   * トーストを表示する
+   */
+  var showToast = function(message) {
+    closeToast();
+    $scope.toastMessage = message;
+    toastTimerId = $timeout(function(){ closeToast(); }, 3000);
   };
 
   // ランク表示用文字列
@@ -167,7 +198,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
   $scope.init = function() {
 		updateBirthday();
 
-		$scope.status = '道場データ読み込み中...';
+		showToast('道場データ読み込み中...');
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(function(data) {
         // 最終更新日時
@@ -186,10 +217,10 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
         // 道場リスト
         $scope.dojos = data.dojos;
 
-        $scope.status = '道場データ読み込み完了！';
+        showToast('道場データ読み込み完了！');
       }).
       error(function(data, status) {
-        $scope.status = 'エラー！ ステータスコード: ' + status + ' データ: ' + (data || '(無し)');
+        showToast('エラー！ ステータスコード: ' + status + ' データ: ' + (data || '(無し)'));
       });
   };
 
