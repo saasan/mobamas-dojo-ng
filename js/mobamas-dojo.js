@@ -79,6 +79,7 @@ var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
 
 // リクエストヘッダーにX-Requested-Withを付ける
 mobamasDojo.config(['$httpProvider', function($httpProvider) {
+	'use strict';
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
@@ -167,7 +168,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
 
 		$scope.status = '道場データ読み込み中...';
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
-      success(function(data, status, headers, config) {
+      success(function(data) {
         // 最終更新日時
         $scope.lastUpdate = data.lastUpdate;
 
@@ -186,7 +187,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
 
         $scope.status = '道場データ読み込み完了！';
       }).
-      error(function(data, status, headers, config) {
+      error(function(data, status) {
         $scope.status = 'エラー！ ステータスコード: ' + status + ' データ: ' + (data || '(無し)');
       });
   };
