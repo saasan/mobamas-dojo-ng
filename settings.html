@@ -31,6 +31,11 @@
          data-ad-slot="3256526972"></ins>
   </section>
 
+  <section id="toast" class="info" ng-controller="ToastController" ng-show="message">
+    <button type="button" class="close" ng-click="close()"><i class="fa fa-close"></i></button>
+    <div>{{ message }}</div>
+  </section>
+
   <section id="settings">
     <h2>設定</h2>
     <section>

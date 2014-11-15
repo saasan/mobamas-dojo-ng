@@ -84,7 +84,7 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
-mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$timeout', function($scope, $http, $localStorage, $timeout) {
+mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', function($rootScope, $scope, $http, $localStorage) {
   'use strict';
 
   /**
@@ -98,34 +98,14 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
   };
 
   /**
-   * トーストのメッセージ
-   */
-	$scope.toastMessage = '';
-
-  /**
-   * トースト用タイマーID
-   */
-  var toastTimerId = null;
-
-  /**
-   * トーストを消す
-   */
-  var closeToast = function() {
-    $scope.toastMessage = '';
-    if (toastTimerId != null) {
-      $timeout.cancel(toastTimerId);
-      toastTimerId = null;
-    }
-  };
-  $scope.closeToast = closeToast;
-
-  /**
    * トーストを表示する
    */
   var showToast = function(message) {
-    closeToast();
-    $scope.toastMessage = message;
-    toastTimerId = $timeout(function(){ closeToast(); }, 3000);
+    var data = {
+      message: message,
+      timeout: 3000
+    };
+    $rootScope.$broadcast('showToast', data);
   };
 
   // ランク表示用文字列
@@ -249,8 +229,19 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
  * SettingsController
  *************************************************************************/
 
-mobamasDojo.controller('SettingsController', ['$scope', '$window', '$localStorage', function($scope, $window, $localStorage) {
+mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window', '$localStorage', function($rootScope, $scope, $window, $localStorage) {
   'use strict';
+
+  /**
+   * トーストを表示する
+   */
+  var showToast = function(message) {
+    var data = {
+      message: message,
+      timeout: 3000
+    };
+    $rootScope.$broadcast('showToast', data);
+  };
 
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
@@ -259,14 +250,17 @@ mobamasDojo.controller('SettingsController', ['$scope', '$window', '$localStorag
 
   $scope.resetVisited = function() {
     $scope.$storage.visited = {};
+    showToast('訪問回数を初期化しました。');
   };
 
   $scope.resetHiddenDojos = function() {
     $scope.$storage.hidden = {};
+    showToast('道場の非表示設定を初期化しました。');
   };
 
   $scope.resetAll = function() {
     $scope.$storage.$reset(defaultSettings);
+    showToast('全ての設定を初期化しました。');
   };
 
   $scope.inputData = function() {
