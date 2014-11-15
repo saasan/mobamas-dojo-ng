@@ -224,32 +224,17 @@ mobamasDojo.controller('SettingsController', ['$scope', '$window', '$localStorag
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
-  // 設定を一時変数にコピーしておく
-  $scope.temporarySettings = angular.copy($scope.$storage);
-
   $scope.dataOutput = JSON.stringify($scope.$storage);
 
-  $scope.save = function() {
-    // 一時変数に入った設定を保存
-    $scope.$storage.$reset($scope.temporarySettings);
-  };
-
-  $scope.cancel = function() {
-    $window.location.href = './';
-  };
-
   $scope.resetVisited = function() {
-    $scope.temporarySettings.visited = {};
     $scope.$storage.visited = {};
   };
 
   $scope.resetHiddenDojos = function() {
-    $scope.temporarySettings.hidden = {};
     $scope.$storage.hidden = {};
   };
 
   $scope.resetAll = function() {
-    $scope.temporarySettings = angular.copy(defaultSettings);
     $scope.$storage.$reset(defaultSettings);
   };
 

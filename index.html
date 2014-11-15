@@ -96,15 +96,11 @@
     <div id="toastMessage">{{ status }}</div>
   </section>
 
-  <section id="buttons">
-    <a class="btn block" href="settings.html"><i class="fa fa-cog"></i> 道場リスト設定</a>
-  </section>
-
   <section id="viewSettings">
 		<h3 ng-click="$storage.showViewSettings = !$storage.showViewSettings">
 			<i class="fa fa-chevron-up" ng-show="$storage.showViewSettings"></i>
 			<i class="fa fa-chevron-down" ng-hide="$storage.showViewSettings"></i>
-			道場表示設定
+			道場リスト設定
 		</h3>
 		<section ng-show="$storage.showViewSettings">
       <section>
@@ -258,6 +254,9 @@
 			</section>
 			<section>
 				※ 道場主により申告された情報を元にしている為、正確ではありません。御注意下さい。
+			</section>
+			<section>
+				<a class="btn" href="settings.html"><i class="fa fa-cog"></i> その他の設定</a>
 			</section>
 			<section>
 				<p>道場データ最終更新日時: {{ lastUpdate }}</p>
