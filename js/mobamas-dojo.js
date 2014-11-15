@@ -1,3 +1,5 @@
+/* global Birthday */
+
 // 道場のソート順
 var DOJOS_ORDER_BY = {
   RANK: 0,
@@ -83,6 +85,16 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
 mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', function($scope, $http, $localStorage) {
   'use strict';
 
+  /**
+   * 誕生日を更新する
+   */
+  var updateBirthday = function() {
+    var birthday = new Birthday();
+
+    $scope.birthdayToday = birthday.getToday();
+    $scope.birthdayNext = birthday.getNext();
+  };
+
   // ランク表示用文字列
   $scope.RANK = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'S3', 'S4', 'S5' ];
   // ソート順用データ
@@ -151,7 +163,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', fu
 
   // 初期化
   $scope.init = function() {
-    $scope.status = '道場データ読み込み中...';
+		updateBirthday();
+
+		$scope.status = '道場データ読み込み中...';
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(function(data, status, headers, config) {
         // 最終更新日時
