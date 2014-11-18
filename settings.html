@@ -41,7 +41,27 @@
     <section>
       <section>
         <label>
-          <input type="checkbox" ng-model="$storage.otherTab"> 道場を別のタブで開く
+          道場の
+          <select ng-model="$storage.dojoLinkUrl">
+            <option value="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F">プロフィール</option>
+            <option value="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fbattles%2Fbattle_check%2F">LIVEバトル</option>
+            <option value="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcheer%2Findex%2F">応援</option>
+            <option value="http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fpetit_cg%2Fpetit_cheer%2F">ぷちデレラ</option>
+          </select>
+          画面を開く
+        </label>
+        <section>
+          ※ 「LIVEバトル」に設定すると、環境によっては連続でLIVEバトルできない場合があります。
+        </section>
+      </section>
+      <section>
+        <label>
+          道場を
+          <select ng-model="$storage.dojoLinkTarget">
+            <option value="_blank">別のタブ</option>
+            <option value="_self">同じタブ</option>
+          </select>
+          で開く
         </label>
       </section>
       <section>
