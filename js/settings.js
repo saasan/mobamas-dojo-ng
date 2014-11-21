@@ -50,6 +50,7 @@ mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window',
       json = json.substring(f, l + 1);
     }
 
+    // JSONからオブジェクトへ
     var newSettings = null;
     try {
       newSettings = angular.fromJson(json);
@@ -59,7 +60,9 @@ mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window',
       return;
     }
 
+    // 設定に反映
     $scope.$storage.$reset(newSettings);
+
     showToast('データを入力しました。');
   };
 }]);
