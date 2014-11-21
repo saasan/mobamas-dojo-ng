@@ -36,9 +36,30 @@ mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window',
   };
 
   $scope.inputData = function() {
-  };
+    var json = $scope.dataOutput;
 
-  $scope.clearDataOutput = function() {
-    $scope.dataOutput = '';
+    if (json.length === 0) {
+      showToast('データが入力されていません。');
+      return;
+    }
+
+    // JSONの前後に不要な文字列があれば削除
+    var f = json.indexOf('{');
+    var l = json.lastIndexOf('}');
+    if (f >= 0 && l >= 0) {
+      json = json.substring(f, l + 1);
+    }
+
+    var newSettings = null;
+    try {
+      newSettings = angular.fromJson(json);
+    }
+    catch (e) {
+      showToast(e.message);
+      return;
+    }
+
+    $scope.$storage.$reset(newSettings);
+    showToast('データを入力しました。');
   };
 }]);

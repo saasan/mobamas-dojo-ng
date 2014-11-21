@@ -117,10 +117,10 @@
 
     <h2>データ入出力</h2>
     <section>
-      <input type="text" ng-model="dataOutput" onfocus="this.select();">
+      <input type="text" id="dataOutput" ng-model="dataOutput" onfocus="this.select();">
       <button type="submit" class="btn block" ng-click="inputData()"><i class="fa fa-sign-in"></i> 入力</button>
       <button type="button" class="btn block" onclick="document.getElementById('dataOutput').select();">テキスト全選択</button>
-      <button type="button" class="btn block" ng-click="clearDataOutput()"><i class="fa fa-remove"></i> テキスト全消去</button>
+      <button type="button" class="btn block" ng-click="dataOutput = ''"><i class="fa fa-remove"></i> テキスト全消去</button>
     </section>
   </section>
 
