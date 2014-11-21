@@ -84,7 +84,7 @@
           <input type="checkbox" ng-model="$storage.showMobamasMenu"> モバマスのメニューを表示する
         </label>
       </section>
-      <section>
+      <section ng-show="$storage.showMobamasMenu">
         <section class="settings-mobamas-menu">
           <label><input type="checkbox" ng-model="$storage.showMobamasMenuItem.myPage"> ﾏｲｽﾀｼﾞｵ</label>
           <label><input type="checkbox" ng-model="$storage.showMobamasMenuItem.petitCg"> ぷちﾃﾞﾚﾗ</label>
