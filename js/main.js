@@ -34,7 +34,6 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     Object.keys(oldSettings.visited).forEach(function(key) {
       // 旧設定の訪問回数は各キー名の先頭に"id"が付いているので削除する
       var newKey = key.replace(/^id/, '');
-    console.log('newKey: ' + newKey);
       newSettings.visited[newKey] = oldSettings.visited[key];
     });
 
@@ -219,6 +218,25 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
   // 道場のリンククリック時の処理
   $scope.onClickDojoLink = function(dojo) {
+    // トーストクリック時に元に戻すコールバック関数を作成する
+    var generateUndo= function(id, oldValue, lastVisited) {
+      var undo = function() {
+        if (oldValue) {
+          $scope.$storage.visited[id] = oldValue;
+        }
+        else {
+          delete $scope.$storage.visited[id];
+        }
+
+        $scope.$storage.lastVisited = lastVisited || null;
+      };
+
+      return undo;
+    };
+
+    var undo = generateUndo(dojo.id, $scope.$storage.visited[dojo.id], $scope.$storage.lastVisited);
+    showToast($rootScope, '元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の訪問', '', 10000, undo);
+
     // 訪問回数のインクリメント
     if ($scope.$storage.visited[dojo.id]) {
       $scope.$storage.visited[dojo.id]++;
@@ -233,6 +251,24 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
   // 道場の非表示ボタンクリック時の処理
   $scope.onClickHideDojo = function(dojo) {
+    // トーストクリック時に元に戻すコールバック関数を作成する
+    var generateUndo= function(id, oldValue) {
+      var undo = function() {
+        if (oldValue) {
+          $scope.$storage.hidden[id] = oldValue;
+        }
+        else {
+          delete $scope.$storage.hidden[id];
+        }
+      };
+
+      return undo;
+    };
+
+    var undo = generateUndo(dojo.id, $scope.$storage.hidden[dojo.id]);
+    showToast($rootScope, '元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の非表示', '', 10000, undo);
+
+    // 非表示に設定
     $scope.$storage.hidden[dojo.id] = true;
   };
 }]);

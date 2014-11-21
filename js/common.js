@@ -101,13 +101,14 @@ mobamasDojo.constant('defaultSettings', {
   }
 });
 
-mobamasDojo.constant('showToast', function($rootScope, message, classString, timeout) {
+mobamasDojo.constant('showToast', function($rootScope, message, classString, timeout, callback) {
   'use strict';
 
   var data = {
     message: message,
     class: classString,
-    timeout: timeout
+    timeout: timeout,
+    callback: callback
   };
 
   $rootScope.$broadcast('showToast', data);

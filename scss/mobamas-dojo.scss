@@ -158,6 +158,15 @@ img {
   p {
     margin-top: $default-margin;
   }
+
+  div {
+    cursor: pointer;
+  }
+
+  div.undo {
+    font-weight: bold;
+    text-decoration: underline;
+  }
 }
 
 .well {

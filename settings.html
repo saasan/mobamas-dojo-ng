@@ -27,7 +27,7 @@
 
   <section id="toast" class="info {{ class }}" ng-controller="ToastController" ng-show="message">
     <button type="button" class="close" ng-click="close()"><i class="fa fa-close"></i></button>
-    <div>{{ message }}</div>
+    <div ng-class="{ undo: callback }" ng-click="onclick()">{{ message }}</div>
   </section>
 
   <section id="settings">
