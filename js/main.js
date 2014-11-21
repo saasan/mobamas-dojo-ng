@@ -9,6 +9,9 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
 mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', function($rootScope, $scope, $http, $localStorage) {
   'use strict';
 
+  /* トーストを表示する時間(ミリ秒) */
+  var TOAST_TIME = 3000;
+
   /**
    * 誕生日を更新する
    */
@@ -25,7 +28,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   var showToast = function(message) {
     var data = {
       message: message,
-      timeout: 3000
+      timeout: TOAST_TIME
     };
     $rootScope.$broadcast('showToast', data);
   };
