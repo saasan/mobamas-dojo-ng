@@ -166,7 +166,7 @@ img {
   border: $default-border-width solid $default-border-color;
 }
 
-#ad {
+#adTop {
   position: fixed;
   left: 50%;
   top: 0;
@@ -174,11 +174,14 @@ img {
   height: $small-ad-height;
   margin-left: -$small-ad-width / 2;
   z-index: 5;
+}
 
-  /* 大きい広告を非表示 */
-  ins[data-ad-slot="#{$large-ad-slot}"] {
-    display: none !important;
-  }
+#adBottom {
+  position: relative;
+  left: 50%;
+  width: $large-ad-width;
+  height: $large-ad-height;
+  margin-left: -$large-ad-width / 2;
 }
 
 #toast {
