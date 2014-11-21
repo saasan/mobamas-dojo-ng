@@ -100,3 +100,15 @@ mobamasDojo.constant('defaultSettings', {
     top: false              // ﾄｯﾌﾟ
   }
 });
+
+mobamasDojo.constant('showToast', function($rootScope, message, classString, timeout) {
+  'use strict';
+
+  var data = {
+    message: message,
+    class: classString,
+    timeout: timeout
+  };
+
+  $rootScope.$broadcast('showToast', data);
+});

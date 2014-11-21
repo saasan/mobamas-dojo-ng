@@ -6,7 +6,8 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
-mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'defaultSettings', function($rootScope, $scope, $http, $localStorage, defaultSettings) {
+mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'defaultSettings', 'showToast',
+                                          function($rootScope, $scope, $http, $localStorage, defaultSettings, showToast) {
   'use strict';
 
   // ストレージから設定を読み込む
@@ -17,8 +18,6 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     HOUR: 5,
     MINUTE: 0
   };
-  /** トーストを表示する時間(ミリ秒) */
-  var TOAST_TIME = 3000;
 
   /**
    * 誕生日を更新する
@@ -28,17 +27,6 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
     $scope.birthdayToday = birthday.getToday();
     $scope.birthdayNext = birthday.getNext();
-  };
-
-  /**
-   * トーストを表示する
-   */
-  var showToast = function(message) {
-    var data = {
-      message: message,
-      timeout: TOAST_TIME
-    };
-    $rootScope.$broadcast('showToast', data);
   };
 
   /**
@@ -159,7 +147,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     // アクセス日時を保存
     $scope.$storage.lastTime = now;
 
-    showToast('道場データ読み込み中...');
+    showToast($rootScope, '道場データ読み込み中...');
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(function(data) {
         // 最終更新日時
@@ -167,10 +155,10 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
         // 道場リスト
         $scope.dojos = data.dojos;
 
-        showToast('道場データ読み込み完了！');
+        showToast($rootScope, '道場データ読み込み完了！');
       }).
       error(function(data, status) {
-        showToast('エラー！ ステータスコード: ' + status + ' データ: ' + (data || '(無し)'));
+        showToast($rootScope, 'エラー！ ステータスコード: ' + status + ' データ: ' + (data || '(無し)'), 'error', 0);
       });
   };
 

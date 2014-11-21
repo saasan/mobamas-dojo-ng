@@ -30,7 +30,18 @@ mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope
    */
   $scope.$on('showToast', function(event, data) {
     close();
+
+    $scope.class = data.class || '';
     $scope.message = data.message;
-    id = $timeout(close, data.timeout);
+
+    var timeout = data.timeout;
+
+    if (timeout == null) {
+      timeout = 3000;
+    }
+
+    if (timeout > 0) {
+      id = $timeout(close, timeout);
+    }
   });
 }]);

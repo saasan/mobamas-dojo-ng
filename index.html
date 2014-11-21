@@ -85,7 +85,7 @@
     <p>次の誕生日は{{ birthdayNext }}</p>
   </section>
 
-  <section id="toast" class="info" ng-controller="ToastController" ng-show="message">
+  <section id="toast" class="info {{ class }}" ng-controller="ToastController" ng-show="message">
     <button type="button" class="close" ng-click="close()"><i class="fa fa-close"></i></button>
     <div>{{ message }}</div>
   </section>
