@@ -62,8 +62,6 @@ var defaultSettings = {
   dojoLinkTarget: '_blank',
   // 「ようこそ」を表示する
   showWelcomeMessage: true,
-  // お知らせを表示する
-  showInformation: true,
   // 誕生日を表示する
   showBirthday: true,
 
