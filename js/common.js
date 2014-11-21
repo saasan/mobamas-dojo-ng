@@ -54,7 +54,7 @@ var defaultSettings = {
 
   // 表示の設定
   view: {
-    limitTo: 30,
+    limitTo: 20,
     orderBy: DOJOS_ORDER_BY.RANK,
     rankRange: {
       min: 0,
