@@ -8,7 +8,7 @@ var defaultSettings = {
   visited: {},
   hidden: {},
   lastVisited: null,
-  lastTime: new Date(),
+  lastTime: Date.now(),
 
   dojoLinkUrl: 'http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F',
   dojoLinkTarget: '_blank',

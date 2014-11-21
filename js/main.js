@@ -9,7 +9,15 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
 mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', function($rootScope, $scope, $http, $localStorage) {
   'use strict';
 
-  /* トーストを表示する時間(ミリ秒) */
+  // ストレージから設定を読み込む
+  $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
+
+  /** 道場をリセットする時間 */
+  var RESET = {
+    HOUR: 5,
+    MINUTE: 0
+  };
+  /** トーストを表示する時間(ミリ秒) */
   var TOAST_TIME = 3000;
 
   /**
@@ -33,6 +41,44 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     $rootScope.$broadcast('showToast', data);
   };
 
+  /**
+   * 今日のリセット時間を取得する
+   * @return {number} リセット時間をgetTime()でミリ秒にした値
+   */
+  var getResetTime = function() {
+    var resetTime = new Date();
+    resetTime.setHours(RESET.HOUR);
+    resetTime.setMinutes(RESET.MINUTE);
+    resetTime.setSeconds(0);
+    resetTime.setMilliseconds(0);
+
+    // 未来だったら1日前にする
+    if (resetTime.getTime() > Date.now()) {
+      resetTime.setDate(resetTime.getDate() - 1);
+    }
+
+    return resetTime.getTime();
+  };
+
+  /**
+   * 値が範囲内か確認する
+   * @param {number} value 調べる対象
+   * @param {number} start 範囲開始値
+   * @param {number} end 範囲終了値
+   * @return {boolean} trueなら範囲内
+   */
+  var betweenRange = function(value, start, end) {
+    return (start < value && value <= end);
+  };
+
+  /**
+   * 保存されている訪問回数と最後に訪問した道場を初期化する
+   */
+  var resetVisited = function() {
+    $scope.$storage.visited = {};
+    $scope.$storage.lastVisited = null;
+  };
+
   // ランク表示用文字列
   $scope.RANK = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'S3', 'S4', 'S5' ];
   // ソート順用データ
@@ -40,9 +86,6 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     ['-rank', '-lv'],
     ['-lv', '-rank']
   ];
-
-  // ストレージから設定を読み込む
-  $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
   // 道場のCSSクラス
   $scope.dojoClass = function(dojo) {
@@ -103,6 +146,19 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   $scope.init = function() {
     updateBirthday();
 
+    // 現在の日時
+    var now = Date.now();
+    // 訪問回数のリセットが必要か
+    var needReset = betweenRange(getResetTime(), $scope.$storage.lastTime, now);
+
+    // 前回のアクセスから今回の間でリセット時間を跨いでいたら訪問回数を初期化
+    if (needReset) {
+      resetVisited();
+    }
+
+    // アクセス日時を保存
+    $scope.$storage.lastTime = now;
+
     showToast('道場データ読み込み中...');
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(function(data) {
@@ -111,7 +167,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
         // 訪問回数と非表示設定を復元
         data.dojos.forEach(function(dojo) {
-          if ($scope.$storage.visited[dojo.id]) {
+          if (!needReset && $scope.$storage.visited[dojo.id]) {
             dojo.visited = $scope.$storage.visited[dojo.id];
           }
           if ($scope.$storage.hidden[dojo.id]) {
