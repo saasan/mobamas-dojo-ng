@@ -1,3 +1,4 @@
+/* jshint node: true */
 'use strict';
 var del = require('del');
 var gulp = require('gulp');
