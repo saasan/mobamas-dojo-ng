@@ -5,65 +5,84 @@ var DOJOS_ORDER_BY = {
 };
 
 var defaultSettings = {
+  // 訪問回数
   visited: {},
+  // 非表示にした道場
   hidden: {},
+  // 最後に訪問した道場
   lastVisited: null,
+  // 最終アクセス日時
   lastTime: Date.now(),
 
+  // 道場の○○画面を開く
   dojoLinkUrl: 'http://sp.pf.mbga.jp/12008305/?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fprofile%2Fshow%2F',
+  // 道場を別のタブ/同じタブで開く
   dojoLinkTarget: '_blank',
+  // visitedMax回以上訪問した時、道場を訪問済とする
   visitedMax: 1,
+  // 訪問済の道場を表示しない
   autoHide: true,
+  // 最後に訪問した道場を残す
   keepLastVisited: true,
+  // 「ようこそ」を表示する
   showWelcomeMessage: true,
+  // お知らせを表示する
   showInformation: true,
+  // 誕生日を表示する
   showBirthday: true,
+  // 道場リスト設定を表示する
   showViewSettings: true,
 
+  // モバマスのメニューを表示する
   showMobamasMenu: true,
   showMobamasMenuItem: {
-    myPage: true,
-    petitCg: false,
-    gacha: false,
-    cardStr: false,
-    auction: false,
-    quests: false,
-    battles: false,
-    cardUnion: false,
-    shop: false,
-    item: false,
-    present: false,
-    cardList: true,
-    tradeResponse: false,
-    deck: false,
-    exchange: false,
-    cardStorage: true,
-    rareParts: false,
-    friend: false,
-    wish: false,
-    archive: false,
-    pRankingAward: true,
-    results: false,
-    gallery: false,
-    memory: false,
-    sBooth: false,
-    personalOption: false,
-    advise: false,
-    top: false
+    myPage: true,           // ﾏｲｽﾀｼﾞｵ
+    petitCg: false,         // ぷちﾃﾞﾚﾗ
+    gacha: false,           // ｶﾞﾁｬ
+    cardStr: false,         // ﾚｯｽﾝ
+    auction: false,         // ﾌﾘｰﾄﾚｰﾄﾞ
+    quests: false,          // お仕事
+    battles: false,         // LIVEﾊﾞﾄﾙ
+    cardUnion: false,       // 特訓
+    shop: false,            // ｼｮｯﾌﾟ
+    item: false,            // ｱｲﾃﾑ
+    present: false,         // 贈り物
+    cardList: true,         //  ｱｲﾄﾞﾙ一覧
+    tradeResponse: false,   // ﾄﾚｰﾄﾞ
+    deck: false,            // 編成
+    exchange: false,        // 交換
+    cardStorage: true,      // 女子寮
+    rareParts: false,       // 衣装
+    friend: false,          // お気に入り
+    wish: false,            // ﾎｼｲﾓﾉ
+    archive: false,         // ｱﾙﾊﾞﾑ
+    pRankingAward: true,    // PRA
+    results: false,         // ﾌﾟﾛﾌｨｰﾙ
+    gallery: false,         // ｱｲﾄﾞﾙｷﾞｬﾗﾘｰ
+    memory: false,          // ｲﾍﾞﾝﾄﾒﾓﾘｰ
+    sBooth: false,          // ｻｳﾝﾄﾞﾌﾞｰｽ
+    personalOption: false,  // 設定
+    advise: false,          // ﾍﾙﾌﾟ
+    top: false              // ﾄｯﾌﾟ
   },
 
   // 表示の設定
   view: {
+    // 一度に表示する道場数
     limitTo: 20,
+    // 表示順
     orderBy: DOJOS_ORDER_BY.RANK,
+    // ランク
     rankRange: {
       min: 0,
       max: -1
     },
+    // レベル
     levelRange: {
       min: 0,
       max: -1
     },
+    // 守発揮値
     defenseRange: {
       min: 0,
       max: -1
