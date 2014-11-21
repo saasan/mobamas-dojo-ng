@@ -21,6 +21,7 @@ mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window',
 
   $scope.resetVisited = function() {
     $scope.$storage.visited = {};
+    $scope.$storage.lastVisited = null;
     showToast('訪問回数を初期化しました。');
   };
 
