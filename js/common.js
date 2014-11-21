@@ -13,6 +13,8 @@ var defaultSettings = {
   lastVisited: null,
   // 最終アクセス日時
   lastTime: Date.now(),
+  // お知らせのバージョン
+  infoVersion: -1,
 
   /**********************************************
    * 道場リスト設定
