@@ -17,7 +17,7 @@ mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window',
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
-  $scope.dataOutput = JSON.stringify($scope.$storage);
+  $scope.dataOutput = angular.toJson($scope.$storage);
 
   $scope.resetVisited = function() {
     $scope.$storage.visited = {};
