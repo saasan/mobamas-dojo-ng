@@ -1,10 +1,12 @@
+var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
+
 // 道場のソート順
 var DOJOS_ORDER_BY = {
   RANK: 0,
   LV: 1
 };
 
-var defaultSettings = {
+mobamasDojo.constant('defaultSettings', {
   // 訪問回数
   visited: {},
   // 非表示にした道場
@@ -97,6 +99,4 @@ var defaultSettings = {
     advise: false,          // ﾍﾙﾌﾟ
     top: false              // ﾄｯﾌﾟ
   }
-};
-
-var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
+});

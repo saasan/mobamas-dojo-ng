@@ -1,4 +1,4 @@
-/* global defaultSettings, Birthday, mobamasDojo */
+/* global Birthday, mobamasDojo */
 
 // リクエストヘッダーにX-Requested-Withを付ける
 mobamasDojo.config(['$httpProvider', function($httpProvider) {
@@ -6,7 +6,7 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
-mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', function($rootScope, $scope, $http, $localStorage) {
+mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'defaultSettings', function($rootScope, $scope, $http, $localStorage, defaultSettings) {
   'use strict';
 
   // ストレージから設定を読み込む
