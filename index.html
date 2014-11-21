@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" ng-app="mobamasDojo" ng-controller="MainController" ng-init="init()">
+<html lang="ja" ng-app="mobamasDojo" ng-controller="MainController">
 <head>
   <meta charset="UTF-8">
   <title>モバマス道場リスト(スマホ用)</title>
@@ -283,7 +283,7 @@
     </section>
   </section>
 
-  <section id="dojos">
+  <section id="dojos" ng-init="init()">
     <div class="dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in dojos | orderBy: ORDER_BY[$storage.view.orderBy] | filter: dojoFilter | limitTo : $storage.view.limitTo">
       <a ng-if="dojo.defense.length > 0"
         ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
