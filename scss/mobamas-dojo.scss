@@ -232,6 +232,11 @@ img {
     border-bottom: 1px solid #e5e5e5;
   }
 
+  small {
+    display: block;
+    margin-top: 0.5em;
+  }
+
   label {
     display: block;
     margin-top: $default-margin;
