@@ -5,6 +5,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglifyjs');
 var concat = require('gulp-concat');
+var autoprefixer = require('gulp-autoprefixer');
 
 var paths = {
   scss: {
@@ -27,12 +28,14 @@ gulp.task('clean', del.sync.bind(null, paths.clean, { dot: true }));
 gulp.task('sass', function () {
   gulp.src(paths.scss.src)
     .pipe(sass())
+    .pipe(autoprefixer())
     .pipe(gulp.dest(paths.scss.dest));
 });
 
 gulp.task('sass-release', function () {
   gulp.src(paths.scss.src)
     .pipe(sass({ outputStyle: 'compressed' }))
+    .pipe(autoprefixer())
     .pipe(gulp.dest(paths.scss.dest));
 });
 
