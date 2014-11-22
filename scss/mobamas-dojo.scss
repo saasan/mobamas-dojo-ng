@@ -209,6 +209,27 @@ img {
   margin: $default-margin;
   z-index: 100;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+
+  /* フェードイン/アウト用。AngularJS実行前に一瞬表示されるのを防ぐ。 */
+  display: none;
+}
+
+/* #toastのフェードイン/アウト用。AngularJS実行後のみ以下が適用される。 */
+.ng-scope {
+  #toast {
+    display: block !important;
+
+    opacity: 1;
+    visibility: visible;
+    transition: all .3s ease;
+
+    &.ng-hide {
+      opacity: 0;
+      visibility: hidden;
+      display: block !important;
+      transition: all 1s ease;
+    }
+  }
 }
 
 #mobamasMenu {
