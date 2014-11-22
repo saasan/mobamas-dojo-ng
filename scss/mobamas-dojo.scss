@@ -226,7 +226,6 @@ img {
     &.ng-hide {
       opacity: 0;
       visibility: hidden;
-      display: block !important;
       transition: all 1s ease;
     }
   }
