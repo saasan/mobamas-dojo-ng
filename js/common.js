@@ -34,7 +34,7 @@ mobamasDojo.constant('defaultSettings', {
   // 表示の設定
   view: {
     // 一度に表示する道場数
-    limitTo: 20,
+    limitTo: 10,
     // 表示順
     orderBy: DOJOS_ORDER_BY.RANK,
     // ランク
