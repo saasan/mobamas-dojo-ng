@@ -47,6 +47,14 @@ body {
   padding-top: $small-ad-height + $default-margin;
 }
 
+h2 {
+  margin-top: 20px;
+  padding-bottom: $default-margin;
+  font-size: 21px;
+  color: $text-color;
+  border-bottom: 1px solid #e5e5e5;
+}
+
 h3 {
   margin: 0;
   margin-bottom: $default-margin * 2;
@@ -236,14 +244,6 @@ img {
 }
 
 #settings {
-  h2 {
-    margin-top: 20px;
-    padding-bottom: $default-margin;
-    font-size: 21px;
-    color: $text-color;
-    border-bottom: 1px solid #e5e5e5;
-  }
-
   small {
     display: block;
     margin-top: 0.5em;
