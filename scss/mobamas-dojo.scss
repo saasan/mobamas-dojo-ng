@@ -230,7 +230,9 @@ img {
     color: $default-color;
     background-color: $default-bg;
     margin: 0;
-    padding: $default-margin;
+    padding: 4px 12px;
+    line-height: 30px;
+    vertical-align: middle;
   }
 
   & > section {
