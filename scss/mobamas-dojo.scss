@@ -225,25 +225,24 @@ img {
 #viewSettings {
   border: $default-border-width solid $default-border-color;
 
-	h3 {
-		cursor: pointer;
-		color: $default-color;
-		background-color: $default-bg;
-		margin: 0;
-		padding: $default-margin;
-	}
-
-	& > section {
-		margin: $default-margin * 2;
-	}
-
-  & > section > section {
+  h3 {
+    cursor: pointer;
+    color: $default-color;
+    background-color: $default-bg;
     margin: 0;
-    margin-top: $default-margin;
+    padding: $default-margin;
+  }
+
+  & > section {
+    margin: $default-margin * 2;
   }
 }
 
-#settings {
+.form {
+  section {
+    margin-bottom: $default-margin * 2;
+  }
+
   small {
     display: block;
     margin-top: 0.5em;
@@ -272,6 +271,10 @@ img {
     padding-right: 0;
     padding-left: 0;
     box-sizing: border-box;
+  }
+
+  select {
+    font-size: 1.2em;
   }
 
   .settings-mobamas-menu {
