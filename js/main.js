@@ -84,7 +84,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   };
 
   /**
-   * 今日のリセット時間を取得する
+   * 前回のリセット時間を取得する
    * @return {number} リセット時間をgetTime()でミリ秒にした値
    */
   var getResetTime = function() {
