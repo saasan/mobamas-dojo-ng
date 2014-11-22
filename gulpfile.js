@@ -13,7 +13,14 @@ var paths = {
     dest: 'css/'
   },
   js: {
-    src: ['js/birthday.js', 'js/common.js', 'js/toast.js', 'js/settings.js', 'js/main.js'],
+    src: [
+      'bower_components/ngstorage/ngStorage.min.js',
+      'js/birthday.js',
+      'js/common.js',
+      'js/toast.js',
+      'js/settings.js',
+      'js/main.js'
+    ],
     dest: 'js/',
     filename: 'mobamas-dojo.min.js'
   },
