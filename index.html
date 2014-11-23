@@ -168,8 +168,8 @@
       <section>
         表示順:
         <select ng-model="$storage.view.orderBy">
-          <option value="0">ランク順</option>
-          <option value="1">レベル順</option>
+          <option value="rankNo">ランク順</option>
+          <option value="lvNo">レベル順</option>
         </select>
       </section>
       <section>
@@ -275,15 +275,15 @@
   </section>
 
   <section id="dojos" ng-init="init()">
-    <div class="dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in dojos | orderBy: ORDER_BY[$storage.view.orderBy] | filter: dojoFilter | limitTo : $storage.view.limitTo">
+    <div class="dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in dojos | orderBy: $storage.view.orderBy | filter: dojoFilter | limitTo : $storage.view.limitTo">
       <a ng-if="dojo.defense.length > 0"
         ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
         href="{{ $storage.dojoLinkUrl }}{{ dojo.id }}"
-        target="{{ $storage.dojoLinkTarget }}"><span class="detail">{{$index + 1}}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
+        target="{{ $storage.dojoLinkTarget }}"><span class="detail">{{ dojo[$storage.view.orderBy] }}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
       <a ng-if="dojo.defense == null || dojo.defense.length <= 0"
         ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
         href="{{ $storage.dojoLinkUrl }}{{ dojo.id }}"
-        target="{{ $storage.dojoLinkTarget }}">{{$index + 1}}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</a>
+        target="{{ $storage.dojoLinkTarget }}">{{ dojo[$storage.view.orderBy] }}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</a>
       <button ng-click="onClickHideDojo(dojo)" type="button" class="btn hide-dojo"><i class="fa fa-remove"></i></button>
     </div>
   </section>

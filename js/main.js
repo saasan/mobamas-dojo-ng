@@ -126,11 +126,6 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
   // ランク表示用文字列
   $scope.RANK = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'S3', 'S4', 'S5' ];
-  // ソート順用データ
-  $scope.ORDER_BY = [
-    ['-rank', '-lv'],
-    ['-lv', '-rank']
-  ];
 
   // 道場のCSSクラス
   $scope.dojoClass = function(dojo) {
