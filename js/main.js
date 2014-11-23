@@ -49,8 +49,8 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
     // 最後に訪問した道場
     if (oldSettings.lastVisited) {
-      // 旧設定の最後に訪問した道場は値の先頭に"id"が付いているので削除する
-      newSettings.lastVisited = oldSettings.lastVisited.replace(/^id/, '');
+      // 旧設定の最後に訪問した道場は値の先頭に"id"が付いているので削除し数値化する
+      newSettings.lastVisited = parseInt(oldSettings.lastVisited.replace(/^id/, ''), 10);
     }
 
     // visitedMax回以上訪問した時、道場を訪問済とする
