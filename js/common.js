@@ -59,10 +59,10 @@ mobamasDojo.constant('defaultSettings', {
   // 「ようこそ」を表示する
   showWelcomeMessage: true,
   // 誕生日を表示する
-  showBirthday: true,
+  showBirthday: false,
 
   // モバマスのメニューを表示する
-  showMobamasMenu: true,
+  showMobamasMenu: false,
   showMobamasMenuItem: {
     myPage: true,           // ﾏｲｽﾀｼﾞｵ
     petitCg: false,         // ぷちﾃﾞﾚﾗ
