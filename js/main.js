@@ -6,8 +6,11 @@ mobamasDojo.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
-mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'defaultSettings', 'showToast', function($rootScope, $scope, $http, $localStorage, defaultSettings, showToast) {
+mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'defaultSettings', '_showToast', function($rootScope, $scope, $http, $localStorage, defaultSettings, _showToast) {
   'use strict';
+
+  // bindで_showToastの第1引数に$rootScopeを付けておく
+  var showToast = _showToast.bind(null, $rootScope);
 
   /** 道場をリセットする時間 */
   var RESET = {
@@ -201,7 +204,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     // アクセス日時を保存
     $scope.$storage.lastTime = now;
 
-    showToast($rootScope, '道場データ読み込み中...');
+    showToast('道場データ読み込み中...');
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(function(data) {
         // 最終更新日時
@@ -209,10 +212,10 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
         // 道場リスト
         $scope.dojos = data.dojos;
 
-        showToast($rootScope, '道場データ読み込み完了！');
+        showToast('道場データ読み込み完了！');
       }).
       error(function() {
-        showToast($rootScope, 'エラー: 道場データを取得できませんでした。', 'error', 0);
+        showToast('エラー: 道場データを取得できませんでした。', 'error', 0);
       });
   };
 
@@ -235,7 +238,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     };
 
     var undo = generateUndo(dojo.id, $scope.$storage.visited[dojo.id], $scope.$storage.lastVisited);
-    showToast($rootScope, '元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の訪問', '', 10000, undo);
+    showToast('元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の訪問', '', 10000, undo);
 
     // 訪問回数のインクリメント
     if ($scope.$storage.visited[dojo.id]) {
@@ -266,7 +269,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     };
 
     var undo = generateUndo(dojo.id, $scope.$storage.hidden[dojo.id]);
-    showToast($rootScope, '元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の非表示', '', 10000, undo);
+    showToast('元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の非表示', '', 10000, undo);
 
     // 非表示に設定
     $scope.$storage.hidden[dojo.id] = true;

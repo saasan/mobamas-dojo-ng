@@ -1,8 +1,10 @@
 /* global mobamasDojo */
 
-mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window', '$localStorage', 'defaultSettings', 'showToast',
-                                              function($rootScope, $scope, $window, $localStorage, defaultSettings, showToast) {
+mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window', '$localStorage', 'defaultSettings', '_showToast', function($rootScope, $scope, $window, $localStorage, defaultSettings, _showToast) {
   'use strict';
+
+  // bindで_showToastの第1引数に$rootScopeを付けておく
+  var showToast = _showToast.bind(null, $rootScope);
 
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
@@ -12,24 +14,24 @@ mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window',
   $scope.resetVisited = function() {
     $scope.$storage.visited = {};
     $scope.$storage.lastVisited = null;
-    showToast($rootScope, '訪問回数を初期化しました。');
+    showToast('訪問回数を初期化しました。');
   };
 
   $scope.resetHiddenDojos = function() {
     $scope.$storage.hidden = {};
-    showToast($rootScope, '道場の非表示設定を初期化しました。');
+    showToast('道場の非表示設定を初期化しました。');
   };
 
   $scope.resetAll = function() {
     $scope.$storage.$reset(defaultSettings);
-    showToast($rootScope, '全ての設定を初期化しました。');
+    showToast('全ての設定を初期化しました。');
   };
 
   $scope.inputData = function() {
     var json = $scope.dataOutput;
 
     if (json.length === 0) {
-      showToast($rootScope, 'データが入力されていません。', 'error');
+      showToast('データが入力されていません。', 'error');
       return;
     }
 
@@ -46,13 +48,13 @@ mobamasDojo.controller('SettingsController', ['$rootScope', '$scope', '$window',
       newSettings = angular.fromJson(json);
     }
     catch (e) {
-      showToast($rootScope, e.message, 'error', 0);
+      showToast(e.message, 'error', 0);
       return;
     }
 
     // 設定に反映
     $scope.$storage.$reset(newSettings);
 
-    showToast($rootScope, 'データを入力しました。');
+    showToast('データを入力しました。');
   };
 }]);
