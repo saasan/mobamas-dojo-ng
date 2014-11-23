@@ -63,6 +63,16 @@ gulp.task('watch', function() {
   gulp.watch('js/*.js', ['js']);
 });
 
+gulp.task('help', function() {
+  var tasks = Object.keys(gulp.tasks).sort();
+
+  console.log('');
+  tasks.forEach(function(name) {
+    console.log('  ' + name);
+  });
+  console.log('');
+});
+
 gulp.task('compile', ['clean', 'sass','js']);
 gulp.task('release', ['clean', 'sass-release', 'js-release']);
 gulp.task('default', ['compile']);
