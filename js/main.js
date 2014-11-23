@@ -211,8 +211,8 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
         showToast($rootScope, '道場データ読み込み完了！');
       }).
-      error(function(data, status) {
-        showToast($rootScope, 'エラー！ ステータスコード: ' + status + ' データ: ' + (data || '(無し)'), 'error', 0);
+      error(function() {
+        showToast($rootScope, 'エラー: 道場データを取得できませんでした。', 'error', 0);
       });
   };
 
