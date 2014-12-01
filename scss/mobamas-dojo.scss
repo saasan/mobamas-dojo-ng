@@ -244,6 +244,7 @@ img {
 
 #viewSettings {
   border: $default-border-width solid $default-border-color;
+  overflow: hidden;
 
   h3 {
     cursor: pointer;
@@ -255,8 +256,43 @@ img {
     vertical-align: middle;
   }
 
-  & > section {
-    margin: $default-margin * 2;
+  .form {
+    margin: 0;
+    /* アニメーション用 */
+    max-height: 30em;
+    /* アニメーション用。ページロード時に一瞬アニメーションするのを防ぐ。 */
+    display: none;
+
+    section {
+      margin: 0;
+      /* marginではなくpaddingで間隔を取らないと#viewSettingsが最後まで閉じなくなる */
+      padding: 0 0 ($default-margin * 2) ($default-margin * 2);
+
+      &:first-child {
+        padding-top: $default-margin * 2;
+      }
+    }
+  }
+}
+
+/* #viewSettingsのアニメーション用。AngularJS実行後のみ以下が適用される。 */
+.ng-scope {
+  #viewSettings {
+    .form {
+      display: block;
+      transform-origin: center top;
+      transform: scaleY(1);
+      opacity: 1;
+      transition: all 0.3s ease;
+    }
+
+    .form.ng-hide {
+      max-height: 0;
+      display: block !important;
+      transform: scaleY(0);
+      opacity: 0.3;
+      transition: all 0.3s ease;
+    }
   }
 }
 
