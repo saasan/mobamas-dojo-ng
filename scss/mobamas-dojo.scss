@@ -280,11 +280,13 @@ img {
   #viewSettings {
     .form {
       display: block;
+      opacity: 1;
       transition: all 0.3s ease;
     }
 
     .form.ng-hide {
       max-height: 0;
+      opacity: 0.3;
       display: block !important;
       transition: all 0.3s ease;
     }
