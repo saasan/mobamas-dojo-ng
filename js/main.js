@@ -260,7 +260,15 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     $scope.$storage.lastTime = now;
 
     showToast('道場データ読み込み中...');
-    $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
+
+    var url = 'http://mobamas-dojo-server.herokuapp.com/dojos';
+
+    if (location.hostname === 'localhost') {
+      // デバッグ時に使用するURL
+      url = 'http://localhost:4000/dojos';
+    }
+
+    $http.get(url).
       success(getDataSuccess).
       error(function() {
         getDataFromWebServer();
