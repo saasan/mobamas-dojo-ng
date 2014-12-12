@@ -193,7 +193,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
         // 道場リスト
         $scope.dojos = data.dojos;
 
-        showToast('エラー: 道場データを取得できませんでした。' + data.lastUpdate + '時点の道場リストを使用します。', 'error', 0);
+        showToast('エラー: 道場データを取得できませんでした。' + data.lastUpdate + '時点の道場データを使用します。', 'error', 0);
       }).
       error(function() {
         showToast('エラー: 道場データを取得できませんでした。', 'error', 0);
@@ -234,7 +234,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
         var dataCache = angular.fromJson(json);
         setData(dataCache);
 
-        showToast('エラー: サーバーから取得した道場データに道場が1件もありませんでした。' + dataCache.lastUpdate + '時点の道場リストを使用します。', 'error', 0);
+        showToast('エラー: サーバーから取得した道場データに道場が1件もありませんでした。' + dataCache.lastUpdate + '時点の道場データを使用します。', 'error', 0);
       }
       else {
         getDataFromWebServer();
