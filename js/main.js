@@ -223,7 +223,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
       setData(data);
 
       // 道場データのキャッシュを保存
-      window.localStorage.setItem(cacheKey, angular.toJson(data.dojos));
+      window.localStorage.setItem(cacheKey, angular.toJson(data));
 
       showToast('道場データ読み込み完了！');
     }
