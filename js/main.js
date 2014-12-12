@@ -183,6 +183,24 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   };
 
   /**
+   * Webサーバーからデータを取得する
+   */
+  var getDataFromWebServer = function() {
+    $http.get('dojos.json').
+      success(function(data) {
+        // 最終更新日時
+        $scope.lastUpdate = data.lastUpdate;
+        // 道場リスト
+        $scope.dojos = data.dojos;
+
+        showToast('エラー: 道場データを取得できませんでした。' + data.lastUpdate + '時点の道場リストを使用します。', 'error', 0);
+      }).
+      error(function() {
+        showToast('エラー: 道場データを取得できませんでした。', 'error', 0);
+      });
+  };
+
+  /**
    * サーバーから取得したデータを$scopeに反映する
    * @param {object} data サーバーから取得したデータ
    */
@@ -218,6 +236,9 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
         showToast('エラー: サーバーから取得した道場データに道場が1件もありませんでした。' + dataCache.lastUpdate + '時点の道場リストを使用します。', 'error', 0);
       }
+      else {
+        getDataFromWebServer();
+      }
     }
   };
 
@@ -242,7 +263,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
       success(getDataSuccess).
       error(function() {
-        showToast('エラー: 道場データを取得できませんでした。', 'error', 0);
+        getDataFromWebServer();
       });
   };
 
