@@ -182,6 +182,45 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     return rank && level && defense;
   };
 
+  /**
+   * サーバーから取得したデータを$scopeに反映する
+   * @param {object} data サーバーから取得したデータ
+   */
+  var setData = function(data) {
+    // 最終更新日時
+    $scope.lastUpdate = data.lastUpdate;
+    // 道場リスト
+    $scope.dojos = data.dojos;
+  };
+
+  /**
+   * データ取得正常終了時の処理
+   * @param {object} data サーバーから取得したデータ
+   */
+  var getDataSuccess = function(data) {
+    var cacheKey = 'dataCache';
+
+    // 道場データが含まれているか確認
+    if (data.dojos && data.dojos.length > 0) {
+      setData(data);
+
+      // 道場データのキャッシュを保存
+      window.localStorage.setItem(cacheKey, angular.toJson(data.dojos));
+
+      showToast('道場データ読み込み完了！');
+    }
+    else {
+      // キャッシュがあるか確認
+      var json = window.localStorage.getItem(cacheKey);
+      if (json) {
+        var dataCache = angular.fromJson(json);
+        setData(dataCache);
+
+        showToast('エラー: サーバーから取得した道場データに道場が1件もありませんでした。' + dataCache.lastUpdate + '時点の道場リストを使用します。', 'error', 0);
+      }
+    }
+  };
+
   // 初期化
   $scope.init = function() {
     updateBirthday();
@@ -201,14 +240,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
     showToast('道場データ読み込み中...');
     $http.get('http://mobamas-dojo-server.herokuapp.com/dojos').
-      success(function(data) {
-        // 最終更新日時
-        $scope.lastUpdate = data.lastUpdate;
-        // 道場リスト
-        $scope.dojos = data.dojos;
-
-        showToast('道場データ読み込み完了！');
-      }).
+      success(getDataSuccess).
       error(function() {
         showToast('エラー: 道場データを取得できませんでした。', 'error', 0);
       });
