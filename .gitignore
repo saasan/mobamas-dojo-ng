@@ -2,3 +2,4 @@ bower_components/
 node_modules/
 css/
 js/mobamas-dojo.min.js
+dojos.json
