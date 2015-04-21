@@ -317,7 +317,7 @@ img {
     margin-top: $default-margin;
     padding: 0;
     width: 100%;
-    height: 40px;
+    min-height: 40px;
     text-align: left;
     font-weight: bold;
     color: $primary-color;
@@ -325,12 +325,9 @@ img {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 
     .dojo-link {
-      position: absolute;
-      left: 0;
-      right: 40px;
+      display: block;
       padding: 4px 12px;
       overflow: hidden;
-      white-space: nowrap;
       color: inherit;
 
       .detail {
@@ -342,7 +339,7 @@ img {
         display: inline-block;
         position: absolute;
         bottom: -4px;
-        right: 0;
+        right: 40px;
         font-size: 200%;
         font-style: italic;
         color: rgba(255, 255, 255, 0.3);
@@ -360,6 +357,7 @@ img {
       border-width: 0;
       color: inherit;
       background-color: transparent;
+      z-index: 2;
     }
 
     &.success {

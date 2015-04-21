@@ -15,6 +15,9 @@ var paths = {
   js: {
     src: [
       'bower_components/ngstorage/ngStorage.min.js',
+      'bower_components/moment/min/moment.min.js',
+      'bower_components/moment/locale/ja.js',
+      'bower_components/angular-moment/angular-moment.min.js',
       'js/birthday.js',
       'js/common.js',
       'js/toast.js',

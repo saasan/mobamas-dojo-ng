@@ -1,4 +1,4 @@
-var mobamasDojo = angular.module('mobamasDojo', ['ngStorage']);
+var mobamasDojo = angular.module('mobamasDojo', ['ngStorage', 'angularMoment']);
 
 mobamasDojo.constant('defaultSettings', {
   // 訪問回数
@@ -47,6 +47,9 @@ mobamasDojo.constant('defaultSettings', {
       max: -1
     }
   },
+
+  // コメントと最終更新日を表示する
+  extendedView: true,
 
   /**********************************************
    * その他の設定

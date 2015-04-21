@@ -2,6 +2,7 @@
   "name": "mobamasDojoNG",
   "version": "1.0.0",
   "dependencies": {
-    "ngstorage": "~0.3.0"
+    "ngstorage": "~0.3.0",
+    "angular-moment": "~0.10.0"
   }
 }
