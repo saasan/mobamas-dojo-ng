@@ -313,20 +313,25 @@ img {
 
 #dojos {
   .dojo {
-    @include clearfix;
-
     position: relative;
     margin-top: $default-margin;
+    padding: 0;
     width: 100%;
+    height: 40px;
+    text-align: left;
+    font-weight: bold;
+    color: $primary-color;
+    background-color: $primary-bg;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 
     .dojo-link {
       position: absolute;
       left: 0;
       right: 40px;
-      text-align: left;
-      font-weight: bold;
+      padding: 4px 12px;
       overflow: hidden;
       white-space: nowrap;
+      color: inherit;
 
       .detail {
         position: relative;
@@ -340,40 +345,39 @@ img {
         right: 0;
         font-size: 200%;
         font-style: italic;
-        color: rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.3);
         text-shadow: none;
       }
     }
 
     .hide-dojo {
-      width: 40px;
-      padding: 4px 0px;
-      float: right;
+      display: block;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      height: 38px;
+      width: 38px;
+      border-width: 0;
+      color: inherit;
+      background-color: transparent;
     }
 
-    .btn {
-      color: $primary-color;
-      background-color: $primary-bg;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    }
-
-    &.success .btn {
+    &.success {
       color: $success-color;
       background-color: $success-bg;
     }
 
-    &.warning .btn {
+    &.warning {
       color: $warning-color;
       background-color: $warning-bg;
     }
 
-    &.error .btn {
+    &.error {
       color: $error-color;
       background-color: $error-bg;
     }
   }
 }
-
 #about {
   line-height: 1.5em;
 

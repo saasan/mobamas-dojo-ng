@@ -297,16 +297,11 @@
   </section>
 
   <section id="dojos" ng-init="init()">
-    <div class="dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in dojos | orderBy: $storage.view.orderBy | filter: dojoFilter | limitTo : $storage.view.limitTo">
-      <a ng-if="dojo.defense.length > 0"
-        ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
+    <div class="btn block dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in dojos | orderBy: $storage.view.orderBy | filter: dojoFilter | limitTo : $storage.view.limitTo">
+      <a ng-click="onClickDojoLink(dojo)" class="dojo-link"
         href="{{ $storage.dojoLinkUrl }}{{ dojo.id }}"
         target="{{ $storage.dojoLinkTarget }}"><span class="detail">{{ dojo[$storage.view.orderBy] }}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</span><span class="defense">{{ dojo.defense }}</span></a>
-      <a ng-if="dojo.defense == null || dojo.defense.length <= 0"
-        ng-click="onClickDojoLink(dojo)" class="btn dojo-link"
-        href="{{ $storage.dojoLinkUrl }}{{ dojo.id }}"
-        target="{{ $storage.dojoLinkTarget }}">{{ dojo[$storage.view.orderBy] }}. {{ dojo.lv }} {{ RANK[dojo.rank] }} {{ dojo.leader }}</a>
-      <button ng-click="onClickHideDojo(dojo)" type="button" class="btn hide-dojo"><i class="fa fa-remove"></i></button>
+      <button ng-click="onClickHideDojo(dojo)" type="button" class="hide-dojo"><i class="fa fa-remove"></i></button>
     </div>
   </section>
 
