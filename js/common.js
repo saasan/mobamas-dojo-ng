@@ -1,5 +1,53 @@
-var mobamasDojo = angular.module('mobamasDojo', ['ngStorage', 'angularMoment']);
+var mobamasDojo = angular.module('mobamasDojo', ['ngStorage', 'angularMoment', 'ngSanitize']);
 
+// 道場のソート順
+var DOJOS_ORDER_BY = {
+  RANK: 0,
+  LV: 1
+};
+
+// アプリケーションの設定
+mobamasDojo.constant('config', {
+  // ランク表示用文字列
+  rank: {
+    '0': 'F',
+    '1': 'E',
+    '2': 'D',
+    '3': 'C',
+    '4': 'B',
+    '5': 'A',
+    '6': 'S',
+    '7': 'SS',
+    '8': 'S3',
+    '9': 'S4',
+    '10': 'S5',
+    F: 0,
+    E: 1,
+    D: 2,
+    C: 3,
+    B: 4,
+    A: 5,
+    S: 6,
+    SS: 7,
+    S3: 8,
+    S4: 9,
+    S5: 10
+  },
+  url: 'http://dojo.sekai.in/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
+  reset: {
+    hour: 5,
+    minute: 0
+  },
+  development: {
+    url: 'http://dojo.sekai.in/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
+    reset: {
+      hour: 5,
+      minute: 0
+    }
+  }
+});
+
+// localStorageに保存するユーザー別設定のデフォルト値
 mobamasDojo.constant('defaultSettings', {
   // 訪問回数
   visited: {},
@@ -30,7 +78,7 @@ mobamasDojo.constant('defaultSettings', {
     // 一度に表示する道場数
     limitTo: 10,
     // 表示順
-    orderBy: 'rankNo',
+    orderBy: DOJOS_ORDER_BY.RANK,
     // ランク
     rankRange: {
       min: 0,

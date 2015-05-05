@@ -1,28 +1,22 @@
 /* global Birthday, mobamasDojo */
 
-// リクエストヘッダーにX-Requested-Withを付ける
-mobamasDojo.config(['$httpProvider', function($httpProvider) {
-  'use strict';
-  $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-}]);
-
-mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'defaultSettings', '_showToast', function($rootScope, $scope, $http, $localStorage, defaultSettings, _showToast) {
+mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'config', 'defaultSettings', '_showToast', function($rootScope, $scope, $http, $localStorage, config, defaultSettings, _showToast) {
   'use strict';
 
   // bindで_showToastの第1引数に$rootScopeを付けておく
   var showToast = _showToast.bind(null, $rootScope);
 
   /** 道場をリセットする時間 */
-  var RESET = {
-    HOUR: 5,
-    MINUTE: 0
-  };
+  var RESET = config.reset;
+  if (location.hostname === 'localhost') {
+    RESET = config.development.reset;
+  }
 
   /**
-   * 旧設定をインポートする
-   * @return {object} 旧設定があればそれをdefaultSettingsに上書きしたオブジェクト、なければdefaultSettings
+   * ver1.xの設定をインポートする
+   * @return {object} ver1.xの設定があればそれをdefaultSettingsに上書きしたオブジェクト、なければdefaultSettings
    */
-  var importOldSettings = function() {
+  var importVersion1Settings = function() {
     var oldKey = 'mobamas-dojo_config';
     var newSettings = angular.copy(defaultSettings);
     var oldSettingsJson = window.localStorage.getItem(oldKey);
@@ -73,8 +67,24 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     return newSettings;
   };
 
+  /**
+   * ver2.xの設定を3.x用にアップグレードする
+   */
+  var upgradeVersion2Settings = function(settings) {
+    // 表示順を文字列から数値へ変換
+    var rank = {
+      rankNo: 0,
+      lvNo: 1
+    };
+
+    if (typeof settings.orderBy === 'string') {
+      settings.orderBy = rank[settings.orderBy];
+    }
+  }
+
   // ストレージから設定を読み込む
-  $scope.$storage = $localStorage.$default(importOldSettings());
+  $scope.$storage = $localStorage.$default(importVersion1Settings());
+  upgradeVersion2Settings($scope.$storage);
 
   /**
    * 誕生日を更新する
@@ -125,7 +135,12 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   };
 
   // ランク表示用文字列
-  $scope.RANK = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'S3', 'S4', 'S5' ];
+  $scope.RANK = config.rank;
+  // ソート順用データ
+  $scope.ORDER_BY = [
+    ['-rank', '-lv'],
+    ['-lv', '-rank']
+  ];
 
   // 道場のCSSクラス
   $scope.dojoClass = function(dojo) {
@@ -183,21 +198,78 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   };
 
   /**
-   * Webサーバーからデータを取得する
+   * recordから道場のデータを作成する
+   * @param record DojoList APIのrecord
+   * @returns 道場のデータ
    */
-  var getDataFromWebServer = function() {
-    $http.get('dojos.json').
-      success(function(data) {
-        // 最終更新日時
-        $scope.lastUpdate = data.lastUpdate;
-        // 道場リスト
-        $scope.dojos = data.dojos;
+  var createDojo = function(record) {
+    var rank, rankString, unit, lastUpdate;
+    // 文字列の長さが0以上なら追加する物
+    var checkLength = {
+      leader: 'Ldr',
+      comment: 'Comm'
+    };
 
-        showToast('エラー: 道場データを取得できませんでした。' + data.lastUpdate + '時点の道場データを使用します。', 'error', 0);
-      }).
-      error(function() {
-        showToast('エラー: 道場データを取得できませんでした。', 'error', 0);
-      });
+    // 休業、発揮値を強調する
+    var em = function(value) {
+      var newValue = value;
+
+      newValue = newValue.replace(/((作業|休業|休止|お休み|休み)中?)/g, '<em>$1</em>');
+      newValue = newValue.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)(?!(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|コス|ｺｽ|名|%|％|st|nd|rd|th))/g, '<em>$1</em>');
+      // 上の置換で文字実体参照まで置換されるので元に戻す
+      newValue = newValue.replace(/&#<em>(\d+)<\/em>;/g, '&#$1;');
+      newValue = newValue.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ|\w)<em>([\d０-９]+)<\/em>/g, '$1$2');
+
+      return newValue;
+    };
+
+    var dojo = {
+      lv : record.Prof.Lv || record.Data.Lv,
+      id : record.Prof.ID || record.Data.ID
+    };
+
+    // ランクを文字列から数値へ置換
+    rankString = record.Prof.Rank || record.Data.Rank;
+    rank = config.rank[rankString];
+    if (rank != null) {
+      dojo.rank = rank;
+    }
+
+    // 文字列の長さが0以上なら追加
+    Object.keys(checkLength).forEach(function(key) {
+      var value = record.Prof[checkLength[key]] || record.Data[checkLength[key]];
+      if (value.length > 0) {
+        if (key === 'comment') {
+          value = em(value);
+        }
+        dojo[key] = value;
+      }
+    });
+
+    // ユニット名が無ければ元データのリーダー
+    unit = record.Prof.Unit || record.Data.Ldr;
+    if (unit != null) {
+      unit = em(unit);
+      dojo.unit = unit;
+    }
+
+    if (record.Prof.Def == null || record.Prof.Def === -1) {
+      // 実際のプロフィール情報に守発揮値がなければ元データの値を使用する
+      dojo.defense = record.Data.Def;
+    }
+    else {
+      // 実際のプロフィール情報に守発揮値があればそれを守発揮値と最小守発揮値に設定
+      dojo.defense = record.Prof.Def;
+      dojo.minDefense = record.Prof.Def;
+    }
+
+    // 最終更新日時
+    lastUpdate = record.Prof.Upd || record.Data.Upd;
+    if (lastUpdate != null) {
+      dojo.lastUpdate = lastUpdate;
+    }
+
+    return dojo;
   };
 
   /**
@@ -205,10 +277,14 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
    * @param {object} data サーバーから取得したデータ
    */
   var setData = function(data) {
-    // 最終更新日時
-    $scope.lastUpdate = data.lastUpdate;
-    // 道場リスト
-    $scope.dojos = data.dojos;
+    var i, records = data.data.records;
+    var dojos = [];
+
+    for (i = 0; i < records.length; i++) {
+      dojos.push(createDojo(records[i]));
+    }
+
+    $scope.dojos = dojos;
   };
 
   /**
@@ -218,8 +294,8 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   var getDataSuccess = function(data) {
     var cacheKey = 'dataCache';
 
-    // 道場データが含まれているか確認
-    if (data.dojos && data.dojos.length > 0) {
+    // 道場データが取得できたか確認
+    if (data.result && data.data.records.length > 0) {
       setData(data);
 
       // 道場データのキャッシュを保存
@@ -236,9 +312,6 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
         showToast('エラー: サーバーから取得した道場データに道場が1件もありませんでした。' + dataCache.lastUpdate + '時点の道場データを使用します。', 'error', 0);
       }
-      else {
-        getDataFromWebServer();
-      }
     }
   };
 
@@ -246,7 +319,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   $scope.init = function() {
     updateBirthday();
 
-    // 現在の日時
+    // 現在の日時のミリ秒
     var now = Date.now();
     // 訪問回数のリセットが必要か
     var needReset = betweenRange(getResetTime(), $scope.$storage.lastTime, now);
@@ -261,18 +334,14 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
     showToast('道場データ読み込み中...');
 
-    var url = 'http://mobamas-dojo-server.herokuapp.com/dojos';
-
+    var url = config.url;
     if (location.hostname === 'localhost') {
       // デバッグ時に使用するURL
-      url = 'http://localhost:4000/dojos';
+      url = config.development.url;
     }
 
     $http.get(url).
-      success(getDataSuccess).
-      error(function() {
-        getDataFromWebServer();
-      });
+      success(getDataSuccess);
   };
 
   // 道場のリンククリック時の処理
@@ -294,7 +363,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     };
 
     var undo = generateUndo(dojo.id, $scope.$storage.visited[dojo.id], $scope.$storage.lastVisited);
-    showToast('元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の訪問', '', 10000, undo);
+    showToast('元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の訪問', '', 10000, undo);
 
     // 訪問回数のインクリメント
     if ($scope.$storage.visited[dojo.id]) {
@@ -325,7 +394,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     };
 
     var undo = generateUndo(dojo.id, $scope.$storage.hidden[dojo.id]);
-    showToast('元に戻す: 「' + dojo.lv + ' ' + $scope.RANK[dojo.rank] + ' ' + dojo.leader + '」の非表示', '', 10000, undo);
+    showToast('元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の非表示', '', 10000, undo);
 
     // 非表示に設定
     $scope.$storage.hidden[dojo.id] = true;
