@@ -249,8 +249,10 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     // ユニット名が無ければ元データのリーダー
     unit = record.Prof.Unit || record.Data.Ldr;
     if (unit != null) {
-      unit = em(unit);
+      // 元のユニット名
       dojo.unit = unit;
+      // 強調したユニット名
+      dojo.htmlUnit = em(unit);
     }
 
     if (record.Prof.Def == null || record.Prof.Def === -1) {

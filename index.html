@@ -111,7 +111,7 @@
 
   <section id="toast" class="info {{ class }}" ng-controller="ToastController" ng-show="message">
     <button type="button" class="close" ng-click="close()"><i class="fa fa-close"></i></button>
-    <div ng-class="{ undo: callback }" ng-click="onclick()">{{ message }}</div>
+    <div ng-class="{ undo: callback }" ng-click="onclick()" ng-bind-html="message"></div>
   </section>
 
   <section id="mobamasMenu" ng-show="$storage.showMobamasMenu">
@@ -306,7 +306,7 @@
     <div class="btn block dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in dojos | orderBy: ORDER_BY[$storage.view.orderBy] | filter: dojoFilter | limitTo : $storage.view.limitTo">
       <a ng-click="onClickDojoLink(dojo)" class="dojo-link"
          href="{{ $storage.dojoLinkUrl }}{{ dojo.id }}"
-         target="{{ $storage.dojoLinkTarget }}"><span class="detail">{{ dojo.lv }} {{ RANK[dojo.rank] }} <span class="unit" ng-bind-html="dojo.unit"></span></span><span class="defense">{{ dojo.defense }}</span>
+         target="{{ $storage.dojoLinkTarget }}"><span class="detail">{{ dojo.lv }} {{ RANK[dojo.rank] }} <span class="unit" ng-bind-html="dojo.htmlUnit"></span></span><span class="defense">{{ dojo.defense }}</span>
         <div class="extraInfo" ng-show="$storage.extendedView">
           <div>ﾘｰﾀﾞｰ：<span ng-bind-html="dojo.leader"></span></div>
           <div>ｺﾒﾝﾄ：<span ng-bind-html="dojo.comment"></span></div>
