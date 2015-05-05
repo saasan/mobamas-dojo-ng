@@ -335,7 +335,7 @@ img {
         z-index: 1;
       }
 
-      .defense {
+      span.defense {
         display: inline-block;
         position: absolute;
         bottom: -4px;
@@ -352,7 +352,6 @@ img {
       }
 
       em {
-        color: #FFF;
         font-style: normal;
       }
     }
@@ -388,7 +387,7 @@ img {
 }
 
 .extendedView {
-  .defense {
+  span.defense {
     right: 5px !important;
     color: #FFF !important;
   }
@@ -398,12 +397,23 @@ img {
 .emphasizedView {
   em {
     display: inline-block;
+    margin: 0 3px;
     padding: 3px 0.5em;
 
     line-height: normal;
-    color: white;
-    background-color: darkorange;
     border-radius: 3px;
+
+    /* 作業中 */
+    &.paused {
+      color: white;
+      background-color: red;
+    }
+
+    /* 発揮値 */
+    &.defenseValue {
+      color: white;
+      background-color: darkorange;
+    }
   }
 }
 
