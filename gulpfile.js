@@ -8,9 +8,17 @@ var concat = require('gulp-concat');
 var autoprefixer = require('gulp-autoprefixer');
 
 var paths = {
+  files: [
+    'img/*',
+    'about.html',
+    'index.html',
+    'lv.html',
+    'settings.html'
+  ],
+  out: 'release/',
   scss: {
     src: 'scss/*.scss',
-    dest: 'css/'
+    dest: 'release/css/'
   },
   js: {
     src: [
@@ -26,16 +34,20 @@ var paths = {
       'js/settings.js',
       'js/main.js'
     ],
-    dest: 'js/',
+    dest: 'release/js/',
     filename: 'mobamas-dojo.min.js'
   },
   clean: [
-    'css/*',
-    'js/mobamas-dojo.min.js'
+    'release/*'
   ]
 };
 
 gulp.task('clean', del.sync.bind(null, paths.clean, { dot: true }));
+
+gulp.task('copy', function() {
+  gulp.src(paths.files, { base: './' })
+    .pipe(gulp.dest(paths.out));
+});
 
 gulp.task('sass', function () {
   gulp.src(paths.scss.src)
@@ -78,6 +90,6 @@ gulp.task('help', function() {
   console.log('');
 });
 
-gulp.task('compile', ['clean', 'sass','js']);
-gulp.task('release', ['clean', 'sass-release', 'js-release']);
+gulp.task('compile', ['clean', 'copy', 'sass','js']);
+gulp.task('release', ['clean', 'copy', 'sass-release', 'js-release']);
 gulp.task('default', ['compile']);
