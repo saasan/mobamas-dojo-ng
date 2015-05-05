@@ -216,8 +216,11 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
       newValue = newValue.replace(/((作業|休業|休止|お休み|休み)中?)/g, '<em>$1</em>');
       newValue = newValue.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)(?!(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|コス|ｺｽ|名|%|％|st|nd|rd|th))/g, '<em>$1</em>');
-      // 上の置換で文字実体参照まで置換されるので元に戻す
+
+      // 上の置換で無関係な数値まで置換されるので元に戻す
+      // 文字実体参照
       newValue = newValue.replace(/&#<em>(\d+)<\/em>;/g, '&#$1;');
+      // レベルとか
       newValue = newValue.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ|\w)<em>([\d０-９]+)<\/em>/g, '$1$2');
 
       return newValue;

@@ -96,7 +96,7 @@ mobamasDojo.constant('defaultSettings', {
     }
   },
 
-  // コメントと最終更新日を表示する
+  // リーダー等を表示する
   extendedView: true,
 
   /**********************************************
