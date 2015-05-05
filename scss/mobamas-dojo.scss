@@ -336,7 +336,7 @@ img {
       }
 
       .unit, .extraInfo {
-        color: rgba(255, 255, 255, 0.5);
+        color: #FFF;
       }
 
       .defense {
@@ -357,8 +357,8 @@ img {
 
       em {
         color: #FFF;
-        font-size: 150%;
-        font-weight: bold;
+        font-size: 100%;
+        font-style: normal;
       }
     }
 
@@ -396,6 +396,18 @@ img {
   .defense {
     right: 5px !important;
     color: #FFF !important;
+  }
+}
+
+/* 作業中や発揮値っぽい物を強調する */
+.emphasizedView {
+  .unit, .extraInfo {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  em {
+    font-size: 150% !important;
+    font-style: italic !important;
   }
 }
 
