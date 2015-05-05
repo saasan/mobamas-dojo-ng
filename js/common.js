@@ -146,7 +146,10 @@ mobamasDojo.constant('defaultSettings', {
     personalOption: false,  // 設定
     advise: false,          // ﾍﾙﾌﾟ
     top: false              // ﾄｯﾌﾟ
-  }
+  },
+
+  // 「元に戻す」を消す時間
+  undoTimeout: 0
 });
 
 mobamasDojo.constant('_showToast', function($rootScope, message, classString, timeout, callback) {
