@@ -80,7 +80,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     if (typeof settings.orderBy === 'string') {
       settings.orderBy = rank[settings.orderBy];
     }
-  }
+  };
 
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(importVersion1Settings());
@@ -198,35 +198,81 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   };
 
   /**
+   * 全角を半角に変換
+   * @param {string} str 全角を含む文字列
+   * @returns {string} 半角化した文字列
+   */
+  var fullToHalf = function(str) {
+    var delta = '０'.charCodeAt(0) - '0'.charCodeAt(0);
+    return str.replace(/[０-９ａ-ｚＡ-Ｚ]/g, function(c) {
+      return String.fromCharCode(c.charCodeAt(0) - delta);
+    });
+  };
+
+  /**
+   * 守発揮値の文字列から、最低守発揮値を数値として取り出す
+   * @param {string} defence CSVから取り出した守発揮値の文字列
+   * @returns {number} 最低守発揮値。数字が無い場合はnullを返す。
+   */
+  var getMinDefence = function(defence) {
+    // 一番左にある数値がおそらく最低守発揮値
+    var re = /^[^0-9０-９]*([0-9０-９.]+)/;
+
+    // 数字が無い場合は0を返す
+    if (defence == null || !re.test(defence)) {
+      return null;
+    }
+
+    // 数字部分を取り出して半角に変換する
+    var minDefenceString = defence.replace(re, '$1');
+    minDefenceString = fullToHalf(minDefenceString);
+
+    // 数値化
+    var minDefence = parseFloat(minDefenceString);
+
+    // 数が小さい場合は「5k」等の表記と思われるので1000倍する
+    if (minDefence < 100) {
+      minDefence *= 1000;
+    }
+
+    // 小数点以下を切り捨てて返す
+    return Math.floor(minDefence);
+  };
+
+  /**
+   * 休業、発揮値を強調する
+   * @param value 強調したい文字列
+   * @returns 強調した文字列
+   */
+  var em = function(value) {
+    var newValue = value;
+
+    // 休業を強調
+    newValue = newValue.replace(/((作業|休業|休止|お休み|休み)中?)/g, '<em class="paused">$1</em>');
+    // 発揮値を強調
+    newValue = newValue.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)/g, '<em class="defenseValue">$1</em>');
+
+    // 上の置換で無関係な数値まで置換されるので元に戻す
+    // 文字実体参照
+    newValue = newValue.replace(/&#<em class="defenseValue">(\d+)<\/em>;/g, '&#$1;');
+    // レベルとか
+    newValue = newValue.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ|\w)<em class="defenseValue">([\d０-９]+)<\/em>/g, '$1$2');
+    newValue = newValue.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|コス|ｺｽ|名|%|％|st|nd|rd|th)/g, '$1$2');
+
+    return newValue;
+  };
+
+  /**
    * recordから道場のデータを作成する
    * @param record DojoList APIのrecord
    * @returns 道場のデータ
    */
   var createDojo = function(record) {
-    var rank, rankString, unit, lastUpdate;
+    var rank, rankString, unit, defense, lastUpdate;
     // 文字列の長さが0以上なら追加する物
     var checkLength = {
       leader: 'Ldr',
       comment: 'Comm'
-    };
-
-    // 休業、発揮値を強調する
-    var em = function(value) {
-      var newValue = value;
-
-      // 休業を強調
-      newValue = newValue.replace(/((作業|休業|休止|お休み|休み)中?)/g, '<em class="paused">$1</em>');
-      // 発揮値を強調
-      newValue = newValue.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)/g, '<em class="defenseValue">$1</em>');
-
-      // 上の置換で無関係な数値まで置換されるので元に戻す
-      // 文字実体参照
-      newValue = newValue.replace(/&#<em class="defenseValue">(\d+)<\/em>;/g, '&#$1;');
-      // レベルとか
-      newValue = newValue.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ|\w)<em class="defenseValue">([\d０-９]+)<\/em>/g, '$1$2');
-      newValue = newValue.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|コス|ｺｽ|名|%|％|st|nd|rd|th)/g, '$1$2');
-
-      return newValue;
     };
 
     var dojo = {
@@ -261,14 +307,14 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
       dojo.htmlUnit = em(unit);
     }
 
-    if (record.Prof.Def == null || record.Prof.Def === -1) {
-      // 実際のプロフィール情報に守発揮値がなければ元データの値を使用する
-      dojo.defense = record.Data.Def;
-    }
-    else {
-      // 実際のプロフィール情報に守発揮値があればそれを守発揮値と最小守発揮値に設定
-      dojo.defense = record.Prof.Def;
-      dojo.minDefense = record.Prof.Def;
+    // 表示用守発揮値文字列
+    dojo.defense = record.Data.Def;
+
+    // 実際のプロフィール情報の守発揮値(record.Prof.Def)はリーダーアイドルの最大値なので、
+    // 道場主の自己申告値(record.Data.Def)からてきとーに求める
+    defense = getMinDefence(record.Data.Def);
+    if (defense != null) {
+      dojo.minDefense = defense;
     }
 
     // 最終更新日時
