@@ -14,6 +14,8 @@ var paths = {
   },
   js: {
     src: [
+      'bower_components/angular/angular.min.js',
+      'bower_components/angular-sanitize/angular-sanitize.min.js',
       'bower_components/ngstorage/ngStorage.min.js',
       'bower_components/moment/min/moment.min.js',
       'bower_components/moment/locale/ja.js',
