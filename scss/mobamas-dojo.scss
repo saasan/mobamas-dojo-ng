@@ -335,10 +335,6 @@ img {
         z-index: 1;
       }
 
-      .unit, .extraInfo {
-        color: #FFF;
-      }
-
       .defense {
         display: inline-block;
         position: absolute;
@@ -357,7 +353,6 @@ img {
 
       em {
         color: #FFF;
-        font-size: 100%;
         font-style: normal;
       }
     }
@@ -401,13 +396,14 @@ img {
 
 /* 作業中や発揮値っぽい物を強調する */
 .emphasizedView {
-  .unit, .extraInfo {
-    color: rgba(255, 255, 255, 0.5) !important;
-  }
-
   em {
-    font-size: 150% !important;
-    font-style: italic !important;
+    display: inline-block;
+    padding: 3px 0.5em;
+
+    line-height: normal;
+    color: white;
+    background-color: darkorange;
+    border-radius: 3px;
   }
 }
 
