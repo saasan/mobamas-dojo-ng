@@ -6,12 +6,6 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
   // bindで_showToastの第1引数に$rootScopeを付けておく
   var showToast = _showToast.bind(null, $rootScope);
 
-  /** 道場をリセットする時間 */
-  var RESET = config.reset;
-  if (location.hostname === 'localhost') {
-    RESET = config.development.reset;
-  }
-
   /**
    * ver1.xの設定をインポートする
    * @return {object} ver1.xの設定があればそれをdefaultSettingsに上書きしたオブジェクト、なければdefaultSettings
@@ -101,9 +95,14 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
    * @return {number} リセット時間をgetTime()でミリ秒にした値
    */
   var getResetTime = function() {
+    var reset = config.reset;
+    if (location.hostname === 'localhost') {
+      reset = config.development.reset;
+    }
+
     var resetTime = new Date();
-    resetTime.setHours(RESET.HOUR);
-    resetTime.setMinutes(RESET.MINUTE);
+    resetTime.setHours(reset.hour);
+    resetTime.setMinutes(reset.minute);
     resetTime.setSeconds(0);
     resetTime.setMilliseconds(0);
 
