@@ -25,13 +25,6 @@ $info-bg:           #fcf8e3;
 $info-border-color: darken($info-bg, 15%);
 $info-border-width: 1px;
 
-$small-ad-width:    320px;
-$small-ad-height:    50px;
-$small-ad-slot:     "1779793778";
-$large-ad-width:    300px;
-$large-ad-height:   250px;
-$large-ad-slot:     "3256526972";
-
 @mixin clearfix {
   &:before,
   &:after {
@@ -44,7 +37,7 @@ $large-ad-slot:     "3256526972";
 }
 
 body {
-  padding-top: $small-ad-height + $default-margin;
+  padding-top: $default-margin;
 }
 
 h2 {
@@ -181,24 +174,6 @@ img {
   padding: $default-margin * 2;
   background-color: $default-bg;
   border: $default-border-width solid $default-border-color;
-}
-
-#adTop {
-  position: fixed;
-  left: 50%;
-  top: 0;
-  width: $small-ad-width;
-  height: $small-ad-height;
-  margin-left: -$small-ad-width / 2;
-  z-index: 5;
-}
-
-#adBottom {
-  position: relative;
-  left: 50%;
-  width: $large-ad-width;
-  height: $large-ad-height;
-  margin-left: -$large-ad-width / 2;
 }
 
 #toast {
@@ -420,7 +395,6 @@ img {
 #about {
   line-height: 1.5em;
 
-
   small {
     display: block;
     margin-left: 1em;
@@ -429,4 +403,8 @@ img {
   ul {
     margin: 0;
   }
+}
+
+ins.adsbygoogle {
+  background-color: azure;
 }
