@@ -306,14 +306,16 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
       dojo.htmlUnit = em(unit);
     }
 
-    // 表示用守発揮値文字列
-    dojo.defense = record.Data.Def;
+    if (record.Data) {
+      // 表示用守発揮値文字列
+      dojo.defense = record.Data.Def;
 
-    // 実際のプロフィール情報の守発揮値(record.Prof.Def)はリーダーアイドルの最大値なので、
-    // 道場主の自己申告値(record.Data.Def)からてきとーに求める
-    defense = getMinDefence(record.Data.Def);
-    if (defense != null) {
-      dojo.minDefense = defense;
+      // 実際のプロフィール情報の守発揮値(record.Prof.Def)はリーダーアイドルの最大値なので、
+      // 道場主の自己申告値(record.Data.Def)からてきとーに求める
+      defense = getMinDefence(record.Data.Def);
+      if (defense != null) {
+        dojo.minDefense = defense;
+      }
     }
 
     // 最終更新日時
