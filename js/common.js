@@ -164,3 +164,15 @@ mobamasDojo.constant('_showToast', function($rootScope, message, classString, ti
 
   $rootScope.$broadcast('showToast', data);
 });
+
+// オブジェクトのキー数を返すフィルター
+mobamasDojo.filter('keylength', function() {
+  'use strict';
+
+  return function(input) {
+    if (!angular.isObject(input)) {
+      throw Error('Usage of non-objects with keylength filter!!');
+    }
+    return Object.keys(input).length;
+  };
+});

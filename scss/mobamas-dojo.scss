@@ -171,9 +171,10 @@ img {
 }
 
 .well {
-  padding: $default-margin * 2;
-  background-color: $default-bg;
-  border: $default-border-width solid $default-border-color;
+  padding: 4px 12px;
+  color: $info-color;
+  background-color: $info-bg;
+  border: $info-border-width solid $info-border-color;
 }
 
 #toast {
