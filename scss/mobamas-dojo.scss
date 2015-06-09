@@ -117,11 +117,15 @@ img {
   opacity: .2;
 }
 
-.info {
-  padding: $default-margin * 2;
+%info-base {
   color: $info-color;
   background-color: $info-bg;
   border: $info-border-width solid $info-border-color;
+}
+
+.info {
+  @extend %info-base;
+  padding: $default-margin * 2;
   line-height: 1.3em;
 
   &.error {
@@ -170,11 +174,15 @@ img {
   }
 }
 
-.well {
+.info-small {
+  @extend %info-base;
   padding: 4px 12px;
-  color: $info-color;
-  background-color: $info-bg;
-  border: $info-border-width solid $info-border-color;
+}
+
+.well {
+  padding: $default-margin * 2;
+  background-color: $default-bg;
+  border: $default-border-width solid $default-border-color;
 }
 
 #toast {
