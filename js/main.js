@@ -350,13 +350,14 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
 
   /**
    * データ取得正常終了時の処理
+   * 引数なしで呼び出すとキャッシュを使用する
    * @param {object} data サーバーから取得したデータ
    */
   var getDataSuccess = function(data) {
     var cacheKey = 'dataCache';
 
     // 道場データが取得できたか確認
-    if (data.result && data.data.records.length > 0) {
+    if (data && data.result && data.data.records && data.data.records.length > 0) {
       setData(data);
 
       // 道場データのキャッシュを保存
@@ -371,7 +372,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
         var dataCache = angular.fromJson(json);
         setData(dataCache);
 
-        showToast('エラー: サーバーから取得した道場データに道場が1件もありませんでした。' + dataCache.lastUpdate + '時点の道場データを使用します。', 'error', 0);
+        showToast('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
       }
     }
   };
@@ -402,7 +403,11 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     }
 
     $http.get(url).
-      success(getDataSuccess);
+      success(getDataSuccess).
+      error(function() {
+        // 引数なしで呼び出すとキャッシュを使用する
+        getDataSuccess();
+      });
   };
 
   // 道場のリンククリック時の処理
