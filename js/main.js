@@ -252,11 +252,17 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     newValue = newValue.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)/g, '<em class="defenseValue">$1</em>');
 
     // 上の置換で無関係な数値まで置換されるので元に戻す
+    // 数字1～2桁だけのやつは多分発揮値じゃない
+    newValue = newValue.replace(/<em class="defenseValue">([\d０-９]{1,2})<\/em>/g, '$1');
     // 文字実体参照
     newValue = newValue.replace(/&#<em class="defenseValue">(\d+)<\/em>;/g, '&#$1;');
+    // Twitter
+    newValue = newValue.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>/g, '@$1$2');
+    newValue = newValue.replace(/@<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
+    newValue = newValue.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
     // レベルとか
-    newValue = newValue.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ|\w)<em class="defenseValue">([\d０-９]+)<\/em>/g, '$1$2');
-    newValue = newValue.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|コス|ｺｽ|名|%|％|st|nd|rd|th)/g, '$1$2');
+    newValue = newValue.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ)<em class="defenseValue">([\d０-９]+)<\/em>/g, '$1$2');
+    newValue = newValue.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|月|日|コス|ｺｽ|名|冊|%|％|st|nd|rd|th)/g, '$1$2');
 
     return newValue;
   };
