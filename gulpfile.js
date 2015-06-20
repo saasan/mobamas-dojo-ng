@@ -3,7 +3,7 @@
 var del = require('del');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var uglify = require('gulp-uglifyjs');
+var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var autoprefixer = require('gulp-autoprefixer');
 
@@ -71,7 +71,8 @@ gulp.task('js', function () {
 
 gulp.task('js-release', function () {
   gulp.src(paths.js.src)
-    .pipe(uglify(paths.js.filename))
+    .pipe(concat(paths.js.filename))
+    .pipe(uglify())
     .pipe(gulp.dest(paths.js.dest));
 });
 
