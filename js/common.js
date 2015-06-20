@@ -152,19 +152,6 @@ mobamasDojo.constant('defaultSettings', {
   undoTimeout: 0
 });
 
-mobamasDojo.constant('_showToast', function($rootScope, message, classString, timeout, callback) {
-  'use strict';
-
-  var data = {
-    message: message,
-    class: classString,
-    timeout: timeout,
-    callback: callback
-  };
-
-  $rootScope.$broadcast('showToast', data);
-});
-
 // オブジェクトのキー数を返すフィルター
 mobamasDojo.filter('keylength', function() {
   'use strict';

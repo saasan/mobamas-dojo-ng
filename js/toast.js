@@ -1,5 +1,23 @@
 /* global mobamasDojo */
 
+// toastを出す為のサービス
+mobamasDojo.factory('toast', ['$rootScope', function($rootScope) {
+  'use strict';
+
+  return {
+    show: function(message, classString, timeout, callback) {
+      var data = {
+        message: message,
+        class: classString,
+        timeout: timeout,
+        callback: callback
+      };
+
+      $rootScope.$broadcast('showToast', data);
+    }
+  };
+}]);
+
 mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope, $timeout) {
   'use strict';
 

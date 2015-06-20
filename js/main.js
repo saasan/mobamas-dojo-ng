@@ -1,10 +1,7 @@
 /* global Birthday, mobamasDojo */
 
-mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$localStorage', 'config', 'defaultSettings', '_showToast', function($rootScope, $scope, $http, $localStorage, config, defaultSettings, _showToast) {
+mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', 'config', 'defaultSettings', 'toast', function($scope, $http, $localStorage, config, defaultSettings, toast) {
   'use strict';
-
-  // bindで_showToastの第1引数に$rootScopeを付けておく
-  var showToast = _showToast.bind(null, $rootScope);
 
   /**
    * ver1.xの設定をインポートする
@@ -363,7 +360,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
       // 道場データのキャッシュを保存
       window.localStorage.setItem(cacheKey, angular.toJson(data));
 
-      showToast('道場データ読み込み完了！');
+      toast.show('道場データ読み込み完了！');
     }
     else {
       // キャッシュがあるか確認
@@ -372,7 +369,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
         var dataCache = angular.fromJson(json);
         setData(dataCache);
 
-        showToast('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
+        toast.show('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
       }
     }
   };
@@ -394,7 +391,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     // アクセス日時を保存
     $scope.$storage.lastTime = now;
 
-    showToast('道場データ読み込み中...');
+    toast.show('道場データ読み込み中...');
 
     var url = config.url;
     if (location.hostname === 'localhost') {
@@ -429,7 +426,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     };
 
     var undo = generateUndo(dojo.id, $scope.$storage.visited[dojo.id], $scope.$storage.lastVisited);
-    showToast('元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の訪問', '', $scope.$storage.undoTimeout, undo);
+    toast.show('元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の訪問', '', $scope.$storage.undoTimeout, undo);
 
     // 訪問回数のインクリメント
     if ($scope.$storage.visited[dojo.id]) {
@@ -460,7 +457,7 @@ mobamasDojo.controller('MainController', ['$rootScope', '$scope', '$http', '$loc
     };
 
     var undo = generateUndo(dojo.id, $scope.$storage.hidden[dojo.id]);
-    showToast('元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の非表示', '', $scope.$storage.undoTimeout, undo);
+    toast.show('元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の非表示', '', $scope.$storage.undoTimeout, undo);
 
     // 非表示に設定
     $scope.$storage.hidden[dojo.id] = true;
