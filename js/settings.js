@@ -1,6 +1,6 @@
 /* global mobamasDojo */
 
-mobamasDojo.controller('SettingsController', ['$scope', '$window', '$localStorage', 'defaultSettings', 'toast', function($scope, $window, $localStorage, defaultSettings, toast) {
+mobamasDojo.controller('SettingsController', ['$scope', '$localStorage', 'defaultSettings', 'toast', function($scope, $localStorage, defaultSettings, toast) {
   'use strict';
 
   // ストレージから設定を読み込む
