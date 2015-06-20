@@ -22,6 +22,11 @@ mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope
   'use strict';
 
   /**
+   * トーストの表示状態
+   */
+  $scope.visible = false;
+
+  /**
    * トーストのメッセージ
    */
   $scope.message = '';
@@ -39,15 +44,15 @@ mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope
   /**
    * トーストを消す
    */
-  var close = function() {
-    $scope.message = '';
+  $scope.close = function() {
+    $scope.visible = false;
+
     if (id != null) {
       $scope.callback = null;
       $timeout.cancel(id);
       id = null;
     }
   };
-  $scope.close = close;
 
   /**
    * クリック時にcallbackを呼ぶ
@@ -57,17 +62,21 @@ mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope
       $scope.callback();
     }
 
-    close();
+    $scope.close();
   };
 
   /**
    * トーストを表示するイベント
    */
   $scope.$on('showToast', function(event, data) {
-    close();
+    $scope.close();
 
     $scope.class = data.class || '';
     $scope.message = data.message;
+
+    if ($scope.message == null || $scope.message.length === 0) {
+      $scope.message = '';
+    }
 
     var timeout = data.timeout;
 
@@ -78,7 +87,9 @@ mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope
     $scope.callback = data.callback || null;
 
     if (timeout > 0) {
-      id = $timeout(close, timeout);
+      id = $timeout($scope.close, timeout);
     }
+
+    $scope.visible = true;
   });
 }]);
