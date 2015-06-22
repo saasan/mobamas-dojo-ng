@@ -40,6 +40,8 @@ var mobamasDojo;
       S4: 9,
       S5: 10
     },
+    // 道場データのキャッシュを保存するキー
+    cacheKey: 'mobamasDojo.dataCache',
     url: 'http://dojo.sekai.in/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
     reset: {
       hour: 5,

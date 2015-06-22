@@ -43,30 +43,37 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
 
   /**
    * データ取得正常終了時の処理
-   * 引数なしで呼び出すとキャッシュを使用する
    * @param {object} data サーバーから取得したデータ
    */
   function getDataSuccess(data) {
-    var cacheKey = 'dataCache';
-
     // 道場データが取得できたか確認
     if (data && data.result && data.data.records && data.data.records.length > 0) {
       setData(data);
 
       // 道場データのキャッシュを保存
-      $window.localStorage.setItem(cacheKey, angular.toJson(data));
+      $window.localStorage.setItem(config.cacheKey, angular.toJson(data));
 
       toast.show('道場データ読み込み完了！');
     }
     else {
-      // キャッシュがあるか確認
-      var json = $window.localStorage.getItem(cacheKey);
-      if (json) {
-        var dataCache = angular.fromJson(json);
-        setData(dataCache);
+      getDataError();
+    }
+  }
 
-        toast.show('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
-      }
+  /**
+   * データ取得異常終了時の処理
+   */
+  function getDataError() {
+    // キャッシュがあるか確認
+    var json = $window.localStorage.getItem(config.cacheKey);
+    if (json) {
+      var dataCache = angular.fromJson(json);
+      setData(dataCache);
+
+      toast.show('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
+    }
+    else {
+      toast.show('エラー: 道場データを取得できませんでした。', 'error', 0);
     }
   }
 
@@ -91,10 +98,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
 
     $http.get(url).
       success(getDataSuccess).
-      error(function() {
-        // 引数なしで呼び出すとキャッシュを使用する
-        getDataSuccess();
-      });
+      error(getDataError);
   }
 
   // 道場のCSSクラス
