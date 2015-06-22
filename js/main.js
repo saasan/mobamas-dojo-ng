@@ -19,14 +19,6 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
   ];
 
   /**
-   * 保存されている訪問回数と最後に訪問した道場を初期化する
-   */
-  function resetVisited() {
-    $scope.$storage.visited = {};
-    $scope.$storage.lastVisited = null;
-  }
-
-  /**
    * サーバーから取得したデータを$scopeに反映する
    * @param {object} data サーバーから取得したデータ
    */
@@ -86,7 +78,10 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
 
     // 前回のアクセスから今回の間でリセット時間を跨いでいたら訪問回数を初期化
     if (needReset) {
-      resetVisited();
+      // 訪問回数
+      $scope.$storage.visited = {};
+      // 最後に訪問した道場
+      $scope.$storage.lastVisited = null;
     }
 
     // アクセス日時を保存
@@ -94,11 +89,11 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
 
     toast.show('道場データ読み込み中...');
 
+    // 道場データを取得する
     var url = (config.debug ? config.development.url : config.url);
-
-    $http.get(url).
-      success(getDataSuccess).
-      error(getDataError);
+    $http.get(url)
+      .success(getDataSuccess)
+      .error(getDataError);
   }
 
   // 道場のCSSクラス
@@ -214,5 +209,6 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     $scope.$storage.hidden[dojo.id] = true;
   };
 
+  // 初期化
   init();
 }]);
