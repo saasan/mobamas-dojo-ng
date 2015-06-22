@@ -6,13 +6,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
-  /**
-   * 保存されている訪問回数と最後に訪問した道場を初期化する
-   */
-  var resetVisited = function() {
-    $scope.$storage.visited = {};
-    $scope.$storage.lastVisited = null;
-  };
+  // 誕生日を表示する
+  $scope.birthdayToday = util.birthdayToday;
+  $scope.birthdayNext = util.birthdayNext;
 
   // ランク表示用文字列
   $scope.RANK = config.rank;
@@ -21,6 +17,85 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     ['-rank', '-lv'],
     ['-lv', '-rank']
   ];
+
+  /**
+   * 保存されている訪問回数と最後に訪問した道場を初期化する
+   */
+  function resetVisited() {
+    $scope.$storage.visited = {};
+    $scope.$storage.lastVisited = null;
+  }
+
+  /**
+   * サーバーから取得したデータを$scopeに反映する
+   * @param {object} data サーバーから取得したデータ
+   */
+  function setData(data) {
+    var i, records = data.data.records;
+    var dojos = [];
+
+    for (i = 0; i < records.length; i++) {
+      dojos.push(util.createDojo(records[i]));
+    }
+
+    $scope.dojos = dojos;
+  }
+
+  /**
+   * データ取得正常終了時の処理
+   * 引数なしで呼び出すとキャッシュを使用する
+   * @param {object} data サーバーから取得したデータ
+   */
+  function getDataSuccess(data) {
+    var cacheKey = 'dataCache';
+
+    // 道場データが取得できたか確認
+    if (data && data.result && data.data.records && data.data.records.length > 0) {
+      setData(data);
+
+      // 道場データのキャッシュを保存
+      $window.localStorage.setItem(cacheKey, angular.toJson(data));
+
+      toast.show('道場データ読み込み完了！');
+    }
+    else {
+      // キャッシュがあるか確認
+      var json = $window.localStorage.getItem(cacheKey);
+      if (json) {
+        var dataCache = angular.fromJson(json);
+        setData(dataCache);
+
+        toast.show('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
+      }
+    }
+  }
+
+  // 初期化
+  function init() {
+    // 現在の日時のミリ秒
+    var now = Date.now();
+    // 訪問回数のリセットが必要か
+    var needReset = util.betweenRange(util.getResetTime(), $scope.$storage.lastTime, now);
+
+    // 前回のアクセスから今回の間でリセット時間を跨いでいたら訪問回数を初期化
+    if (needReset) {
+      resetVisited();
+    }
+
+    // アクセス日時を保存
+    $scope.$storage.lastTime = now;
+
+    toast.show('道場データ読み込み中...');
+
+    var url = (config.debug ? config.development.url : config.url);
+
+    $http.get(url).
+      success(getDataSuccess).
+      error(function() {
+        // 引数なしで呼び出すとキャッシュを使用する
+        getDataSuccess();
+      });
+  }
 
   // 道場のCSSクラス
   $scope.dojoClass = function(dojo) {
@@ -75,81 +150,6 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     }
 
     return rank && level && defense;
-  };
-
-  /**
-   * サーバーから取得したデータを$scopeに反映する
-   * @param {object} data サーバーから取得したデータ
-   */
-  var setData = function(data) {
-    var i, records = data.data.records;
-    var dojos = [];
-
-    for (i = 0; i < records.length; i++) {
-      dojos.push(util.createDojo(records[i]));
-    }
-
-    $scope.dojos = dojos;
-  };
-
-  /**
-   * データ取得正常終了時の処理
-   * 引数なしで呼び出すとキャッシュを使用する
-   * @param {object} data サーバーから取得したデータ
-   */
-  var getDataSuccess = function(data) {
-    var cacheKey = 'dataCache';
-
-    // 道場データが取得できたか確認
-    if (data && data.result && data.data.records && data.data.records.length > 0) {
-      setData(data);
-
-      // 道場データのキャッシュを保存
-      $window.localStorage.setItem(cacheKey, angular.toJson(data));
-
-      toast.show('道場データ読み込み完了！');
-    }
-    else {
-      // キャッシュがあるか確認
-      var json = $window.localStorage.getItem(cacheKey);
-      if (json) {
-        var dataCache = angular.fromJson(json);
-        setData(dataCache);
-
-        toast.show('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
-      }
-    }
-  };
-
-  // 初期化
-  $scope.init = function() {
-    // 誕生日を更新する
-    $scope.birthdayToday = util.birthdayToday;
-    $scope.birthdayNext = util.birthdayNext;
-
-    // 現在の日時のミリ秒
-    var now = Date.now();
-    // 訪問回数のリセットが必要か
-    var needReset = util.betweenRange(util.getResetTime(), $scope.$storage.lastTime, now);
-
-    // 前回のアクセスから今回の間でリセット時間を跨いでいたら訪問回数を初期化
-    if (needReset) {
-      resetVisited();
-    }
-
-    // アクセス日時を保存
-    $scope.$storage.lastTime = now;
-
-    toast.show('道場データ読み込み中...');
-
-    var url = (config.debug ? config.development.url : config.url);
-
-    $http.get(url).
-      success(getDataSuccess).
-      error(function() {
-        // 引数なしで呼び出すとキャッシュを使用する
-        getDataSuccess();
-      });
   };
 
   // 道場のリンククリック時の処理
