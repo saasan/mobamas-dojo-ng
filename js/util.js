@@ -4,6 +4,9 @@
   'use strict';
 
   mobamasDojo.factory('util', ['config', function(config) {
+    /**********************************************
+     * プライベート
+     **********************************************/
     var birthday = new Birthday();
 
     /**
@@ -142,6 +145,10 @@
 
       return dojo;
     }
+
+    /**********************************************
+     * パブリック
+     **********************************************/
 
     return {
       birthdayToday: birthday.getToday(),
