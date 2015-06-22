@@ -159,7 +159,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
   // 道場のリンククリック時の処理
   $scope.onClickDojoLink = function(dojo) {
     // トーストクリック時に元に戻すコールバック関数を作成する
-    var generateUndo= function(id, oldValue, lastVisited) {
+    var generateUndo = function(id, oldValue, lastVisited) {
       var undo = function() {
         if (oldValue) {
           $scope.$storage.visited[id] = oldValue;
@@ -193,7 +193,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
   // 道場の非表示ボタンクリック時の処理
   $scope.onClickHideDojo = function(dojo) {
     // トーストクリック時に元に戻すコールバック関数を作成する
-    var generateUndo= function(id, oldValue) {
+    var generateUndo = function(id, oldValue) {
       var undo = function() {
         if (oldValue) {
           $scope.$storage.hidden[id] = oldValue;
