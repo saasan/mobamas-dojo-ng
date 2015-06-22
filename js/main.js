@@ -209,4 +209,6 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     // 非表示に設定
     $scope.$storage.hidden[dojo.id] = true;
   };
+
+  init();
 }]);
