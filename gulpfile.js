@@ -30,6 +30,7 @@ var paths = {
       'bower_components/angular-moment/angular-moment.min.js',
       'js/birthday.js',
       'js/common.js',
+      'js/util.js',
       'js/toast.js',
       'js/settings.js',
       'js/main.js'
