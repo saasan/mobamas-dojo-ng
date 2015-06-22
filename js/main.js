@@ -56,7 +56,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     }
   }
 
-  // 初期化
+  /**
+   * 初期化
+   */
   function init() {
     // 現在の日時のミリ秒
     var now = Date.now();
@@ -83,7 +85,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
       .error(getDataError);
   }
 
-  // 道場のCSSクラス
+  /**
+   * 道場のCSSクラス
+   */
   $scope.dojoClass = function(dojo) {
     var visited = 0;
     var classes = {
@@ -102,7 +106,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     return classes[$scope.$storage.visitedMax][visited];
   };
 
-  // 道場フィルター
+  /**
+   * 道場フィルター
+   */
   $scope.dojoFilter = function(dojo) {
     // 非表示設定
     if ($scope.$storage.hidden[dojo.id]) {
@@ -138,7 +144,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     return rank && level && defense;
   };
 
-  // 道場のリンククリック時の処理
+  /**
+   * 道場のリンククリック時の処理
+   */
   $scope.onClickDojoLink = function(dojo) {
     // トーストクリック時に元に戻すコールバック関数を作成する
     var generateUndo = function(id, oldValue, lastVisited) {
@@ -172,7 +180,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     $scope.$storage.lastVisited = dojo.id;
   };
 
-  // 道場の非表示ボタンクリック時の処理
+  /**
+   * 道場の非表示ボタンクリック時の処理
+   */
   $scope.onClickHideDojo = function(dojo) {
     // トーストクリック時に元に戻すコールバック関数を作成する
     var generateUndo = function(id, oldValue) {
