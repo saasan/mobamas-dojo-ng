@@ -326,7 +326,7 @@
       <a ng-click="onClickDojoLink(dojo)" class="dojo-link"
          href="{{ $storage.dojoLinkUrl }}{{ dojo.id }}"
          target="{{ $storage.dojoLinkTarget }}"><span class="detail">{{ dojo.lv }} {{ RANK[dojo.rank] }} <span class="unit" ng-bind-html="dojo.htmlUnit"></span></span><span class="defense">{{ dojo.defense }}</span>
-        <div class="extraInfo" ng-show="$storage.extendedView">
+        <div class="extraInfo">
           <div>ﾘｰﾀﾞｰ：<span ng-bind-html="dojo.leader"></span></div>
           <div>ｺﾒﾝﾄ：<span ng-bind-html="dojo.comment"></span></div>
           <div>最終取得：<span am-time-ago="dojo.lastUpdate" am-preprocess="unix"></span></div>

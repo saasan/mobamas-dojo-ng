@@ -360,6 +360,10 @@ img {
       z-index: 2;
     }
 
+    .extraInfo {
+      display: none;
+    }
+
     &.success {
       color: $success-color;
       background-color: $success-bg;
@@ -377,7 +381,12 @@ img {
   }
 }
 
+/* リーダー等を表示する */
 .extendedView {
+  .extraInfo {
+    display: block !important;
+  }
+
   span.defense {
     right: 5px !important;
     color: #FFF !important;
