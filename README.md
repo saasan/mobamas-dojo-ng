@@ -2,9 +2,12 @@
 ============================
 
 ##ビルド
-npm install
-npm install -g bower
+```
+npm i -g bower
+npm i
+bower i
 gulp release
+```
 
 ##使ってる物
 
