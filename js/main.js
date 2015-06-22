@@ -3,79 +3,8 @@
 mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', 'config', 'defaultSettings', 'toast', function($scope, $http, $localStorage, config, defaultSettings, toast) {
   'use strict';
 
-  /**
-   * ver1.xの設定をインポートする
-   * @return {object} ver1.xの設定があればそれをdefaultSettingsに上書きしたオブジェクト、なければdefaultSettings
-   */
-  var importVersion1Settings = function() {
-    var oldKey = 'mobamas-dojo_config';
-    var newSettings = angular.copy(defaultSettings);
-    var oldSettingsJson = window.localStorage.getItem(oldKey);
-
-    if (!oldSettingsJson) {
-      return newSettings;
-    }
-
-    var oldSettings = angular.fromJson(oldSettingsJson);
-
-    // 訪問回数
-    Object.keys(oldSettings.visited).forEach(function(key) {
-      // 旧設定の訪問回数は各キー名の先頭に"id"が付いているので削除する
-      var newKey = key.replace(/^id/, '');
-      newSettings.visited[newKey] = oldSettings.visited[key];
-    });
-
-    // 非表示にした道場
-    Object.keys(oldSettings.hide).forEach(function(key) {
-      // 旧設定の非表示にした道場は各キー名の先頭に"id"が付いているので削除する
-      var newKey = key.replace(/^id/, '');
-      newSettings.hidden[newKey] = oldSettings.hide[key];
-    });
-
-    // 最後に訪問した道場
-    if (oldSettings.lastVisited) {
-      // 旧設定の最後に訪問した道場は値の先頭に"id"が付いているので削除し数値化する
-      newSettings.lastVisited = parseInt(oldSettings.lastVisited.replace(/^id/, ''), 10);
-    }
-
-    // visitedMax回以上訪問した時、道場を訪問済とする
-    newSettings.visitedMax = oldSettings.visitedMax;
-    // 訪問済の道場を表示しない
-    newSettings.autoHide = oldSettings.autoHide;
-    // 最後に訪問した道場を残す
-    newSettings.keepLastVisited = oldSettings.keepLastVisited;
-
-    // 道場を別のタブ/同じタブで開く
-    newSettings.dojoLinkTarget = (oldSettings.sameTab ? '_self' : '_blank');
-    // 誕生日を表示する
-    newSettings.showBirthday = !oldSettings.hideBirthday;
-    // モバマスのメニューを表示する
-    newSettings.showMobamasMenu = oldSettings.showMobamasMenu;
-
-    // 旧設定を削除
-    window.localStorage.removeItem(oldKey);
-
-    return newSettings;
-  };
-
-  /**
-   * ver2.xの設定を3.x用にアップグレードする
-   */
-  var upgradeVersion2Settings = function(settings) {
-    // 表示順を文字列から数値へ変換
-    var rank = {
-      rankNo: 0,
-      lvNo: 1
-    };
-
-    if (typeof settings.orderBy === 'string') {
-      settings.orderBy = rank[settings.orderBy];
-    }
-  };
-
   // ストレージから設定を読み込む
-  $scope.$storage = $localStorage.$default(importVersion1Settings());
-  upgradeVersion2Settings($scope.$storage);
+  $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
   /**
    * 誕生日を更新する
