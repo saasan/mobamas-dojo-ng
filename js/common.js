@@ -53,7 +53,37 @@ var mobamasDojo;
         hour: 5,
         minute: 0
       }
-    }
+    },
+    mobamasMenu: [
+      { key: 'myPage', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fmypage', name: 'ﾏｲｽﾀｼﾞｵ' },
+      { key: 'petitCg', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fpetit_cg', name: 'ぷちﾃﾞﾚﾗ' },
+      { key: 'gacha', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fgacha', name: 'ｶﾞﾁｬ' },
+      { key: 'cardStr', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_str', name: 'ﾚｯｽﾝ' },
+      { key: 'auction', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fauction%2Fauction_top', name: 'ﾌﾘｰﾄﾚｰﾄﾞ' },
+      { key: 'quests', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fquests', name: 'お仕事' },
+      { key: 'battles', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fbattles', name: 'LIVEﾊﾞﾄﾙ' },
+      { key: 'cardUnion', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_union', name: '特訓' },
+      { key: 'shop', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fshop%2Findex', name: 'ｼｮｯﾌﾟ' },
+      { key: 'item', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fitem%2Findex', name: 'ｱｲﾃﾑ' },
+      { key: 'present', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fpresent%2Frecieve%2F%3Fview_auth_type%3D1%26cache%3D1', name: '贈り物' },
+      { key: 'cardList', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_list%2Findex', name: 'ｱｲﾄﾞﾙ一覧' },
+      { key: 'tradeResponse', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Ftrade_response%2Ftrade_list_advance', name: 'ﾄﾚｰﾄﾞ' },
+      { key: 'deck', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fdeck%2Findex', name: '編成' },
+      { key: 'exchange', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fexchange%2Fmedal_list%2F999999', name: '交換' },
+      { key: 'cardStorage', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fcard_storage%2Findex', name: '女子寮' },
+      { key: 'rareParts', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Frareparts%2Findex', name: '衣装' },
+      { key: 'friend', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Ffriend%2Findex', name: 'お気に入り' },
+      { key: 'wish', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fwish%2Findex', name: 'ﾎｼｲﾓﾉ' },
+      { key: 'archive', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Farchive%2Findex', name: 'ｱﾙﾊﾞﾑ' },
+      { key: 'pRankingAward', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fp_ranking_award', name: 'PRA' },
+      { key: 'results', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fresults', name: 'ﾌﾟﾛﾌｨｰﾙ' },
+      { key: 'gallery', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fgallery', name: 'ｱｲﾄﾞﾙｷﾞｬﾗﾘｰ' },
+      { key: 'memory', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fmemory', name: 'ｲﾍﾞﾝﾄﾒﾓﾘｰ' },
+      { key: 'sBooth', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fs_booth', name: 'ｻｳﾝﾄﾞﾌﾞｰｽ' },
+      { key: 'personalOption', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fpersonal_option', name: '設定' },
+      { key: 'advise', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fadvise%2Findex%2Ftop', name: 'ﾍﾙﾌﾟ' },
+      { key: 'top', url: '', name: 'ﾄｯﾌﾟ' }
+    ]
   });
 
   // localStorageに保存するユーザー別設定のデフォルト値

@@ -230,6 +230,10 @@ img {
     border-radius: $default-margin;
     margin-bottom: $default-margin;
     min-width: 15%;
+
+    &:not(:first-child) {
+      margin-left: $default-margin;
+    }
   }
 }
 

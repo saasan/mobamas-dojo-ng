@@ -1,12 +1,18 @@
 /* global mobamasDojo */
 
-mobamasDojo.controller('SettingsController', ['$scope', '$localStorage', 'defaultSettings', 'toast', function($scope, $localStorage, defaultSettings, toast) {
+mobamasDojo.controller('SettingsController',
+    ['$scope', '$localStorage', 'config', 'defaultSettings', 'toast',
+    function($scope, $localStorage, config, defaultSettings, toast) {
+
   'use strict';
 
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
   $scope.dataOutput = angular.toJson($scope.$storage);
+
+  // メニューのデータを設定
+  $scope.mobamasMenu = config.mobamasMenu;
 
   $scope.resetVisited = function() {
     $scope.$storage.visited = {};
