@@ -77,6 +77,72 @@
       return Math.floor(minDefence);
     }
 
+    /**
+     * recordから道場のデータを作成する
+     * @param record DojoList APIのrecord
+     * @returns 道場のデータ
+     */
+    function createDojo(record) {
+      var rank, rankString, unit, defense, lastUpdate;
+      // 文字列の長さが0以上なら追加する物
+      var checkLength = {
+        leader: 'Ldr',
+        comment: 'Comm'
+      };
+
+      var dojo = {
+        lv: record.Prof.Lv || record.Data.Lv,
+        id: record.Prof.ID || record.Data.ID
+      };
+
+      // ランクを文字列から数値へ置換
+      rankString = record.Prof.Rank || record.Data.Rank;
+      rank = config.rank[rankString];
+      if (rank != null) {
+        dojo.rank = rank;
+      }
+
+      // 文字列の長さが0以上なら追加
+      Object.keys(checkLength).forEach(function(key) {
+        var value = record.Prof[checkLength[key]] || record.Data[checkLength[key]];
+        if (value.length > 0) {
+          if (key === 'comment') {
+            value = em(value);
+          }
+          dojo[key] = value;
+        }
+      });
+
+      // ユニット名が無ければ元データのリーダー
+      unit = record.Prof.Unit || record.Data.Ldr;
+      if (unit != null) {
+        // 元のユニット名
+        dojo.unit = unit;
+        // 強調したユニット名
+        dojo.htmlUnit = em(unit);
+      }
+
+      if (record.Data) {
+        // 表示用守発揮値文字列
+        dojo.defense = record.Data.Def;
+
+        // 実際のプロフィール情報の守発揮値(record.Prof.Def)はリーダーアイドルの最大値なので、
+        // 道場主の自己申告値(record.Data.Def)からてきとーに求める
+        defense = getMinDefence(record.Data.Def);
+        if (defense != null) {
+          dojo.minDefense = defense;
+        }
+      }
+
+      // 最終更新日時
+      lastUpdate = record.Prof.Upd || record.Data.Upd;
+      if (lastUpdate != null) {
+        dojo.lastUpdate = lastUpdate;
+      }
+
+      return dojo;
+    }
+
     return {
       birthdayToday: birthday.getToday(),
       birthdayNext: birthday.getNext(),
@@ -114,69 +180,19 @@
       },
 
       /**
-       * recordから道場のデータを作成する
-       * @param record DojoList APIのrecord
-       * @returns 道場のデータ
+       * サーバーから取得した道場データを加工して返す
+       * @param {object} data サーバーから取得したデータ
+       * @returns {object} 加工した道場データ
        */
-      createDojo: function(record) {
-        var rank, rankString, unit, defense, lastUpdate;
-        // 文字列の長さが0以上なら追加する物
-        var checkLength = {
-          leader: 'Ldr',
-          comment: 'Comm'
-        };
+      createDojos: function(data) {
+        var i, records = data.data.records;
+        var dojos = [];
 
-        var dojo = {
-          lv: record.Prof.Lv || record.Data.Lv,
-          id: record.Prof.ID || record.Data.ID
-        };
-
-        // ランクを文字列から数値へ置換
-        rankString = record.Prof.Rank || record.Data.Rank;
-        rank = config.rank[rankString];
-        if (rank != null) {
-          dojo.rank = rank;
+        for (i = 0; i < records.length; i++) {
+          dojos.push(createDojo(records[i]));
         }
 
-        // 文字列の長さが0以上なら追加
-        Object.keys(checkLength).forEach(function(key) {
-          var value = record.Prof[checkLength[key]] || record.Data[checkLength[key]];
-          if (value.length > 0) {
-            if (key === 'comment') {
-              value = em(value);
-            }
-            dojo[key] = value;
-          }
-        });
-
-        // ユニット名が無ければ元データのリーダー
-        unit = record.Prof.Unit || record.Data.Ldr;
-        if (unit != null) {
-          // 元のユニット名
-          dojo.unit = unit;
-          // 強調したユニット名
-          dojo.htmlUnit = em(unit);
-        }
-
-        if (record.Data) {
-          // 表示用守発揮値文字列
-          dojo.defense = record.Data.Def;
-
-          // 実際のプロフィール情報の守発揮値(record.Prof.Def)はリーダーアイドルの最大値なので、
-          // 道場主の自己申告値(record.Data.Def)からてきとーに求める
-          defense = getMinDefence(record.Data.Def);
-          if (defense != null) {
-            dojo.minDefense = defense;
-          }
-        }
-
-        // 最終更新日時
-        lastUpdate = record.Prof.Upd || record.Data.Upd;
-        if (lastUpdate != null) {
-          dojo.lastUpdate = lastUpdate;
-        }
-
-        return dojo;
+        return dojos;
       }
     };
   }]);

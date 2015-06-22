@@ -19,28 +19,14 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
   ];
 
   /**
-   * サーバーから取得したデータを$scopeに反映する
-   * @param {object} data サーバーから取得したデータ
-   */
-  function setData(data) {
-    var i, records = data.data.records;
-    var dojos = [];
-
-    for (i = 0; i < records.length; i++) {
-      dojos.push(util.createDojo(records[i]));
-    }
-
-    $scope.dojos = dojos;
-  }
-
-  /**
    * データ取得正常終了時の処理
    * @param {object} data サーバーから取得したデータ
    */
   function getDataSuccess(data) {
     // 道場データが取得できたか確認
     if (data && data.result && data.data.records && data.data.records.length > 0) {
-      setData(data);
+      // 道場を表示
+      $scope.dojos = util.createDojos(data);
 
       // 道場データのキャッシュを保存
       $window.localStorage.setItem(config.cacheKey, angular.toJson(data));
@@ -59,8 +45,9 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
     // キャッシュがあるか確認
     var json = $window.localStorage.getItem(config.cacheKey);
     if (json) {
+      // 道場を表示
       var dataCache = angular.fromJson(json);
-      setData(dataCache);
+      $scope.dojos = util.createDojos(dataCache);
 
       toast.show('エラー: 道場データを取得できませんでした。前回取得した道場データを使用します。', 'error', 0);
     }
