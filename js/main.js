@@ -1,6 +1,6 @@
 /* global mobamasDojo */
 
-mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', 'config', 'defaultSettings', 'toast', 'util', function($scope, $http, $localStorage, config, defaultSettings, toast, util) {
+mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$window', 'config', 'defaultSettings', 'toast', 'util', function($scope, $http, $localStorage, $window, config, defaultSettings, toast, util) {
   'use strict';
 
   // ストレージから設定を読み込む
@@ -105,13 +105,13 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', 'c
       setData(data);
 
       // 道場データのキャッシュを保存
-      window.localStorage.setItem(cacheKey, angular.toJson(data));
+      $window.localStorage.setItem(cacheKey, angular.toJson(data));
 
       toast.show('道場データ読み込み完了！');
     }
     else {
       // キャッシュがあるか確認
-      var json = window.localStorage.getItem(cacheKey);
+      var json = $window.localStorage.getItem(cacheKey);
       if (json) {
         var dataCache = angular.fromJson(json);
         setData(dataCache);
