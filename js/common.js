@@ -160,7 +160,7 @@ var mobamasDojo;
   });
 
   // オブジェクトのキー数を返すフィルター
-  mobamasDojo.filter('keylength', function() {
+  mobamasDojo.filter('keyLength', function() {
     return function(input) {
       if (!angular.isObject(input)) {
         throw Error('Usage of non-objects with keylength filter!!');
