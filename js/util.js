@@ -1,13 +1,12 @@
-/* global Birthday, mobamasDojo */
+/* global mobamasDojo */
 
 (function() {
   'use strict';
 
-  mobamasDojo.factory('util', ['config', function(config) {
+  mobamasDojo.factory('util', ['config', 'birthday', function(config, birthday) {
     /**********************************************
      * プライベート
      **********************************************/
-    var birthday = new Birthday();
 
     /**
      * 全角を半角に変換

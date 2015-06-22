@@ -1,3 +1,5 @@
+/* global mobamasDojo */
+
 var Birthday;
 
 (function() {
@@ -221,4 +223,6 @@ var Birthday;
       return m + '月' + d + '日：' + this._data[m][d];
     }
   };
+
+  mobamasDojo.service('birthday', [Birthday]);
 })();
