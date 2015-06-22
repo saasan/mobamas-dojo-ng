@@ -92,10 +92,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', 'c
    * @return {number} リセット時間をgetTime()でミリ秒にした値
    */
   var getResetTime = function() {
-    var reset = config.reset;
-    if (location.hostname === 'localhost') {
-      reset = config.development.reset;
-    }
+    var reset = (config.debug ? config.development.reset : config.reset);
 
     var resetTime = new Date();
     resetTime.setHours(reset.hour);
@@ -393,11 +390,7 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', 'c
 
     toast.show('道場データ読み込み中...');
 
-    var url = config.url;
-    if (location.hostname === 'localhost') {
-      // デバッグ時に使用するURL
-      url = config.development.url;
-    }
+    var url = (config.debug ? config.development.url : config.url);
 
     $http.get(url).
       success(getDataSuccess).

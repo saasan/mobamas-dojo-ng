@@ -8,6 +8,8 @@ var DOJOS_ORDER_BY = {
 
 // アプリケーションの設定
 mobamasDojo.constant('config', {
+  // デバッグモード
+  debug: (location.hostname === 'localhost'),
   // ランク表示用文字列
   rank: {
     '0': 'F',
