@@ -68,8 +68,8 @@
       </label>
     </section>
     <section class="settings-mobamas-menu" ng-show="$storage.showMobamasMenu">
-      <label ng-repeat="item in mobamasMenu">
-        <input type="checkbox" ng-model="$storage.showMobamasMenuItem[item.key]"> {{ item.name }}
+      <label ng-repeat="item in ui.mobamasMenu">
+        <input type="checkbox" ng-model="$storage.showMobamasMenuItem[item.key]"> {{ item.label }}
       </label>
     </section>
     <section>

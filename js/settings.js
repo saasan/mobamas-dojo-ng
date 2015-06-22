@@ -11,8 +11,8 @@ mobamasDojo.controller('SettingsController',
 
   $scope.dataOutput = angular.toJson($scope.$storage);
 
-  // メニューのデータを設定
-  $scope.mobamasMenu = config.mobamasMenu;
+  // UI用データを設定
+  $scope.ui = config.ui;
 
   $scope.resetVisited = function() {
     $scope.$storage.visited = {};

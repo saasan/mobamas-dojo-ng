@@ -9,8 +9,8 @@ mobamasDojo.controller('MainController',
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
-  // メニューのデータを設定
-  $scope.mobamasMenu = config.mobamasMenu;
+  // UI用データを設定
+  $scope.ui = config.ui;
 
   // 誕生日を表示する
   $scope.birthdayToday = birthday.getToday();
