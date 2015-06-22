@@ -1,6 +1,6 @@
 var Birthday;
 
-(function(){
+(function() {
   'use strict';
 
   /**
