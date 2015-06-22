@@ -1,95 +1,95 @@
 /* global mobamasDojo */
 
-// toastを出す為のサービス
-mobamasDojo.factory('toast', ['$rootScope', function($rootScope) {
+(function() {
   'use strict';
 
-  return {
-    show: function(message, classString, timeout, callback) {
-      var data = {
-        message: message,
-        class: classString,
-        timeout: timeout,
-        callback: callback
-      };
+  // toastを出す為のサービス
+  mobamasDojo.factory('toast', ['$rootScope', function($rootScope) {
+    return {
+      show: function(message, classString, timeout, callback) {
+        var data = {
+          message: message,
+          class: classString,
+          timeout: timeout,
+          callback: callback
+        };
 
-      $rootScope.$broadcast('showToast', data);
-    }
-  };
-}]);
+        $rootScope.$broadcast('showToast', data);
+      }
+    };
+  }]);
 
-mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope, $timeout) {
-  'use strict';
-
-  /**
-   * トーストの表示状態
-   */
-  $scope.visible = false;
-
-  /**
-   * トーストのメッセージ
-   */
-  $scope.message = '';
-
-  /**
-   * トースト用タイマーID
-   */
-  var id = null;
-
-  /**
-   * クリック時に呼ばれる関数
-   */
-  $scope.callback = null;
-
-  /**
-   * トーストを消す
-   */
-  $scope.close = function() {
+  mobamasDojo.controller('ToastController', ['$scope', '$timeout', function($scope, $timeout) {
+    /**
+     * トーストの表示状態
+     */
     $scope.visible = false;
 
-    if (id != null) {
-      $scope.callback = null;
-      $timeout.cancel(id);
-      id = null;
-    }
-  };
+    /**
+     * トーストのメッセージ
+     */
+    $scope.message = '';
 
-  /**
-   * クリック時にcallbackを呼ぶ
-   */
-  $scope.onclick = function() {
-    if ($scope.callback) {
-      $scope.callback();
-    }
+    /**
+     * トースト用タイマーID
+     */
+    var id = null;
 
-    $scope.close();
-  };
+    /**
+     * クリック時に呼ばれる関数
+     */
+    $scope.callback = null;
 
-  /**
-   * トーストを表示するイベント
-   */
-  $scope.$on('showToast', function(event, data) {
-    $scope.close();
+    /**
+     * トーストを消す
+     */
+    $scope.close = function() {
+      $scope.visible = false;
 
-    $scope.class = data.class || '';
-    $scope.message = data.message;
+      if (id != null) {
+        $scope.callback = null;
+        $timeout.cancel(id);
+        id = null;
+      }
+    };
 
-    if ($scope.message == null || $scope.message.length === 0) {
-      $scope.message = '';
-    }
+    /**
+     * クリック時にcallbackを呼ぶ
+     */
+    $scope.onclick = function() {
+      if ($scope.callback) {
+        $scope.callback();
+      }
 
-    var timeout = data.timeout;
+      $scope.close();
+    };
 
-    if (timeout == null) {
-      timeout = 3000;
-    }
+    /**
+     * トーストを表示するイベント
+     */
+    $scope.$on('showToast', function(event, data) {
+      $scope.close();
 
-    $scope.callback = data.callback || null;
+      $scope.class = data.class || '';
+      $scope.message = data.message;
 
-    if (timeout > 0) {
-      id = $timeout($scope.close, timeout);
-    }
+      if ($scope.message == null || $scope.message.length === 0) {
+        $scope.message = '';
+      }
 
-    $scope.visible = true;
-  });
-}]);
+      var timeout = data.timeout;
+
+      if (timeout == null) {
+        timeout = 3000;
+      }
+
+      $scope.callback = data.callback || null;
+
+      if (timeout > 0) {
+        id = $timeout($scope.close, timeout);
+      }
+
+      $scope.visible = true;
+    });
+  }]);
+})();
