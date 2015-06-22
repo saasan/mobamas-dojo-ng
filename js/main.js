@@ -1,14 +1,17 @@
 /* global mobamasDojo */
 
-mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$window', 'config', 'defaultSettings', 'toast', 'util', function($scope, $http, $localStorage, $window, config, defaultSettings, toast, util) {
+mobamasDojo.controller('MainController',
+    ['$scope', '$http', '$localStorage', '$window', 'config', 'defaultSettings', 'toast', 'util', 'birthday',
+    function($scope, $http, $localStorage, $window, config, defaultSettings, toast, util, birthday) {
+
   'use strict';
 
   // ストレージから設定を読み込む
   $scope.$storage = $localStorage.$default(angular.copy(defaultSettings));
 
   // 誕生日を表示する
-  $scope.birthdayToday = util.birthdayToday;
-  $scope.birthdayNext = util.birthdayNext;
+  $scope.birthdayToday = birthday.getToday();
+  $scope.birthdayNext = birthday.getNext();
 
   // ランク表示用文字列
   $scope.RANK = config.rank;

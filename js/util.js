@@ -3,7 +3,7 @@
 (function() {
   'use strict';
 
-  mobamasDojo.factory('util', ['config', 'birthday', function(config, birthday) {
+  mobamasDojo.factory('util', ['config', function(config) {
     /**********************************************
      * プライベート
      **********************************************/
@@ -150,9 +150,6 @@
      **********************************************/
 
     return {
-      birthdayToday: birthday.getToday(),
-      birthdayNext: birthday.getNext(),
-
       /**
        * 前回のリセット時間を取得する
        * @return {number} リセット時間をgetTime()でミリ秒にした値
