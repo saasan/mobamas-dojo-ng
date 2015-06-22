@@ -174,8 +174,8 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
       return undo;
     };
 
-    var undo = generateUndo(dojo.id, $scope.$storage.visited[dojo.id], $scope.$storage.lastVisited);
     var message = '元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の訪問';
+    var undo = generateUndo(dojo.id, $scope.$storage.visited[dojo.id], $scope.$storage.lastVisited);
     toast.show(message, '', $scope.$storage.undoTimeout, undo);
 
     // 訪問回数のインクリメント
@@ -206,8 +206,8 @@ mobamasDojo.controller('MainController', ['$scope', '$http', '$localStorage', '$
       return undo;
     };
 
-    var undo = generateUndo(dojo.id, $scope.$storage.hidden[dojo.id]);
     var message = '元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の非表示';
+    var undo = generateUndo(dojo.id, $scope.$storage.hidden[dojo.id]);
     toast.show(message, '', $scope.$storage.undoTimeout, undo);
 
     // 非表示に設定
