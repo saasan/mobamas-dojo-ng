@@ -214,8 +214,11 @@ var mobamasDojo;
     // リーダー等を表示する
     extendedView: true,
 
-    // 作業中や発揮値っぽい物を強調する
+    // 休業中や発揮値っぽい物を強調する
     emphasizedView: true,
+
+    // 休業中っぽい道場を表示しない
+    hidePausedDojo: false,
 
     /**********************************************
      * その他の設定

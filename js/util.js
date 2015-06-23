@@ -21,15 +21,13 @@
     }
 
     /**
-     * 休業、発揮値を強調する
+     * 発揮値を強調する
      * @param value 強調したい文字列
      * @returns 強調した文字列
      */
-    function em(value) {
+    function emDefence(value) {
       var newValue = value;
 
-      // 休業を強調
-      newValue = newValue.replace(/((作業|休業|休止|お休み|休み)中?)/g, '<em class="paused">$1</em>');
       // 発揮値を強調
       newValue = newValue.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)/g, '<em class="defenseValue">$1</em>');
 
@@ -47,6 +45,26 @@
       newValue = newValue.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|月|日|コス|ｺｽ|名|冊|%|％|st|nd|rd|th)/g, '$1$2');
 
       return newValue;
+    }
+
+    /**
+     * 休業中を強調する
+     * @param value 強調したい文字列
+     * @returns {object} result 強調したらtrue、しなかったらfalse
+     *                   value  処理後の文字列
+     */
+    function emPaused(value) {
+      var result = false, newValue = value;
+
+      newValue = newValue.replace(
+        /((作業|休業|休止|お休み|休み)中?)/g,
+        function(matched) {
+          result = true;
+          return '<em class="paused">' + matched + '</em>';
+        }
+      );
+
+      return { result: result, value: newValue };
     }
 
     /**
@@ -109,7 +127,7 @@
         var value = record.Prof[checkLength[key]] || record.Data[checkLength[key]];
         if (value.length > 0) {
           if (key === 'comment') {
-            value = em(value);
+            value = emDefence(emPaused(value).value);
           }
           dojo[key] = value;
         }
@@ -121,7 +139,10 @@
         // 元のユニット名
         dojo.unit = unit;
         // 強調したユニット名
-        dojo.htmlUnit = em(unit);
+        var emUnit = emPaused(unit);
+        dojo.htmlUnit = emDefence(emUnit.value);
+        // 休業中情報
+        dojo.paused = emUnit.result;
       }
 
       if (record.Data) {

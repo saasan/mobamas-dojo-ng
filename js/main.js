@@ -138,6 +138,7 @@ mobamasDojo.controller('MainController',
     var level = ($scope.$storage.view.levelRange.min <= dojo.lv) &&
                 ($scope.$storage.view.levelRange.max < 0 || dojo.lv <= $scope.$storage.view.levelRange.max);
     var defense = true;
+    var paused = !($scope.$storage.hidePausedDojo && dojo.paused);
 
     // 最小値/最大値が無制限の場合はminDefenseがnullでも表示する
     if ($scope.$storage.view.defenseRange.min > 0) {
@@ -147,7 +148,7 @@ mobamasDojo.controller('MainController',
       defense = defense && dojo.minDefense != null && dojo.minDefense <= $scope.$storage.view.defenseRange.max;
     }
 
-    return rank && level && defense;
+    return rank && level && defense && paused;
   };
 
   /**

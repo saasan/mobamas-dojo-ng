@@ -193,8 +193,16 @@
       </section>
       <section>
         <label>
-          <input type="checkbox" ng-model="$storage.emphasizedView"> 作業中や発揮値っぽい物を強調する
+          <input type="checkbox" ng-model="$storage.emphasizedView"> 休業中や発揮値っぽい物を強調する
         </label>
+      </section>
+      <section>
+        <label>
+          <input type="checkbox" ng-model="$storage.hidePausedDojo"> 休業中っぽい道場を表示しない
+        </label>
+        <small>
+          ※ ユニット名に「休業」等が入っている道場
+        </small>
       </section>
       <section>
         <a class="btn" href="settings.html"><i class="fa fa-cog"></i> その他の設定</a>
