@@ -21,30 +21,53 @@
     }
 
     /**
-     * 発揮値を強調する
+     * 守発揮値を強調する
      * @param value 強調したい文字列
-     * @returns 強調した文字列
+     * @returns {object} result 強調したらtrue、しなかったらfalse
+     *                   emString 強調した文字列
+     *                   defenceString 守発揮値の文字列
+     *                   defenceValue 守発揮値の数値
      */
     function emDefence(value) {
-      var newValue = value;
+      var result = false, emString = value, defenceString = '', defenceValue = 0;
 
       // 発揮値を強調
-      newValue = newValue.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)/g, '<em class="defenseValue">$1</em>');
+      emString = emString.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)/g, '<em class="defenseValue">$1</em>');
 
       // 上の置換で無関係な数値まで置換されるので元に戻す
       // 数字1～2桁だけのやつは多分発揮値じゃない
-      newValue = newValue.replace(/<em class="defenseValue">([\d０-９]{1,2})<\/em>/g, '$1');
+      emString = emString.replace(/<em class="defenseValue">([\d０-９]{1,2})<\/em>/g, '$1');
       // 文字実体参照
-      newValue = newValue.replace(/&#<em class="defenseValue">(\d+)<\/em>;/g, '&#$1;');
+      emString = emString.replace(/&#<em class="defenseValue">(\d+)<\/em>;/g, '&#$1;');
       // Twitter
-      newValue = newValue.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>/g, '@$1$2');
-      newValue = newValue.replace(/@<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
-      newValue = newValue.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
+      emString = emString.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>/g, '@$1$2');
+      emString = emString.replace(/@<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
+      emString = emString.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
       // レベルとか
-      newValue = newValue.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ)<em class="defenseValue">([\d０-９]+)<\/em>/g, '$1$2');
-      newValue = newValue.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|月|日|コス|ｺｽ|名|冊|%|％|st|nd|rd|th)/g, '$1$2');
+      emString = emString.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ)<em class="defenseValue">([\d０-９]+)<\/em>/g, '$1$2');
+      emString = emString.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|月|日|コス|ｺｽ|名|冊|%|％|st|nd|rd|th|R|道場)/g, '$1$2');
 
-      return newValue;
+      // 数値化
+      emString.replace(
+        /<em class="defenseValue">(.+?)<\/em>/g,
+        function(matched, group1) {
+          // 最初にマッチした物だけ数値化
+          if (!result) {
+            result = true;
+            defenceString = group1;
+            defenceValue = getMinDefence(matched);
+          }
+
+          return '';
+        }
+      );
+
+      return {
+        result: result,
+        emString: emString,
+        defenceString: defenceString,
+        defenceValue: defenceValue
+      };
     }
 
     /**
@@ -73,16 +96,21 @@
      * @returns {number} 最低守発揮値。数字が無い場合はnullを返す。
      */
     function getMinDefence(defence) {
+      var minDefenceString = defence;
+
+      // カンマを消しておく
+      minDefenceString = minDefenceString.replace(/[,，]/g, '');
+
       // 一番左にある数値がおそらく最低守発揮値
       var re = /^[^0-9０-９]*([0-9０-９.]+)/;
 
       // 数字が無い場合は0を返す
-      if (defence == null || !re.test(defence)) {
+      if (minDefenceString == null || !re.test(minDefenceString)) {
         return null;
       }
 
       // 数字部分を取り出して半角に変換する
-      var minDefenceString = defence.replace(re, '$1');
+      minDefenceString = minDefenceString.replace(re, '$1');
       minDefenceString = fullToHalf(minDefenceString);
 
       // 数値化
@@ -127,7 +155,7 @@
         var value = record.Prof[checkLength[key]] || record.Data[checkLength[key]];
         if (value.length > 0) {
           if (key === 'comment') {
-            value = emDefence(emPaused(value).value);
+            value = emDefence(emPaused(value).value).emString;
           }
           dojo[key] = value;
         }
@@ -138,14 +166,23 @@
       if (unit != null) {
         // 元のユニット名
         dojo.unit = unit;
+
         // 強調したユニット名
-        var emUnit = emPaused(unit);
-        dojo.htmlUnit = emDefence(emUnit.value);
+        var emUnitPaused = emPaused(unit);
+        var emUnitDefence = emDefence(emUnitPaused.value);
+        dojo.htmlUnit = emUnitDefence.emString;
+
         // 休業中情報
-        dojo.paused = emUnit.result;
+        dojo.paused = emUnitPaused.result;
+
+        // ユニット名に守発揮値っぽい値があれば設定
+        if (emUnitDefence.result) {
+          dojo.defense = dojo.minDefense = emUnitDefence.defenceValue;
+        }
       }
 
-      if (record.Data) {
+      // record.Dataがあり、ユニット名に守発揮値っぽい値がなかった場合
+      if (record.Data && dojo.defense == null) {
         // 表示用守発揮値文字列
         dojo.defense = record.Data.Def;
 
