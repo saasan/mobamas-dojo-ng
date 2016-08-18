@@ -6,6 +6,7 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var autoprefixer = require('gulp-autoprefixer');
+var webserver = require('gulp-webserver');
 
 var paths = {
   files: [
@@ -96,3 +97,12 @@ gulp.task('help', function() {
 gulp.task('compile', ['clean', 'copy', 'sass','js']);
 gulp.task('release', ['clean', 'copy', 'sass-release', 'js-release']);
 gulp.task('default', ['compile']);
+
+gulp.task('server', ['watch'], function() {
+  gulp.src('release')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: true,
+      open: true
+    }));
+});
