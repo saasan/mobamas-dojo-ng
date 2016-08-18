@@ -42,13 +42,13 @@ var mobamasDojo;
     },
     // 道場データのキャッシュを保存するキー
     cacheKey: 'mobamasDojo.dataCache',
-    url: 'http://dojo.sekai.in/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
+    url: 'https://dojo.momoka-sakurai.com/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
     reset: {
       hour: 5,
       minute: 0
     },
     development: {
-      url: 'http://dojo.sekai.in/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
+      url: 'https://dojo.momoka-sakurai.com/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
       reset: {
         hour: 5,
         minute: 0
