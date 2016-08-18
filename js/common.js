@@ -117,6 +117,7 @@ var mobamasDojo;
         { label: 'F', value: 0 }
       ],
       levelRangeMin: [
+        { label: '400', value: 400 },
         { label: '350', value: 350 },
         { label: '300', value: 300 },
         { label: '250', value: 250 },
@@ -128,6 +129,7 @@ var mobamasDojo;
       ],
       levelRangeMax: [
         { label: '無制限', value: -1 },
+        { label: '400', value: 400 },
         { label: '350', value: 350 },
         { label: '300', value: 300 },
         { label: '250', value: 250 },
