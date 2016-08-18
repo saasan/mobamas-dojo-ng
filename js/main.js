@@ -16,8 +16,6 @@ mobamasDojo.controller('MainController',
   $scope.birthdayToday = birthday.getToday();
   $scope.birthdayNext = birthday.getNext();
 
-  // ランク表示用文字列
-  $scope.RANK = config.rank;
   // ソート順用データ
   $scope.ORDER_BY = [
     ['-rank', '-lv'],
@@ -171,7 +169,7 @@ mobamasDojo.controller('MainController',
       return undo;
     };
 
-    var message = '元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の訪問';
+    var message = '元に戻す: 「' + dojo.lv + ' ' + config.ui.rank[dojo.rank] + ' ' + dojo.unit + '」の訪問';
     var undo = generateUndo(dojo.id, $scope.$storage.visited[dojo.id], $scope.$storage.lastVisited);
     toast.show(message, '', $scope.$storage.undoTimeout, undo);
 
@@ -205,7 +203,7 @@ mobamasDojo.controller('MainController',
       return undo;
     };
 
-    var message = '元に戻す: 「' + dojo.lv + ' ' + config.rank[dojo.rank] + ' ' + dojo.unit + '」の非表示';
+    var message = '元に戻す: 「' + dojo.lv + ' ' + config.ui.rank[dojo.rank] + ' ' + dojo.unit + '」の非表示';
     var undo = generateUndo(dojo.id, $scope.$storage.hidden[dojo.id]);
     toast.show(message, '', $scope.$storage.undoTimeout, undo);
 

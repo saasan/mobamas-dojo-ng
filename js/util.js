@@ -145,7 +145,7 @@
 
       // ランクを文字列から数値へ置換
       rankString = record.Prof.Rank || record.Data.Rank;
-      rank = config.rank[rankString];
+      rank = config.ui.rank[rankString];
       if (rank != null) {
         dojo.rank = rank;
       }

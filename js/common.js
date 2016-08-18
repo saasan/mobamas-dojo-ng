@@ -7,39 +7,14 @@ var mobamasDojo;
 
   // 道場のソート順
   var DOJOS_ORDER_BY = {
-    RANK: 0,
-    LV: 1
+    "ランク順": 0,
+    "レベル順": 1
   };
 
   // アプリケーションの設定
   mobamasDojo.constant('config', {
     // デバッグモード
     debug: (location.hostname === 'localhost'),
-    // ランク表示用文字列
-    rank: {
-      '0': 'F',
-      '1': 'E',
-      '2': 'D',
-      '3': 'C',
-      '4': 'B',
-      '5': 'A',
-      '6': 'S',
-      '7': 'SS',
-      '8': 'S3',
-      '9': 'S4',
-      '10': 'S5',
-      F: 0,
-      E: 1,
-      D: 2,
-      C: 3,
-      B: 4,
-      A: 5,
-      S: 6,
-      SS: 7,
-      S3: 8,
-      S4: 9,
-      S5: 10
-    },
     // 道場データのキャッシュを保存するキー
     cacheKey: 'mobamasDojo.dataCache',
     url: 'https://dojo.momoka-sakurai.com/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
@@ -86,7 +61,34 @@ var mobamasDojo;
         { key: 'advise', url: '?url=http%3A%2F%2F125.6.169.35%2Fidolmaster%2Fadvise%2Findex%2Ftop', label: 'ﾍﾙﾌﾟ' },
         { key: 'top', url: '', label: 'ﾄｯﾌﾟ' }
       ],
+      visitedMax: [1, 3],
       limitTo: [ 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500 ],
+      orderBy: DOJOS_ORDER_BY,
+      // ランク表示用文字列
+      rank: {
+        '0': 'F',
+        '1': 'E',
+        '2': 'D',
+        '3': 'C',
+        '4': 'B',
+        '5': 'A',
+        '6': 'S',
+        '7': 'SS',
+        '8': 'S3',
+        '9': 'S4',
+        '10': 'S5',
+        F: 0,
+        E: 1,
+        D: 2,
+        C: 3,
+        B: 4,
+        A: 5,
+        S: 6,
+        SS: 7,
+        S3: 8,
+        S4: 9,
+        S5: 10
+      },
       rankRangeMin: [
         { label: 'S5', value: 10 },
         { label: 'S4', value: 9 },
@@ -193,7 +195,7 @@ var mobamasDojo;
       // 一度に表示する道場数
       limitTo: 10,
       // 表示順
-      orderBy: DOJOS_ORDER_BY.RANK,
+      orderBy: DOJOS_ORDER_BY["ランク順"],
       // ランク
       rankRange: {
         min: 0,
