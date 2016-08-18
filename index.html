@@ -222,7 +222,7 @@
         <div class="extraInfo">
           <div>ﾘｰﾀﾞｰ：<span ng-bind-html="dojo.leader"></span></div>
           <div>ｺﾒﾝﾄ：<span ng-bind-html="dojo.comment"></span></div>
-          <div>最終取得：<span am-time-ago="dojo.lastUpdate" am-preprocess="unix"></span></div>
+          <div>最終取得：<span am-time-ago="dojo.lastUpdate | amFromUnix"></span></div>
         </div>
       </a>
       <button ng-click="onClickHideDojo(dojo)" type="button" class="hide-dojo"><i class="fa fa-remove"></i></button>
