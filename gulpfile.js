@@ -22,12 +22,12 @@ var paths = {
   },
   js: {
     src: [
-      'bower_components/angular/angular.min.js',
-      'bower_components/angular-sanitize/angular-sanitize.min.js',
-      'bower_components/ngstorage/ngStorage.min.js',
-      'bower_components/moment/min/moment.min.js',
-      'bower_components/moment/locale/ja.js',
-      'bower_components/angular-moment/angular-moment.min.js',
+      'node_modules/angular/angular.min.js',
+      'node_modules/angular-sanitize/angular-sanitize.min.js',
+      'node_modules/ngstorage/ngStorage.min.js',
+      'node_modules/moment/min/moment.min.js',
+      'node_modules/moment/locale/ja.js',
+      'node_modules/angular-moment/angular-moment.min.js',
       'js/common.js',
       'js/birthday.js',
       'js/util.js',

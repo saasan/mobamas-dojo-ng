@@ -3,9 +3,8 @@
 
 ##ビルド
 ```
-npm i -g bower
+npm i -g gulp-cli
 npm i
-bower i
 gulp release
 ```
 
