@@ -15,7 +15,7 @@
      */
     function fullToHalf(str) {
       var delta = '０'.charCodeAt(0) - '0'.charCodeAt(0);
-      return str.replace(/[０-９ａ-ｚＡ-Ｚ]/g, function(c) {
+      return str.replace(/[０-９ａ-ｚＡ-Ｚ．，]/g, function(c) {
         return String.fromCharCode(c.charCodeAt(0) - delta);
       });
     }
@@ -32,7 +32,7 @@
       var result = false, emString = value, defenceString = '', defenceValue = 0;
 
       // 発揮値を強調
-      emString = emString.replace(/(↑*[\d０-９]+([\.,][\d０-９]+)?[kKｋＫ]?↑*)/g, '<em class="defenseValue">$1</em>');
+      emString = emString.replace(/(↑*[\d０-９]+([\.．,，][\d０-９]+)?[kKｋＫ万]?↑*)/g, '<em class="defenseValue">$1</em>');
 
       // 上の置換で無関係な数値まで置換されるので元に戻す
       // 数字1～2桁だけのやつは多分発揮値じゃない
@@ -102,7 +102,7 @@
       minDefenceString = minDefenceString.replace(/[,，]/g, '');
 
       // 一番左にある数値がおそらく最低守発揮値
-      var re = /^[^0-9０-９]*([0-9０-９.]+)/;
+      var re = /^[^0-9０-９]*([0-9０-９\.．]+)/;
 
       // 数字が無い場合は0を返す
       if (minDefenceString == null || !re.test(minDefenceString)) {
@@ -116,9 +116,13 @@
       // 数値化
       var minDefence = parseFloat(minDefenceString);
 
-      // 数が小さい場合は「5k」等の表記と思われるので1000倍する
-      if (minDefence < 100) {
+      // 「k」が含まれる場合は1000倍する
+      if (defence.indexOf('k') !== -1) {
         minDefence *= 1000;
+      }
+      // 「万」が含まれる場合は10000倍する
+      else if (defence.indexOf('万') !== -1) {
+        minDefence *= 10000;
       }
 
       // 小数点以下を切り捨てて返す
