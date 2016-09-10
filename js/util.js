@@ -96,32 +96,40 @@
      * @returns {number} 最低守発揮値。数字が無い場合はnullを返す。
      */
     function getMinDefence(defence) {
-      var minDefenceString = defence;
+      var halfWidthDefence, minDefenceString;
 
-      // カンマを消しておく
-      minDefenceString = minDefenceString.replace(/[,，]/g, '');
-
-      // 一番左にある数値がおそらく最低守発揮値
-      var re = /^[^0-9０-９]*([0-9０-９\.．]+)/;
-
-      // 数字が無い場合は0を返す
-      if (minDefenceString == null || !re.test(minDefenceString)) {
+      // nullやundefinedの場合はnullを返す
+      if (defence == null) {
         return null;
       }
 
-      // 数字部分を取り出して半角に変換する
-      minDefenceString = minDefenceString.replace(re, '$1');
-      minDefenceString = fullToHalf(minDefenceString);
+      // 半角に変換
+      halfWidthDefence = minDefenceString = fullToHalf(defence);
+
+      // カンマを消しておく
+      minDefenceString = minDefenceString.replace(/[,]/g, '');
+
+      // 一番左にある数値がおそらく最低守発揮値
+      var re = /^[^\d]*([\d\.]+)/;
+
+      // 数値が無い場合はnullを返す
+      var found = minDefenceString.match(re);
+      if (!found) {
+        return null;
+      }
+
+      // 数値部分を取り出す
+      minDefenceString = found[1];
 
       // 数値化
       var minDefence = parseFloat(minDefenceString);
 
       // 「k」が含まれる場合は1000倍する
-      if (defence.indexOf('k') !== -1) {
+      if (halfWidthDefence.indexOf('k') !== -1) {
         minDefence *= 1000;
       }
       // 「万」が含まれる場合は10000倍する
-      else if (defence.indexOf('万') !== -1) {
+      else if (halfWidthDefence.indexOf('万') !== -1) {
         minDefence *= 10000;
       }
 
