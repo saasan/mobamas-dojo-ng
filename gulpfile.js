@@ -78,7 +78,7 @@ gulp.task('js-release', function () {
     .pipe(gulp.dest(paths.js.dest));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['compile'], function() {
   gulp.watch('*.html', ['copy']);
   gulp.watch('scss/*.scss', ['sass']);
   gulp.watch('js/*.js', ['js']);
