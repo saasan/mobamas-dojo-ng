@@ -90,9 +90,9 @@ mobamasDojo.controller('MainController',
   }
 
   /**
-   * 道場のCSSクラス
+   * 道場が訪問済みであることを示すCSSクラスを取得する
    */
-  $scope.dojoClass = function(dojo) {
+  function getDojoVisitedClass(dojo) {
     var visited = 0;
     var classes = {
       1: ['', 'error'],
@@ -108,6 +108,14 @@ mobamasDojo.controller('MainController',
     }
 
     return classes[$scope.$storage.visitedMax][visited];
+  }
+
+  /**
+   * 道場のCSSクラス
+   */
+  $scope.dojoClass = function(dojo) {
+    var classes = [getDojoVisitedClass(dojo), (dojo.paused ? 'paused' : '')];
+    return classes.join(' ');
   };
 
   /**

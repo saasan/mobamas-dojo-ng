@@ -27,6 +27,7 @@ $info-border-width: 1px;
 $well-bg:           #f5faff;
 $well-border-color: darken($well-bg, 15%);
 $well-border-width: 1px;
+$paused-bg:         desaturate($primary-bg, 80%);
 
 %clearfix {
   &:after {
@@ -362,6 +363,10 @@ img {
 
     .extraInfo {
       display: none;
+    }
+
+    &.paused {
+      background-color: $paused-bg;
     }
 
     &.success {
