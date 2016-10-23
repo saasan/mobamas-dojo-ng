@@ -80,7 +80,7 @@
       var result = false, newValue = value;
 
       newValue = newValue.replace(
-        /(((作業|休業|休止|お休み|休み)中?)|強リーダー|高発揮値|(発揮値高(い|め)?))/g,
+        /(((作業|休業|休止|お休み|休み)中?)|強リーダー(注意)?|高発揮値|(発揮値高(い|め)?))/g,
         function(matched) {
           result = true;
           return '<em class="paused">' + matched + '</em>';
