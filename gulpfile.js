@@ -102,7 +102,6 @@ gulp.task('server', ['watch'], function() {
   gulp.src('release')
     .pipe(webserver({
       livereload: true,
-      directoryListing: true,
       open: true
     }));
 });
