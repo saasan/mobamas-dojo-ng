@@ -162,6 +162,16 @@ var mobamasDojo;
         { label: '1700', value: 1700 },
         { label: '1600', value: 1600 },
         { label: '1500', value: 1500 }
+      ],
+      undoTimeout: [
+        { label: '無制限', value: -1 },
+        { label: '5秒で消す', value: 5000 },
+        { label: '10秒で消す', value: 10000 },
+        { label: '15秒で消す', value: 15000 },
+        { label: '20秒で消す', value: 20000 },
+        { label: '25秒で消す', value: 25000 },
+        { label: '30秒で消す', value: 30000 },
+        { label: '自動で消さない', value: 0 },
       ]
     }
   });
