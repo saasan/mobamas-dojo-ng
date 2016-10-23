@@ -37,14 +37,15 @@
       // 上の置換で無関係な数値まで置換されるので元に戻す
       // 数字1～2桁だけのやつは多分発揮値じゃない
       emString = emString.replace(/<em class="defenseValue">([\d０-９]{1,2})<\/em>/g, '$1');
+      // 数字7桁以上のやつは多分発揮値じゃない
+      emString = emString.replace(/<em class="defenseValue">([\d０-９]{7,})<\/em>/g, '$1');
       // 文字実体参照
       emString = emString.replace(/&#<em class="defenseValue">(\d+)<\/em>;/g, '&#$1;');
       // Twitter
-      emString = emString.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>/g, '@$1$2');
-      emString = emString.replace(/@<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
-      emString = emString.replace(/@(\w+)<em class="defenseValue">(\w+)<\/em>(\w+)/g, '@$1$2');
+      emString = emString.replace(/(@|＠)(\w+)<em class="defenseValue">(\w+)<\/em>/g, '$1$2$3');
+      emString = emString.replace(/(@|＠)<em class="defenseValue">(\w+)<\/em>/g, '$1$2');
       // レベルとか
-      emString = emString.replace(/(レベル|ﾚﾍﾞﾙ|Lv|LV|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ)<em class="defenseValue">([\d０-９]+)<\/em>/g, '$1$2');
+      emString = emString.replace(/(レベル|ﾚﾍﾞﾙ|Lv|Ｌｖ|ＬＶ|第|S|攻|守|スタ|ｽﾀ|Rank|PRP)<em class="defenseValue">([\d０-９]+)<\/em>/gi, '$1$2');
       emString = emString.replace(/<em class="defenseValue">([\d０-９]+)<\/em>(時間|票|レベル|番|cm|戦|勝|敗|引|回|枚|人|年|月|日|コス|ｺｽ|名|冊|%|％|st|nd|rd|th|R|道場)/g, '$1$2');
 
       // 数値化
