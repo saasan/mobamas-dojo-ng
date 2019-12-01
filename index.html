@@ -176,15 +176,6 @@
     <p><small>全道場数: {{ dojos.length }} 件 / 表示中: {{ filtered.length }} 件 / 訪問済: {{ $storage.visited | keyLength }} 件</small></p>
   </section>
 
-  <section>
-    <!-- 道場リスト レスポンシブ -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-0141905477316976"
-         data-ad-slot="3289892971"
-         data-ad-format="auto"></ins>
-  </section>
-
   <section id="dojos" ng-class="{ extendedView: $storage.extendedView, emphasizedView: $storage.emphasizedView }">
     <div class="btn block dojo" ng-class="dojoClass(dojo)" ng-repeat="dojo in filtered = (dojos | orderBy: ORDER_BY[$storage.view.orderBy] | filter: dojoFilter | limitTo : $storage.view.limitTo)">
       <a ng-click="onClickDojoLink(dojo)" class="dojo-link"
@@ -201,17 +192,17 @@
   </section>
 
   <section>
+    <a class="btn block" href="about.html">このサイトについて</a>
+    <a class="btn block" href="/imas/">「アイマス関連」に戻る</a>
+  </section>
+
+  <section>
     <!-- 道場リスト レスポンシブ -->
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-0141905477316976"
          data-ad-slot="3289892971"
          data-ad-format="auto"></ins>
-  </section>
-
-  <section>
-    <a class="btn block" href="about.html">このサイトについて</a>
-    <a class="btn block" href="/imas/">「アイマス関連」に戻る</a>
   </section>
 
   <script>
