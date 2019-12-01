@@ -28,7 +28,7 @@ mobamasDojo.controller('MainController',
    */
   function getDataSuccess(data) {
     // 道場データが取得できたか確認
-    if (data && data.result && data.data.records && data.data.records.length > 0) {
+    if (data &&  data.length > 0) {
       // 道場を表示
       $scope.dojos = util.createDojos(data);
 

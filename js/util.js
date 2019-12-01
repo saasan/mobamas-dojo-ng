@@ -144,29 +144,25 @@
      * @returns 道場のデータ
      */
     function createDojo(record) {
-      var rank, rankString, unit, defense, lastUpdate;
+      var unit;
       // 文字列の長さが0以上なら追加する物
       var checkLength = {
-        leader: 'Ldr',
-        comment: 'Comm'
+        leader: 'leaderCardName',
+        comment: 'comment'
       };
 
       var dojo = {
-        lv: record.Prof.Lv || record.Data.Lv,
-        id: record.Prof.ID || record.Data.ID
+        lv: record.level,
+        id: record.mobageId,
+        rank: record.producerRank,
+        defense: record.defaultDefence,
+        minDefense: record.defaultDefence
       };
-
-      // ランクを文字列から数値へ置換
-      rankString = record.Prof.Rank || record.Data.Rank;
-      rank = config.ui.rank[rankString];
-      if (rank != null) {
-        dojo.rank = rank;
-      }
 
       // 文字列の長さが0以上なら追加
       Object.keys(checkLength).forEach(function(key) {
-        var value = record.Prof[checkLength[key]] || record.Data[checkLength[key]];
-        if (value.length > 0) {
+        var value = record[checkLength[key]];
+        if (value && value.length > 0) {
           if (key === 'comment') {
             value = emDefence(emPaused(value).value).emString;
           }
@@ -174,8 +170,8 @@
         }
       });
 
-      // ユニット名が無ければ元データのリーダー
-      unit = record.Prof.Unit || record.Data.Ldr;
+      // ユニット名が無ければリーダー
+      unit = record.unitName || record.leaderCardName;
       if (unit != null) {
         // 元のユニット名
         dojo.unit = unit;
@@ -187,31 +183,10 @@
 
         // 休業中情報
         dojo.paused = emUnitPaused.result;
-
-        // ユニット名に守発揮値っぽい値があれば設定
-        if (emUnitDefence.result) {
-          dojo.defense = dojo.minDefense = emUnitDefence.defenceValue;
-        }
-      }
-
-      // record.Dataがあり、ユニット名に守発揮値っぽい値がなかった場合
-      if (record.Data && dojo.defense == null) {
-        // 表示用守発揮値文字列
-        dojo.defense = record.Data.Def;
-
-        // 実際のプロフィール情報の守発揮値(record.Prof.Def)はリーダーアイドルの最大値なので、
-        // 道場主の自己申告値(record.Data.Def)からてきとーに求める
-        defense = getMinDefence(record.Data.Def);
-        if (defense != null) {
-          dojo.minDefense = defense;
-        }
       }
 
       // 最終更新日時
-      lastUpdate = record.Prof.Upd || record.Data.Upd;
-      if (lastUpdate != null) {
-        dojo.lastUpdate = lastUpdate;
-      }
+      dojo.lastUpdate = new Date(Date.parse(record.lastUpdate));
 
       return dojo;
     }
@@ -259,11 +234,11 @@
        * @returns {object} 加工した道場データ
        */
       createDojos: function(data) {
-        var i, records = data.data.records;
+        var i;
         var dojos = [];
 
-        for (i = 0; i < records.length; i++) {
-          dojos.push(createDojo(records[i]));
+        for (i = 0; i < data.length; i++) {
+          dojos.push(createDojo(data[i]));
         }
 
         return dojos;

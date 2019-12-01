@@ -17,13 +17,13 @@ var mobamasDojo;
     debug: (location.hostname === 'localhost'),
     // 道場データのキャッシュを保存するキー
     cacheKey: 'mobamasDojo.dataCache',
-    url: 'https://dojo.momoka-sakurai.com/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
+    url: 'https://imcg.pink-check.school/api/v1/dojo',
     reset: {
       hour: 5,
       minute: 0
     },
     development: {
-      url: 'https://dojo.momoka-sakurai.com/api/2/query.json?length=100000&sortBy=Rank&sortDir=DESC&sortTarget=Prof',
+      url: 'https://imcg.pink-check.school/api/v1/dojo',
       reset: {
         hour: 5,
         minute: 0
