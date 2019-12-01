@@ -26,14 +26,14 @@ mobamasDojo.controller('MainController',
    * データ取得正常終了時の処理
    * @param {object} data サーバーから取得したデータ
    */
-  function getDataSuccess(data) {
+  function getDataSuccess(response) {
     // 道場データが取得できたか確認
-    if (data &&  data.length > 0) {
+    if (response && response.data &&  response.data.length > 0) {
       // 道場を表示
-      $scope.dojos = util.createDojos(data);
+      $scope.dojos = util.createDojos(response.data);
 
       // 道場データのキャッシュを保存
-      $window.localStorage.setItem(config.cacheKey, angular.toJson(data));
+      $window.localStorage.setItem(config.cacheKey, angular.toJson(response.data));
 
       toast.show('道場データ読み込み完了！');
     }
@@ -84,9 +84,7 @@ mobamasDojo.controller('MainController',
 
     // 道場データを取得する
     var url = (config.debug ? config.development.url : config.url);
-    $http.get(url)
-      .success(getDataSuccess)
-      .error(getDataError);
+    $http.get(url).then(getDataSuccess, getDataError);
   }
 
   /**
