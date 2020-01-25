@@ -17,13 +17,13 @@ var mobamasDojo;
     debug: (location.hostname === 'localhost'),
     // 道場データのキャッシュを保存するキー
     cacheKey: 'mobamasDojo.dataCache',
-    url: 'https://imcg.pink-check.school/api/v1/dojo',
+    url: 'https://pink-check.school/api/v1/dojo',
     reset: {
       hour: 5,
       minute: 0
     },
     development: {
-      url: 'https://imcg.pink-check.school/api/v1/dojo',
+      url: 'https://pink-check.school/api/v1/dojo',
       reset: {
         hour: 5,
         minute: 0
