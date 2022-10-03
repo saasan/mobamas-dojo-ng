@@ -28,12 +28,12 @@ mobamasDojo.controller('MainController',
    */
   function getDataSuccess(response) {
     // 道場データが取得できたか確認
-    if (response && response.data &&  response.data.length > 0) {
+    if (response && response.data && response.data.content && response.data.content.length > 0) {
       // 道場を表示
-      $scope.dojos = util.createDojos(response.data);
+      $scope.dojos = util.createDojos(response.data.content);
 
       // 道場データのキャッシュを保存
-      $window.localStorage.setItem(config.cacheKey, angular.toJson(response.data));
+      $window.localStorage.setItem(config.cacheKey, angular.toJson(response.data.content));
 
       toast.show('道場データ読み込み完了！');
     }
